@@ -204,117 +204,11 @@
 				"navigationBarTitleText": "",
 				"navigationBarBackgroundColor": "#FFFFFF"
 			}
-		},
-		// pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-
-		{
-			"path": "pages/component/image/image",
-			"style": {
-				"navigationBarTitleText": "image"
-			}
 		}
-
-		// #ifndef MP-ALIPAY || MP-TOUTIAO || VUE3
-		// {
-		// 	"path": "pages/component/audio/audio",
-		// 	"style": {
-		// 		"navigationBarTitleText": "audio"
-		// 	}
-		// },
-		// #endif
 
 
 	],
-	"subPackages": [{
-		"root": "pages/API",
-		"pages": [{
-				"path": "login/login",
-				"style": {
-					"navigationBarTitleText": "授权登录"
-				}
-			},
-			// #ifdef APP-PLUS
-			{
-				"path": "subnvue/subnvue",
-				"style": {
-					"navigationBarTitleText": "原生子窗体",
-					"app-plus": {
-						"subNVues": [{
-							"id": "drawer",
-							"path": "subnvue/subnvue/drawer",
-							"type": "popup",
-							"style": {
-								"width": "50%"
-							}
-						}, {
-							"id": "popup",
-							"path": "subnvue/subnvue/popup",
-							"type": "popup",
-							"style": {
-								"margin": "auto",
-								"width": "80%",
-								"height": "600rpx"
-							}
-						}, {
-							"id": "video_mask",
-							"path": "subnvue/subnvue/video-mask",
-							"style": {
-								"position": "absolute",
-								"bottom": "30px",
-								"left": "0",
-								"width": "230px",
-								"height": "110px",
-								"background": "transparent"
-							}
-						}]
-					}
-				}
-			},
-			// #endif
-			{
-				"path": "get-user-info/get-user-info",
-				"style": {
-					"navigationBarTitleText": "获取用户信息"
-				}
-			},
-
-			{
-				"path": "pull-down-refresh/pull-down-refresh",
-				"style": {
-					"navigationBarTitleText": "下拉刷新",
-					"enablePullDownRefresh": true
-				}
-			},
-
-			{
-				"path": "clipboard/clipboard",
-				"style": {
-					"navigationBarTitleText": "剪贴板"
-				}
-			},
-			{
-				"path": "request/request",
-				"style": {
-					"navigationBarTitleText": "网络请求"
-				}
-			},
-
-			{
-				"path": "image/image",
-				"style": {
-					"navigationBarTitleText": "图片"
-				}
-			},
-
-			{
-				"path": "storage/storage",
-				"style": {
-					"navigationBarTitleText": "数据存储"
-				}
-			}
-
-		]
-	}],
+	"subPackages": [],
 	"globalStyle": {
 		"pageOrientation": "portrait",
 		"navigationBarTitleText": "Hello uniapp",

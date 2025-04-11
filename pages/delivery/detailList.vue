@@ -107,9 +107,11 @@
 					// })
 					// row.value.detail_no = res.result
 					// console.log('81',row.value)
-					// uni.navigateTo({
-					// 	url: `/pages/delivery/deliveryError?item=${JSON.stringify(row.value)}&msg=${data.msg}`
-					// })
+					if(data.msg&& data.msg.includes('单月循环用量达上限')){
+						uni.navigateTo({
+							url: `/pages/delivery/deliveryError?item=${JSON.stringify(row.value)}&msg=${data.msg}`
+						})
+					}
 				}
 			},
 			fail: (err) => {

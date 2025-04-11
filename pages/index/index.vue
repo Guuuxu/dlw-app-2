@@ -84,7 +84,7 @@ import {logOutApi} from "@/api/common.js"
 					await logOutApi()
 					uni.setStorageSync('token','')
 					uni.setStorageSync('userInfo','')
-					uni.redirectTo({
+					uni.reLaunch({
 						url: "/pages/login/login"
 					})
 				}

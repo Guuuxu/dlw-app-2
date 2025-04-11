@@ -61,8 +61,6 @@ import Empty from "@/components/empty/empty.vue"
 		const item = option.item? JSON.parse(option.item) : {}
 		row.value = item
 		const id = item.id
-		total_count.value = item.total_count
-		verified_count.value = item.verified_count
 		
 		loadDetail(id)
 	})
@@ -87,10 +85,9 @@ import Empty from "@/components/empty/empty.vue"
 				}
 				// list.value = list.value.concat(res.data.list)
 				console.log(list.value)
-				total.value = res.data.total_count
 				uni.stopPullDownRefresh();
 				uni.setNavigationBarTitle({
-					title: `明细列表(${res.data.success_count}/${total_count.value})`
+					title: `明细列表(${res.data.success_count}/${total.value})`
 				})
 			} else {
 				if(isfresh){
@@ -106,6 +103,7 @@ import Empty from "@/components/empty/empty.vue"
 			}
 			isLoad.value = true
 		}catch(e){
+			uni.stopPullDownRefresh();
 			isLoad.value = true
 		}
 

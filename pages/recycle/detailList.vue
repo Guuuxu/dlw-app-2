@@ -58,7 +58,6 @@
 				if(role.value === 'admin'){
 					try {
 						const resScan = await scanAdmin({
-							id: row.value.id,
 							type: 3,
 							detail_no: res.result,
 						})

@@ -191,3 +191,16 @@ image {
 }
 
 
+/* 兼容H5 */
+/* #ifdef H5 */
+radio {
+  accent-color: #99BBA0;
+}
+/* #endif */
+
+/* 兼容小程序和App */
+/* #ifndef H5 */
+.radio {
+  margin-right: 20rpx;
+}
+/* #endif */
