@@ -1,0 +1,369 @@
+{
+	"leftWindow": {
+		"path": "windows/left-window.vue",
+		"style": {
+			"width": "350px"
+		}
+	},
+	"topWindow": {
+		"path": "windows/top-window.vue",
+		"style": {
+			"height": "60px"
+		}
+	},
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"app-plus": {
+					"animationDuration": 200,
+					"animationType": "fade-in",
+					"background": "transparent",
+					"backgroundColorTop": "transparent",
+					"popGesture": "none",
+					"scrollIndicator": false,
+					"titleNView": false
+				},
+				"disableScroll": true
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"app-plus": {
+					"animationDuration": 200,
+					"animationType": "fade-in",
+					"background": "transparent",
+					"backgroundColorTop": "transparent",
+					"popGesture": "none",
+					"scrollIndicator": false,
+					"titleNView": false
+				},
+				"disableScroll": true
+			}
+		},
+		{
+			"path": "pages/login/agreement",
+			"style": {
+				"navigationBarTitleText": "用户协议",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/report/index",
+			"style": {
+				"navigationBarTitleText": "损坏申报",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/delivery/index",
+			"style": {
+				"navigationBarTitleText": "选择出货单号",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/delivery/detailList",
+			"style": {
+				"navigationBarTitleText": "明细列表",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/delivery/deliveryError",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/recycle/detailList",
+			"style": {
+				"navigationBarTitleText": "回收复查"
+			}
+		},
+		{
+			"path": "pages/recycle/recycleSuccess",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/auth/index",
+			"style": {
+				"navigationBarTitleText": "请选择认证单号",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/auth/check",
+			"style": {
+				"navigationBarTitleText": "包装核对讯息"
+			}
+		},
+		{
+			"path": "pages/auth/detailList",
+			"style": {
+				"navigationBarTitleText": "明细列表",
+				"enablePullDownRefresh": true //配置后，可以下拉刷新，上拉加载`
+			}
+		},
+
+		{
+			"path": "pages/auth/authError",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/report/reportSuccess",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		
+		// web
+		{
+			"path": "pages/web/report/index",
+			"style": {
+				"navigationBarTitleText": "损坏申报",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/web/delivery/index",
+			"style": {
+				"navigationBarTitleText": "选择出货单号",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/web/delivery/detailList",
+			"style": {
+				"navigationBarTitleText": "明细列表",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/web/delivery/deliveryError",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/web/recycle/detailList",
+			"style": {
+				"navigationBarTitleText": "回收复查"
+			}
+		},
+		{
+			"path": "pages/web/recycle/recycleSuccess",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/web/auth/index",
+			"style": {
+				"navigationBarTitleText": "请选择认证单号",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/web/auth/check",
+			"style": {
+				"navigationBarTitleText": "包装核对讯息"
+			}
+		},
+		{
+			"path": "pages/web/auth/detailList",
+			"style": {
+				"navigationBarTitleText": "明细列表",
+				"enablePullDownRefresh": true //配置后，可以下拉刷新，上拉加载`
+			}
+		},
+		
+		{
+			"path": "pages/web/auth/authError",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/web/report/reportSuccess",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		// pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+
+		{
+			"path": "pages/component/image/image",
+			"style": {
+				"navigationBarTitleText": "image"
+			}
+		}
+
+		// #ifndef MP-ALIPAY || MP-TOUTIAO || VUE3
+		// {
+		// 	"path": "pages/component/audio/audio",
+		// 	"style": {
+		// 		"navigationBarTitleText": "audio"
+		// 	}
+		// },
+		// #endif
+
+
+	],
+	"subPackages": [{
+		"root": "pages/API",
+		"pages": [{
+				"path": "login/login",
+				"style": {
+					"navigationBarTitleText": "授权登录"
+				}
+			},
+			// #ifdef APP-PLUS
+			{
+				"path": "subnvue/subnvue",
+				"style": {
+					"navigationBarTitleText": "原生子窗体",
+					"app-plus": {
+						"subNVues": [{
+							"id": "drawer",
+							"path": "subnvue/subnvue/drawer",
+							"type": "popup",
+							"style": {
+								"width": "50%"
+							}
+						}, {
+							"id": "popup",
+							"path": "subnvue/subnvue/popup",
+							"type": "popup",
+							"style": {
+								"margin": "auto",
+								"width": "80%",
+								"height": "600rpx"
+							}
+						}, {
+							"id": "video_mask",
+							"path": "subnvue/subnvue/video-mask",
+							"style": {
+								"position": "absolute",
+								"bottom": "30px",
+								"left": "0",
+								"width": "230px",
+								"height": "110px",
+								"background": "transparent"
+							}
+						}]
+					}
+				}
+			},
+			// #endif
+			{
+				"path": "get-user-info/get-user-info",
+				"style": {
+					"navigationBarTitleText": "获取用户信息"
+				}
+			},
+
+			{
+				"path": "pull-down-refresh/pull-down-refresh",
+				"style": {
+					"navigationBarTitleText": "下拉刷新",
+					"enablePullDownRefresh": true
+				}
+			},
+
+			{
+				"path": "clipboard/clipboard",
+				"style": {
+					"navigationBarTitleText": "剪贴板"
+				}
+			},
+			{
+				"path": "request/request",
+				"style": {
+					"navigationBarTitleText": "网络请求"
+				}
+			},
+
+			{
+				"path": "image/image",
+				"style": {
+					"navigationBarTitleText": "图片"
+				}
+			},
+
+			{
+				"path": "storage/storage",
+				"style": {
+					"navigationBarTitleText": "数据存储"
+				}
+			}
+
+		]
+	}],
+	"globalStyle": {
+		"pageOrientation": "portrait",
+		"navigationBarTitleText": "Hello uniapp",
+		"navigationBarTextStyle": "#0F182C",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#F8F8F8",
+		"backgroundColorTop": "#F4F5F6",
+		"backgroundColorBottom": "#F4F5F6",
+		"mp-360": {
+			"navigationStyle": "custom"
+		},
+		"h5": {
+			"maxWidth": 1190,
+			"navigationBarTextStyle": "black",
+			"navigationBarBackgroundColor": "#F1F1F1"
+		}
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#99BBA0",
+		"borderStyle": "white",
+		"backgroundColor": "#F8F8F8",
+		"list": [{
+				"pagePath": "pages/auth/index",
+				"iconPath": "static/image/tabbar-auth@2x.png",
+				"selectedIconPath": "static/image/tabbar-auth-active@2x.png",
+				"text": "初始认证"
+			},
+			{
+				"pagePath": "pages/delivery/index",
+				"iconPath": "static/image/tabbar-delivery@2x.png",
+				"selectedIconPath": "static/image/tabbar-delivery-active@2x.png",
+				"text": "包装出库"
+			}, {
+				"pagePath": "pages/index/index",
+				"iconPath": "static/image/tabbar-home-active@2x.png",
+				"selectedIconPath": "static/image/tabbar-home-active@2x.png",
+				"text": "主页"
+			}, {
+				"pagePath": "pages/recycle/detailList",
+				"iconPath": "static/image/tabbar-recycle@2x.png",
+				"selectedIconPath": "static/image/tabbar-recycle-active@2x.png",
+				"text": "回收复查"
+			}, {
+				"pagePath": "pages/report/index",
+				"iconPath": "static/image/tabbar-report@2x.png",
+				"selectedIconPath": "static/image/tabbar-report-active@2x.png",
+				"text": "损坏申报"
+			}
+		]
+	}
+}

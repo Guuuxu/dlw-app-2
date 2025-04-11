@@ -1,0 +1,193 @@
+/**
+ * @see https://docs.emmet.io/cheat-sheet/
+ */
+
+page {
+    --MainColor: #FF3535;
+    --BgColor: #F7F8FA;
+    --GradualBg: linear-gradient(to right, #FF2F44, #FF437D);
+    --FontColor3: #333;
+    --FontColor6: #666;
+    --FontColor9: #999;
+}
+
+view {
+    box-sizing: border-box;
+	color: #0F182C;
+}
+.bg-white{
+	background-color: #FFFFFF;
+}
+image {
+    display: block;
+}
+
+.fw {
+	&-lm {
+		font-weight: 500;
+	}
+    &-m {
+        font-weight: 600;
+    }
+    &-b {
+        font-weight: 900;
+    }
+}
+
+.ta {
+    &-c {
+        text-align: center;
+    }
+    &-r {
+        text-align: right;
+    }
+}
+
+.w_100 {
+    width: 100%;
+}
+.h_100 {
+    height: 100%;
+}
+
+// 超出一行显示省略号
+.ellipsis_1 {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+@for $i from 0 through 100 {
+    .w-#{$i} {
+        width: #{$i}rpx !important;
+    }
+}
+@for $i from 0 through 100 {
+    .h-#{$i} {
+        height: #{$i}rpx !important;
+    }
+}
+
+@for $i from 0 through 100 {
+    .fs-#{$i} {
+        font-size: #{$i}rpx !important;
+    }
+    .lh-#{$i}px {
+        line-height: #{$i}rpx !important;
+    }
+    .m-#{$i} {
+        margin: #{$i}rpx !important;
+    }
+    .mt-#{$i} {
+        margin-top: #{$i}rpx !important;
+    }
+    .ml-#{$i} {
+        margin-left: #{$i}rpx !important;
+    }
+    .mr-#{$i} {
+        margin-right: #{$i}rpx !important;
+    }
+    .mb-#{$i} {
+        margin-bottom: #{$i}rpx !important;
+    }
+    .p-#{$i} {
+        padding: #{$i}rpx !important;
+    }
+    .pt-#{$i} {
+        padding-top: #{$i}rpx !important;
+    }
+    .pl-#{$i} {
+        padding-left: #{$i}rpx !important;
+    }
+    .pr-#{$i} {
+        padding-right: #{$i}rpx !important;
+    }
+    .pb-#{$i} {
+        padding-bottom: #{$i}rpx !important;
+    }
+}
+
+.col333{
+	color: #333;
+}
+.col666{
+	color: #666;
+}
+.col999{
+	color: #999;
+}
+
+
+.color-subTitlle{
+	color:#A7B0BF
+}
+.u-cell__title-text{
+	white-space: nowrap;
+}
+.cell_value{
+	text-align: inherit;
+	// margin-left: auto;
+	font-size: 14px;
+	line-height: 24px;
+	color: #606266;
+}
+.ml-a {
+	margin-left: auto;
+}
+.mt-a {
+	margin-top: auto;
+}
+.of-h{
+	overflow: hidden;
+}
+.common_bg_col {
+	background-color: #F5F6FA;
+}
+.bg_white {
+	background-color: #fff;
+}
+.img_28{
+	width: 28rpx;
+	height: 28rpx;
+}
+.img_32{
+	width: 32rpx;
+	height: 32rpx;
+}
+.f-w {
+	font-weight: 600;
+}
+.flex-1{
+	flex: 1;
+}
+.custom-btn{
+	width: 686rpx;
+	height: 80rpx;
+	line-height: 80rpx;
+	background: #99BBA0;
+	border-radius: 116rpx;
+	color: white;
+	font-size: 28rpx;
+}
+.fixed{
+	position: fixed;
+	width: 100%;
+	bottom: var(--window-bottom);
+}
+.detail-list{
+	padding-bottom: 220rpx;
+}
+
+/* 对于刘海屏顶部安全区域 */
+.safe-area-top {
+  padding-top: constant(safe-area-inset-top); /* 兼容 iOS < 11.2 */
+  padding-top: env(safe-area-inset-top); /* 兼容 iOS >= 11.2 */
+}
+ 
+/* 对于刘海屏底部安全区域 */
+.safe-area-bottom {
+  padding-bottom: constant(safe-area-inset-bottom); /* 兼容 iOS < 11.2 */
+  padding-bottom: env(safe-area-inset-bottom); /* 兼容 iOS >= 11.2 */
+}
+
+
