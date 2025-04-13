@@ -300,6 +300,7 @@
 		if(imageList.value.length) params.main_img = imageList.value.join('')
 		if(imageDetailList.value.length) params.first_img = imageDetailList.value.join('')
 		if(secondImgList.value.length) params.second_img = secondImgList.value.join('')
+		console.log('params',params)
 		await updateRepair(params)
 		console.log(code.value,broken_reason.value,imageList.value)
 		uni.navigateTo({
