@@ -28,7 +28,7 @@
 		ref
 	} from 'vue';
 	import {
-		onLoad,onReachBottom,onPullDownRefresh
+		onLoad,onReachBottom,onPullDownRefresh,onShow
 	} from "@dcloudio/uni-app";
 	import permision from "@/common/permission.js"
 	import { scanOutbound,getOutboundDetail } from "@/api/outbound.js"
@@ -49,7 +49,11 @@
 		row.value = item
 		loadDetail()
 	})
-	
+	onShow(()=>{
+	})
+	const update = ()=>{
+		console.log("update:");
+	}
 	const loadDetail = async (isfresh)=>{
 		try{
 			const res = await getOutboundDetail(row.value.id)

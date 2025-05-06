@@ -64,11 +64,15 @@
 	}
 	const handleConfirm = async() => {
 		if(active.value == 1){
-			await usePacakge({
-				outbound: row.value.id,
-				detail_no: row.value.detail_no,
-				force: true
-			})
+			// await usePacakge({
+			// 	outbound: row.value.id,
+			// 	detail_no: row.value.detail_no,
+			// 	force: true
+			// })
+			let pages = getCurrentPages(); // 获取页面栈
+			console.log('pages',pages.length)
+			let prevPage = pages[pages.length - 2]; // 上一页
+			prevPage.update()
 			uni.navigateBack(2)
 		}else{
 			uni.navigateBack(1)

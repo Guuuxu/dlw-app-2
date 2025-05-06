@@ -8264,10 +8264,15 @@ ${i3}
         row2.value = item;
         loadDetail();
       });
+      onShow(() => {
+      });
+      const update = () => {
+        formatAppLog("log", "at pages/delivery/detailList.vue:55", "update:");
+      };
       const loadDetail = async (isfresh) => {
         try {
           const res2 = await getOutboundDetail(row2.value.id);
-          formatAppLog("log", "at pages/delivery/detailList.vue:56", res2);
+          formatAppLog("log", "at pages/delivery/detailList.vue:60", res2);
           if (isfresh) {
             list.value = res2.data.list;
           } else {
@@ -8336,7 +8341,7 @@ ${i3}
         loadDetail(true);
       });
       onReachBottom(() => {
-        formatAppLog("log", "at pages/delivery/detailList.vue:153", "onReachBottom");
+        formatAppLog("log", "at pages/delivery/detailList.vue:157", "onReachBottom");
         if (list.value.length == total_count.value) {
           loadMoreText2.value = "没有更多数据了!";
           return;
@@ -8346,12 +8351,14 @@ ${i3}
           loadDetail();
         }, 300);
       });
-      const __returned__ = { list, page: page2, isLoad, loadMoreText: loadMoreText2, showLoadMore, total_count, row: row2, loadDetail, handleScan, checkPermission, handleFinish, ref: vue.ref, get onLoad() {
+      const __returned__ = { list, page: page2, isLoad, loadMoreText: loadMoreText2, showLoadMore, total_count, row: row2, update, loadDetail, handleScan, checkPermission, handleFinish, ref: vue.ref, get onLoad() {
         return onLoad;
       }, get onReachBottom() {
         return onReachBottom;
       }, get onPullDownRefresh() {
         return onPullDownRefresh;
+      }, get onShow() {
+        return onShow;
       }, get permision() {
         return permission;
       }, get scanOutbound() {
@@ -8445,11 +8452,10 @@ ${i3}
       };
       const handleConfirm = async () => {
         if (active.value == 1) {
-          await usePacakge({
-            outbound: row2.value.id,
-            detail_no: row2.value.detail_no,
-            force: true
-          });
+          let pages2 = getCurrentPages();
+          formatAppLog("log", "at pages/delivery/deliveryError.vue:73", "pages", pages2.length);
+          let prevPage = pages2[pages2.length - 2];
+          prevPage.update();
           uni.navigateBack(2);
         } else {
           uni.navigateBack(1);
