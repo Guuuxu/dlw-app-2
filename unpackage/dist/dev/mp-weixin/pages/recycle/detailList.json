@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "回收复查",
+  "usingComponents": {
+    "empty": "../../components/empty/empty"
+  }
+}

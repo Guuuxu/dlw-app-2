@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "请选择认证单号",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "empty": "../../../components/empty/empty"
+  }
+}

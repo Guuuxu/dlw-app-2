@@ -1,0 +1,6 @@
+{
+  "disableScroll": true,
+  "usingComponents": {
+    "v-tabs": "../../uni_modules/v-tabs/components/v-tabs/v-tabs"
+  }
+}

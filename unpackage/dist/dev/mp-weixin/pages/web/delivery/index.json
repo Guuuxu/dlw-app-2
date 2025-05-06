@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "选择出货单号",
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "empty": "../../../components/empty/empty"
+  }
+}

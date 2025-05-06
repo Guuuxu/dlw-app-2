@@ -1,0 +1,133 @@
+.border.data-v-b5b48376 {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #DD524D;
+}
+
+/* 骨架种类 start*/
+.ls_line-sm.data-v-b5b48376 {
+	height: 24rpx;
+	margin-bottom: 20rpx;
+}
+.ls_line.data-v-b5b48376 {
+	height: 32rpx;
+	margin-bottom: 30rpx;
+}
+.ls_line-lg.data-v-b5b48376 {
+	height: 48rpx;
+	margin-bottom: 30rpx;
+}
+.ls_card-sm.data-v-b5b48376 {
+	height: 100rpx;
+	margin-bottom: 20rpx;
+}
+.ls_card.data-v-b5b48376 {
+	height: 200rpx;
+	margin-bottom: 30rpx;
+}
+.ls_card-lg.data-v-b5b48376 {
+	height: 300rpx;
+	margin-bottom: 30rpx;
+}
+.ls_circle-sm.data-v-b5b48376 {
+	width: 50rpx;
+	height: 50rpx;
+	border-radius: 50rpx;
+	margin-bottom: 20rpx;
+}
+.ls_circle.data-v-b5b48376 {
+	width: 100rpx;
+	height: 100rpx;
+	border-radius: 100rpx;
+	margin-bottom: 30rpx;
+}
+.ls_circle-lg.data-v-b5b48376 {
+	width: 200rpx;
+	height: 200rpx;
+	border-radius: 200rpx;
+	margin-bottom: 30rpx;
+}
+.ls_square-sm.data-v-b5b48376 {
+	width: 50rpx;
+	height: 50rpx;
+	margin-bottom: 20rpx;
+}
+.ls_square.data-v-b5b48376 {
+	width: 100rpx;
+	height: 100rpx;
+	margin-bottom: 30rpx;
+}
+.ls_square-lg.data-v-b5b48376 {
+	width: 200rpx;
+	height: 200rpx;
+	margin-bottom: 30rpx;
+}
+
+/* 骨架种类 end*/
+
+/* 辅助样式 under */
+.ls_skeleton-group.data-v-b5b48376 {
+
+	display: flex;
+
+	flex-direction: row;
+	align-items: center;
+	/* margin-bottom: 30rpx; */
+}
+.ls_flex-sub.data-v-b5b48376 {
+	flex: 1;
+}
+.ls_round.data-v-b5b48376 {
+	border-radius: 48rpx;
+}
+.ls_radius.data-v-b5b48376 {
+	border-radius: 8rpx;
+}
+.ls_ml.data-v-b5b48376 {
+	margin-left: 20rpx;
+}
+.ls_animation.data-v-b5b48376 {
+	background-color: #e6e6e6;
+
+	animation-name: twinkle-b5b48376;
+	animation-timing-function: inherit;
+	animation-duration: 1.8s;
+	animation-iteration-count: infinite;
+}
+.ls_static.data-v-b5b48376 {
+	background-color: #e6e6e6;
+}
+@keyframes twinkle-b5b48376 {
+0% {
+		background-color: #e6e6e6;
+}
+50% {
+		background-color: #d3d3d3;
+}
+100% {
+		background-color: #e6e6e6;
+}
+}
+
+
+
+/* 扩展模板news样式 */
+.ls_news.data-v-b5b48376 {
+		flex: 1;
+		margin-left: 20rpx;
+}
+.ls_news_img.data-v-b5b48376 {
+		width: 240rpx;
+		height: 200rpx;
+		margin-bottom: 30rpx;
+}
+.ls_news_user.data-v-b5b48376 {
+		height: 32rpx;
+		margin-bottom: 30rpx;
+		width: 260rpx;
+}
+.ls_news_time.data-v-b5b48376 {
+		height: 32rpx;
+		margin-bottom: 30rpx;
+		width: 130rpx;
+}

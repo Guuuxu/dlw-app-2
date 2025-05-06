@@ -105,7 +105,7 @@
 					// 	msg: data.msg,
 					// 	detail_no: res.result
 					// })
-					// row.value.detail_no = res.result
+					row.value.detail_no = res.result
 					// console.log('81',row.value)
 					if(data.msg&& data.msg.includes('单月循环用量达上限')){
 						uni.navigateTo({

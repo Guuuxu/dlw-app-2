@@ -1,0 +1,83 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/login/login",
+    "pages/login/agreement",
+    "pages/report/index",
+    "pages/delivery/index",
+    "pages/delivery/detailList",
+    "pages/delivery/deliveryError",
+    "pages/recycle/detailList",
+    "pages/recycle/recycleSuccess",
+    "pages/auth/index",
+    "pages/auth/check",
+    "pages/auth/detailList",
+    "pages/auth/authError",
+    "pages/report/reportSuccess",
+    "pages/web/report/index",
+    "pages/web/delivery/index",
+    "pages/web/delivery/detailList",
+    "pages/web/delivery/deliveryError",
+    "pages/web/recycle/detailList",
+    "pages/web/recycle/recycleSuccess",
+    "pages/web/auth/index",
+    "pages/web/auth/check",
+    "pages/web/auth/detailList",
+    "pages/web/auth/authError",
+    "pages/web/report/reportSuccess"
+  ],
+  "subPackages": [],
+  "window": {
+    "pageOrientation": "portrait",
+    "navigationBarTitleText": "Hello uniapp",
+    "navigationBarTextStyle": "#0F182C",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#F8F8F8",
+    "backgroundColorTop": "#F4F5F6",
+    "backgroundColorBottom": "#F4F5F6"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#99BBA0",
+    "borderStyle": "white",
+    "backgroundColor": "#F8F8F8",
+    "list": [
+      {
+        "pagePath": "pages/auth/index",
+        "iconPath": "static/image/tabbar-auth@2x.png",
+        "selectedIconPath": "static/image/tabbar-auth-active@2x.png",
+        "text": "初始认证"
+      },
+      {
+        "pagePath": "pages/delivery/index",
+        "iconPath": "static/image/tabbar-delivery@2x.png",
+        "selectedIconPath": "static/image/tabbar-delivery-active@2x.png",
+        "text": "包装出库"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/image/tabbar-home-active@2x.png",
+        "selectedIconPath": "static/image/tabbar-home-active@2x.png",
+        "text": "主页"
+      },
+      {
+        "pagePath": "pages/recycle/detailList",
+        "iconPath": "static/image/tabbar-recycle@2x.png",
+        "selectedIconPath": "static/image/tabbar-recycle-active@2x.png",
+        "text": "回收复查"
+      },
+      {
+        "pagePath": "pages/report/index",
+        "iconPath": "static/image/tabbar-report@2x.png",
+        "selectedIconPath": "static/image/tabbar-report-active@2x.png",
+        "text": "损坏申报"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "演示定位能力"
+    }
+  },
+  "usingComponents": {}
+}

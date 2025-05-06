@@ -25,5 +25,6 @@ export const scanOutbound = ({outbound,detail_no}) =>{
  *  detail 出库详情id
  */
 export const usePacakge = ({outbound,detail_no,force}) =>{
-	return http.post(`/bound/outbound/${outbound}/scan`,{detail_no,force})
+	console.log('1111111111',outbound,detail_no)
+	return http.post(`/bound/outbound/${outbound}/scan/mobile`,{detail_no,force})
 }
