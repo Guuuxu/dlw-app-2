@@ -9,8 +9,8 @@ export const uploadApi = (filePath) =>{
 }
 
 
-export const sendSMS = (phone) =>{
-	return http.post('/sendSMS', { phone })
+export const sendSMS = (phone,code) =>{
+	return http.post('/sendSMS', { phone,code })
 }
 
 // 用户信息

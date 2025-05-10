@@ -54,11 +54,13 @@ import Empty from "@/components/empty/empty.vue"
 	const isLoad = ref(false)
 	const row = ref({})
 	const role = ref('') // 角色
+	const formData = ref({})
 	onLoad((option) => {
 		role.value = uni.getStorageSync('ROLE_KEY')
 		console.log(role.value)
 		console.log('option', option)
 		const item = option.item? JSON.parse(option.item) : {}
+		formData.value = option.formData ? JSON.parse(option.formData) : {}
 		row.value = item
 		const id = item.id
 		
@@ -69,9 +71,7 @@ import Empty from "@/components/empty/empty.vue"
 	const loadMoreText = ref("加载中...")
 	const showLoadMore = ref(false)
 	const total = ref(0)
-	const formData = ref({
-		isCateCorrect: ''
-	})
+
 	const success_count = ref(0)
 	const loadDetail = async (id,isfresh) => {
 		try{
@@ -228,6 +228,10 @@ import Empty from "@/components/empty/empty.vue"
 			if(success_count.value != total.value){
 				uni.navigateTo({
 					url: "/pages/auth/authError?errorType=" + 2
+				})
+			}else{
+				uni.navigateBack({
+					delta: 2
 				})
 			}
 		}else{

@@ -47,9 +47,10 @@
 	onLoad((option) => {
 		const item = JSON.parse((option.item))
 		row.value = item
-		loadDetail()
+		// loadDetail()
 	})
 	onShow(()=>{
+		loadDetail(true)
 	})
 	const update = ()=>{
 		console.log("update:");

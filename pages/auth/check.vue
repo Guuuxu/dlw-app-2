@@ -165,7 +165,7 @@
 			})
 			return
 		}
-		if(!formData.value?.isCateCorrect){
+		if(!formData.value?.quantity){
 			uni.showToast({
 				title: '请确认包装数量',
 				icon: 'none'
@@ -196,7 +196,7 @@
 			// ElMessage.error('包装型号、数量任意⼀项不正确');
 		
 			uni.navigateTo({
-				url: '/pages/auth/detailList?item=' + JSON.stringify(row.value)
+				url: '/pages/auth/detailList?item=' + JSON.stringify(row.value) + '&formData=' + JSON.stringify(formData.value)
 			})
 		}
 		// ctx.$refs[ref].validate().then(async res => {

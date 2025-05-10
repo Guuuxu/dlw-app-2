@@ -208,6 +208,9 @@ if (uni.restoreGlobal) {
   const uploadApi = (filePath) => {
     return http.upload("/upload", filePath, "file");
   };
+  const sendSMS = (phone, code) => {
+    return http.post("/sendSMS", { phone, code });
+  };
   const logOutApi = () => {
     return http.post("/logout");
   };
@@ -225,7 +228,7 @@ if (uni.restoreGlobal) {
     }
     return target;
   };
-  const _sfc_main$A = {
+  const _sfc_main$B = {
     __name: "index",
     setup(__props, { expose: __expose }) {
       var _a;
@@ -269,7 +272,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$z(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$A(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "home-container" }, [
       vue.createElementVNode("view", { class: "header pl-32 pr-32" }, [
         vue.createElementVNode(
@@ -376,7 +379,7 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesIndexIndex = /* @__PURE__ */ _export_sfc(_sfc_main$A, [["render", _sfc_render$z], ["__scopeId", "data-v-1cf27b2a"], ["__file", "D:/project/dlw/uniapp-dileiwo/pages/index/index.vue"]]);
+  const PagesIndexIndex = /* @__PURE__ */ _export_sfc(_sfc_main$B, [["render", _sfc_render$A], ["__scopeId", "data-v-1cf27b2a"], ["__file", "D:/project/dlw/uniapp-dileiwo/pages/index/index.vue"]]);
   function startMicroTask(callback) {
     if (typeof queueMicrotask === "function") {
       queueMicrotask(callback);
@@ -517,7 +520,7 @@ if (uni.restoreGlobal) {
       default: 1993
     }
   };
-  const _sfc_main$z = {
+  const _sfc_main$A = {
     name: "VTabs",
     props,
     emits: ["update:modelValue", "change"],
@@ -638,7 +641,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$z(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "v-tabs" }, [
       vue.createElementVNode("scroll-view", {
         id: $options.getDomId,
@@ -751,1350 +754,7 @@ if (uni.restoreGlobal) {
       )
     ]);
   }
-  const __easycom_0$4 = /* @__PURE__ */ _export_sfc(_sfc_main$z, [["render", _sfc_render$y], ["__scopeId", "data-v-4a111109"], ["__file", "D:/project/dlw/uniapp-dileiwo/uni_modules/v-tabs/components/v-tabs/v-tabs.vue"]]);
-  const _sfc_main$y = /* @__PURE__ */ vue.defineComponent({
-    __name: "login",
-    setup(__props, { expose: __expose }) {
-      __expose();
-      const step = vue.ref(1);
-      const phone = vue.ref("");
-      const agreed = vue.ref(false);
-      const tabs = ["客户端", "管理端"];
-      const role2 = vue.ref("0");
-      formatAppLog("log", "at pages/login/login.vue:67", "show", role2.value);
-      uni.setStorageSync("ROLE_KEY", "web");
-      const changeRole = (e2) => {
-        formatAppLog("log", "at pages/login/login.vue:70", e2);
-        role2.value = e2;
-        const key = e2 == "0" ? "web" : "admin";
-        uni.setStorageSync("ROLE_KEY", key);
-      };
-      const isValidPhone = vue.computed(() => {
-        const phoneReg = /^1[3-9]\d{9}$/;
-        return phoneReg.test(phone.value);
-      });
-      const checkboxChange = (e2) => {
-        agreed.value = e2.detail.value[0] === "true";
-      };
-      const getVerifyCode = () => {
-        if (!agreed.value) {
-          uni.showToast({
-            title: "请先同意用户协议",
-            icon: "none"
-          });
-          return;
-        }
-        if (!isValidPhone.value) {
-          uni.showToast({
-            title: "请输入正确的手机号",
-            icon: "none"
-          });
-          return;
-        }
-        uni.showToast({
-          title: "验证码已发送",
-          icon: "success"
-        });
-        step.value = 2;
-      };
-      const openAgreement = () => {
-        uni.navigateTo({
-          url: "/pages/login/agreement"
-        });
-      };
-      const codeValue = vue.ref([]);
-      const currentFocus = vue.ref(0);
-      const countdown = vue.ref(60);
-      let timer = null;
-      const inputRefs = vue.ref([]);
-      const handleInput = async (event, index2) => {
-        const value = event.detail.value;
-        formatAppLog("log", "at pages/login/login.vue:123", "value", value);
-        if (value.length > 1) {
-          const values = value.split("");
-          values.forEach((v2, i2) => {
-            if (index2 + i2 < 6) {
-              codeValue.value[index2 + i2] = v2;
-              currentFocus.value = index2 + i2;
-            }
-          });
-          const nextEmptyIndex = codeValue.value.findIndex((v2, i2) => !v2 && i2 >= index2);
-          formatAppLog("log", "at pages/login/login.vue:133", nextEmptyIndex);
-          if (nextEmptyIndex !== -1 && nextEmptyIndex < 6) {
-            currentFocus.value = nextEmptyIndex;
-          }
-        } else {
-          codeValue.value[index2] = value;
-          if (value && index2 < 5) {
-            currentFocus.value = index2 + 1;
-          } else if (!value && index2 > 0) {
-            currentFocus.value = index2 - 1;
-          } else {
-            formatAppLog("log", "at pages/login/login.vue:145", codeValue.value);
-            if (codeValue.value.length && index2) {
-              const res2 = await loginApi({
-                phone: phone.value,
-                code: codeValue.value.join("")
-              });
-              formatAppLog("log", "at pages/login/login.vue:151", "res", res2);
-              formatAppLog("log", "at pages/login/login.vue:152", "index", index2);
-              uni.setStorageSync("token", res2.data.accessToken);
-              uni.setStorageSync("userInfo", JSON.stringify(res2.data.user));
-              uni.showToast({
-                title: "登录成功",
-                success() {
-                  uni.switchTab({
-                    url: "/pages/index/index"
-                  });
-                }
-              });
-            }
-          }
-        }
-      };
-      const handleFocus = (index2) => {
-        currentFocus.value = index2;
-      };
-      const startCountdown = () => {
-        timer = setInterval(() => {
-          if (countdown.value > 0) {
-            countdown.value--;
-          } else {
-            if (timer) {
-              clearInterval(timer);
-            }
-          }
-        }, 1e3);
-      };
-      const resendCode = () => {
-        if (countdown.value === 0) {
-          countdown.value = 60;
-          startCountdown();
-          uni.showToast({
-            title: "验证码已重新发送",
-            icon: "none"
-          });
-        }
-      };
-      vue.onMounted(() => {
-        startCountdown();
-      });
-      vue.onUnmounted(() => {
-        if (timer) {
-          clearInterval(timer);
-        }
-      });
-      const __returned__ = { step, phone, agreed, tabs, role: role2, changeRole, isValidPhone, checkboxChange, getVerifyCode, openAgreement, codeValue, currentFocus, countdown, get timer() {
-        return timer;
-      }, set timer(v2) {
-        timer = v2;
-      }, inputRefs, handleInput, handleFocus, startCountdown, resendCode };
-      Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
-      return __returned__;
-    }
-  });
-  function _sfc_render$x(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_v_tabs = resolveEasycom(vue.resolveDynamicComponent("v-tabs"), __easycom_0$4);
-    return vue.openBlock(), vue.createElementBlock("view", { class: "container h_100" }, [
-      $setup.step === 1 ? (vue.openBlock(), vue.createElementBlock("view", {
-        key: 0,
-        class: "login-content"
-      }, [
-        vue.createElementVNode("view", { class: "login-title" }, "登录迪雷沃"),
-        vue.createElementVNode("view", { class: "login-subtitle" }, "请输入您的手机号码"),
-        vue.createVNode(_component_v_tabs, {
-          style: { "font-size": "36rpx" },
-          modelValue: $setup.role,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.role = $event),
-          tabs: $setup.tabs,
-          onChange: $setup.changeRole,
-          bgColor: "transport",
-          lineColor: "#99BBA0",
-          activeColor: "#99BBA0"
-        }, null, 8, ["modelValue"]),
-        vue.createCommentVNode(' <radio-group @change="changeRole">\r\n				<label class="uni-list-cell uni-list-cell-pd jc-fs">\r\n					<radio  value="web" style="transform:scale(0.7)" />客户端(仅限客户端用户登录)\r\n				</label>\r\n				<label class="uni-list-cell uni-list-cell-pd jc-fs">\r\n					<radio value="admin"   style="transform:scale(0.7)"/>\r\n					<view>管理端 (仅限后台管理用户登录)</view>\r\n				</label>\r\n			</radio-group> '),
-        vue.createElementVNode("view", { class: "input-container uni-common-mt" }, [
-          vue.createCommentVNode(` <uni-easyinput v-model="phone" type="number" maxlength="11" placeholder="请输入手机号"\r
-					placeholderStyle="color: #C8C9CC; font-size: 32rpx;padding-left:20rpx" class="custom-input" :styles="{'borderColor':'#99BBA0'}" /> `),
-          vue.withDirectives(vue.createElementVNode(
-            "input",
-            {
-              class: "custom-input pl-20",
-              type: "tel",
-              "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.phone = $event),
-              placeholder: "请输入手机号",
-              placeholderStyle: "color: #C8C9CC; font-size: 32rpx;padding-left:20rpx"
-            },
-            null,
-            512
-            /* NEED_PATCH */
-          ), [
-            [vue.vModelText, $setup.phone]
-          ])
-        ]),
-        vue.createElementVNode("button", {
-          class: "verify-btn",
-          disabled: !$setup.isValidPhone,
-          onClick: $setup.getVerifyCode
-        }, " 获取验证码 ", 8, ["disabled"]),
-        vue.createElementVNode("view", { class: "agreement" }, [
-          vue.createElementVNode(
-            "checkbox-group",
-            {
-              style: { "width": "auto" },
-              onChange: $setup.checkboxChange
-            },
-            [
-              vue.createElementVNode("checkbox", {
-                style: { "border-radius": "50%" },
-                color: "#99BBA0",
-                activeBorderColor: "#99BBA0",
-                value: "true",
-                iconColor: "#99BBA0",
-                borderColor: "99BBA0",
-                checked: $setup.agreed
-              }, null, 8, ["checked"])
-            ],
-            32
-            /* NEED_HYDRATION */
-          ),
-          vue.createElementVNode("text", { class: "agreement-text" }, [
-            vue.createTextVNode(" 我已阅读并同意 "),
-            vue.createElementVNode("text", {
-              class: "link",
-              onClick: $setup.openAgreement
-            }, "《用户协议》")
-          ])
-        ])
-      ])) : (vue.openBlock(), vue.createElementBlock(
-        vue.Fragment,
-        { key: 1 },
-        [
-          vue.createElementVNode("view", { class: "header" }, [
-            vue.createElementVNode("text", { class: "title" }, "输入验证码"),
-            vue.createElementVNode(
-              "text",
-              { class: "subtitle" },
-              "验证码已发送" + vue.toDisplayString($setup.phone ? $setup.phone.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2") : ""),
-              1
-              /* TEXT */
-            )
-          ]),
-          vue.createElementVNode("view", { class: "code-input-container" }, [
-            (vue.openBlock(), vue.createElementBlock(
-              vue.Fragment,
-              null,
-              vue.renderList(6, (item, index2) => {
-                return vue.createElementVNode("input", {
-                  key: index2,
-                  type: "number",
-                  maxlength: "1",
-                  value: $setup.codeValue[index2] || "",
-                  onInput: (e2) => $setup.handleInput(e2, index2),
-                  onFocus: ($event) => $setup.handleFocus(index2),
-                  class: vue.normalizeClass(["code-input", { "code-input-focus": $setup.currentFocus === index2 }]),
-                  focus: $setup.currentFocus === index2,
-                  ref_for: true,
-                  ref: (el) => $setup.inputRefs[index2] = el
-                }, null, 42, ["value", "onInput", "onFocus", "focus"]);
-              }),
-              64
-              /* STABLE_FRAGMENT */
-            ))
-          ]),
-          vue.createElementVNode("view", { class: "countdown-container" }, [
-            $setup.countdown > 0 ? (vue.openBlock(), vue.createElementBlock(
-              "text",
-              {
-                key: 0,
-                class: "countdown-text"
-              },
-              vue.toDisplayString($setup.countdown) + " 秒后重新获取验证码",
-              1
-              /* TEXT */
-            )) : (vue.openBlock(), vue.createElementBlock(
-              "button",
-              {
-                key: 1,
-                onClick: $setup.resendCode,
-                class: "resend-button ta-r"
-              },
-              vue.toDisplayString($setup.countdown > 0 ? $setup.countdown : "") + "重新获取验证码 ",
-              1
-              /* TEXT */
-            ))
-          ])
-        ],
-        64
-        /* STABLE_FRAGMENT */
-      ))
-    ]);
-  }
-  const PagesLoginLogin = /* @__PURE__ */ _export_sfc(_sfc_main$y, [["render", _sfc_render$x], ["__file", "D:/project/dlw/uniapp-dileiwo/pages/login/login.vue"]]);
-  const _sfc_main$x = {};
-  function _sfc_render$w(_ctx, _cache) {
-    return vue.openBlock(), vue.createElementBlock("view", { class: "agreement bg-white" }, [
-      vue.createElementVNode("view", { class: "main-title" }, "迪雷沃商用户服务条款"),
-      vue.createElementVNode("view", { class: "section" }, [
-        vue.createElementVNode("view", { class: "section-title" }, "一、服务条款的确认及接受"),
-        vue.createElementVNode("view", { class: "section-content" }, [
-          vue.createElementVNode("view", { class: "item" }, ' 1、迪雷沃系统软件（指www.deravel-tw.com及其移动客户端软件、应用程序，以下称"本系统"）各项电子服务的所有权和运作权归属于"迪雷沃包装设计（上海）有限公司"所有，本网站提供的服务将完全按照其发布的服务条款和操作规则严格执行。您确认所有服务条款并完成注册程序时，本协议在您与本网站间成立并发生法律效力，同时您成为本网站正式用户。 '),
-          vue.createElementVNode("view", { class: "item" }, " 2、根据国家法律法规变化及本网站运营需要，迪雷沃有权对本协议条款及相关规则不时地进行修改，修改后的内容一旦以任何形式公布在本网站上即生效，并取代此前相关内容。您应不时关注本网站公告、提示信息及协议、规则等相关内容的变动。您如继续使用本网站，即视为知悉变更内容并同意接受。 ")
-        ])
-      ]),
-      vue.createElementVNode("view", { class: "section" }, [
-        vue.createElementVNode("view", { class: "section-title" }, "二、服务需知"),
-        vue.createElementVNode("view", { class: "section-content" }, [
-          vue.createElementVNode("view", { class: "item" }, "1、本网站运用自身开发的操作系统通过国际互联网络为用户提供服务。使用本网站，您必须："),
-          vue.createElementVNode("view", { class: "sub-item" }, "(1) 自行配备上网的所需设备，包括手机、平板电脑、调制解调器、路由器等；"),
-          vue.createElementVNode("view", { class: "sub-item" }, "(2) 自行负担上网所支付的与此服务有关的电话费用、网络费用等；")
-        ])
-      ]),
-      vue.createElementVNode("view", { class: "section" }, [
-        vue.createElementVNode("view", { class: "section-title" }, "三、订单"),
-        vue.createElementVNode("view", { class: "section-content" }, [
-          vue.createElementVNode("view", { class: "item" }, " 1、在您使用本网站下订单时，请您仔细确认所购商品的名称、价格、数量、型号、规格、尺寸、联系地址、电话、收货人等信息。收货人的行为和意思表示视为您的行为和意思表示，您应对收货人的行为及意思表示的法律后果承担连带责任。 "),
-          vue.createElementVNode("view", { class: "item" }, " 2、您理解并同意本网站上展示的商品和价格等信息仅仅是要约邀请，您下单时须填写您希望购买的商品数量、价款及支付方式、收货人、联系方式、收货地址（履行地点）、履行方式等内容；系统生成的订单信息是计算机信息系统根据您填写的内容自动生成的数据，仅是您向迪雷沃发出的要约；迪雷沃在收到您的订单信息后，只有在将您在订单中订购的商品从仓库实际直接向您发出时（以商品出库为标志），方视为您与迪雷沃之间有实际的商品建立了关系(例外：批量采购或定制商品需求，开展备货行为后，视为您与迪雷沃之间建立了关系)。 "),
-          vue.createElementVNode("view", { class: "item" }, "3、 尽管迪雷沃做出最大的努力，但由于市场变化及各种以合理商业努力难以控制因素的影响，本网站无法避免您提交的订单信息中的商品出现缺货、价格标示错误等情况；如您下单所购买的商品出现以上情况，您有权取消订单，迪雷沃亦有权自行取消订单，若您已经付款，则为您办理退款。 ")
-        ])
-      ]),
-      vue.createElementVNode("view", { class: "section" }, [
-        vue.createElementVNode("view", { class: "section-title" }, "四、配送和交付"),
-        vue.createElementVNode("view", { class: "section-content" }, [
-          vue.createElementVNode("view", { class: "item" }, "1、您在本网站购买的商品将按照本网站上您所指定的送货地址进行配送。订单信息中列出的送货时间为参考时间，参考时间的计算是根据库存状况、正常的处理过程和送货时间、送货地点的基础上估计得出的。您应当清楚准确地填写您的送货地址、联系人及联系方式等配送信息，您知悉并确认，您所购买的商品应仅由您填写的联系人接受身份查验后接收商品，因您变更联系人或相关配送信息而造成的损失由您自行承担。")
-        ]),
-        vue.createElementVNode("view", { class: "section-content" }, [
-          vue.createElementVNode("view", { class: "item" }, "2、因如下情况造成订单延迟或无法配送等，本网站将无法承担迟延配送或无法配送的责任："),
-          vue.createElementVNode("view", { class: "sub-item" }, "(1) 客户提供错误信息和不详细的地址；"),
-          vue.createElementVNode("view", { class: "sub-item" }, "(2) 货物送达无人签收或拒收，由此造成的重复配送所产生的费用及相关的后果；"),
-          vue.createElementVNode("view", { class: "sub-item" }, " （3）不可抗力，例如：自然灾害及恶劣天气、交通戒严等政府、司法机关的行为、决定或命令、意外交通事故、罢工、法规政策的修改、恐怖事件、抢劫、抢夺等暴力犯罪、突发战争等。 "),
-          vue.createElementVNode("view", { class: "item" }, " 3、迪雷沃依您订单确定的收货信息配送至指定地点并向指定收货人交付，商品一经签收即视为交付，您应当场对商品品类、规格、型号、数量和包装等商品表面状况进行验收。您应及时收取货物，非因确实可证的质量问题不退换货。如您对商品质量有异议的，应于商品交付后及时内向销售商提出，销售商根据实际情况及时处理。 "),
-          vue.createElementVNode("view", { class: "item" }, " 4、您在本网站购买的商品由迪雷沃的关联方或第三方配送公司（包括顺丰、申通等，以下称“物流公司”）为您完成订单交付的，系统或单据记录的签收时间为交付时间；您购买的商品采用在线传输方式交付的，迪雷沃向您指定系统发送的时间为交付时间；您购买服务的，生成的电子或者实物凭证中载明的时间为交付时间。 ")
-        ])
-      ]),
-      vue.createElementVNode("view", { class: "section" }, [
-        vue.createElementVNode("view", { class: "section-title" }, "五、售后服务"),
-        vue.createElementVNode("view", { class: "section-content" }, [
-          vue.createElementVNode("view", { class: "item" }, "销售商依据国家相关规定、厂家规定提供相关售后服务。您作为企业客户，非终端消费者，不适用“七天无理由退货”规则。")
-        ])
-      ]),
-      vue.createElementVNode("view", { class: "section" }, [
-        vue.createElementVNode("view", { class: "section-title" }, "六、结算方式和发票"),
-        vue.createElementVNode("view", { class: "section-content" }, [
-          vue.createElementVNode("view", { class: "item" }, "1、您在平台提交有效采购订单，结算方式应在平台提示的结算方式范围内自主选择。"),
-          vue.createElementVNode("view", { class: "item" }, " 2、 您应保证提交的开票信息及付款信息的真实性与准确性，并保证实际付款方与申请开票方一致，否则造成的一切损失由您自行承担，给迪雷沃造成实际损失的，您应承担相应赔偿责任。 "),
-          vue.createElementVNode("view", { class: "item" }, " 3、您收到发票后应及时跟迪雷沃确认发票送达情况，超过7日未核实，则视为您已确认收到发票。您应及时就已要求开具增值税专用发票进行认证抵扣，如因您的原因超期未抵扣，由此产生全部责任或损失均由您承担。 ")
-        ])
-      ]),
-      vue.createElementVNode("view", { class: "section" }, [
-        vue.createElementVNode("view", { class: "section-title" }, "七、违约责任"),
-        vue.createElementVNode("view", { class: "section-content" }, [
-          vue.createElementVNode("view", { class: "item" }, "1、针对您的批量采购或定制商品需求，迪雷沃开展备货行为后，如您未经迪雷沃书面同意擅自取消采购需求或订单等违约行为，由此产生全部责任或损失均由您承担。"),
-          vue.createElementVNode("view", { class: "item" }, " 2、您应妥善保管本协议项下帐户名及密码信息，如因为您擅自将帐户名及密码信息转让、授权、赠与或因保管不善等任何其它原因导致任何其它人使用的，您需自行对其帐户项下的一切行为独立承担责任。同时迪雷沃在该种情况下有权做出独立判断，可采取暂停或关闭您参与资格等措施。 "),
-          vue.createElementVNode("view", { class: "item" }, " 3、您通过平台采购的商品不得销售给任何其他分销商或经销商，若产生与任何本协议外第三方的争议均由您自行解决，给迪雷沃造成实际损失的，您应承担相应赔偿责任。 "),
-          vue.createElementVNode("view", { class: "item" }, " 4、 如果迪雷沃发现或收到他人投诉举报您违反法律法规、违反本协议约定或存在任何恶意行为的，迪雷沃有权不经通知随时对相关内容进行删除、屏蔽，并视行为情节对违规帐号处以包括但不限于警告、限制或禁止使用部分或全部功能、帐号封禁、注销等处理，并公告处理结果。 "),
-          vue.createElementVNode("view", { class: "item" }, " 5、除非另有明确的书面说明, 迪雷沃不对本网站的运营及其包含在本网站上的信息、内容、材料、产品（包括软件）或服务作任何形式的、明示或默示的声明或担保（根据中华人民共和国法律另有规定的以外）。 ")
-        ])
-      ]),
-      vue.createElementVNode("view", { class: "section" }, [
-        vue.createElementVNode("view", { class: "section-title" }, "八、所有权及知识产权"),
-        vue.createElementVNode("view", { class: "section-content" }, [
-          vue.createElementVNode("view", { class: "item" }, "1、您一旦接受本协议，即表明您主动将您在任何时间段在本网站发表的任何形式的信息内容（包括但不限于客户评价、客户咨询、各类话题文章等信息内容）的财产性权利等任何可转让的权利，如著作权财产权（包括并不限于：复制权、发行权、出租权、展览权、表演权、放映权、广播权、信息网络传播权、摄制权、改编权、翻译权、汇编权以及应当由著作权人享有的其他可转让权利），全部独家且不可撤销地转让给迪雷沃所有，并且您同意迪雷沃有权就任何主体侵权而单独提起诉讼。"),
-          vue.createElementVNode("view", { class: "item" }, " 2、本协议已经构成《中华人民共和国著作权法》第二十五条（条文序号依照2010年修订版《著作权法》确定）及相关法律规定的著作财产权等权利转让书面协议，其效力及于您在本网站上发布的任何受著作权法保护的作品内容，无论该等内容形成于本协议订立前还是本协议订立后。 "),
-          vue.createElementVNode("view", { class: "item" }, " 3、您同意并已充分了解本协议的条款，承诺不将已发表于本网站的信息，以任何形式发布或授权其它主体以任何方式使用（包括但不限于在各类网站、媒体上使用）。 "),
-          vue.createElementVNode("view", { class: "item" }, " 4、除法律另有强制性规定外，未经迪雷沃明确的特别书面许可,任何单位或个人不得以任何方式非法地全部或部分复制、转载、引用、链接、抓取或以其他方式使用本网站的信息内容，否则，迪雷沃有权追究其法律责任。 "),
-          vue.createElementVNode("view", { class: "item" }, " 5、本网站所刊登的资料信息（诸如文字、图表、标识、按钮图标、图像、声音文件片段、数字下载、数据编辑和软件），均是迪雷沃或其内容提供者的财产，受中国和国际版权法的保护。本网站上所有内容的汇编是迪雷沃的排他财产，受中国和国际版权法的保护。本网站上所有软件都是迪雷沃或其关联公司或其软件供应商的财产，受中国和国际版权法的保护。 ")
-        ])
-      ]),
-      vue.createElementVNode("view", { class: "section" }, [
-        vue.createElementVNode("view", { class: "section-title" }, "九、保密义务"),
-        vue.createElementVNode("view", { class: "section-content" }, [
-          vue.createElementVNode("view", { class: "item" }, "1、本协议任一方（以下简称“获取方”）对于本协议的签订、内容及在履行本协议期间所获知的相对方（以下简称“披露方”）的商业秘密负有保密义务。非经披露方书面同意，不得向任何第三方泄露、给予或转让该等保密信息。（依据法律法规、证券交易所规则向政府、证券交易所和/或其他监管机构提供、协议方的法律、会计、商业及其他顾问、雇员等提供的除外）。"),
-          vue.createElementVNode("view", { class: "item" }, " 2、本协议任一方（以下简称“获取方”）对于本协议的签订、内容及在履行本协议期间所获知的相对方（以下简称“披露方”）的商业秘密负有保密义务。非经披露方书面同意，不得向任何第三方泄露、给予或转让该等保密信息。（依据法律法规、证券交易所规则向政府、证券交易所和/或其他监管机构提供、协议方的法律、会计、商业及其他顾问、雇员等提供的除外）。 "),
-          vue.createElementVNode("view", { class: "item" }, " 3、本协议履行期间及终止后，双方均需履行本协议项下保密义务，直至披露方同意获取方解除此项义务，或事实上不会因获取方违反本协议的保密条款而给披露方造成任何形式的损害时止，包括但不限于保密信息已经由披露方向公众披露的情形等。 "),
-          vue.createElementVNode("view", { class: "item" }, " 4、协议双方均应告知并督促其因履行本协议之目的而必须获知本协议内容及因合作而获知对方商业秘密的雇员、代理人等遵守保密条款，并对其雇员、代理人等的行为承担连带责任。 "),
-          vue.createElementVNode("view", { class: "item" }, " 5、本网站所刊登的资料信息（诸如文字、图表、标识、按钮图标、图像、声音文件片段、数字下载、数据编辑和软件），均是迪雷沃或其内容提供者的财产，受中国和国际版权法的保护。本网站上所有内容的汇编是迪雷沃的排他财产，受中国和国际版权法的保护。本网站上所有软件都是迪雷沃或其关联公司或其软件供应商的财产，受中国和国际版权法的保护。 ")
-        ])
-      ]),
-      vue.createElementVNode("view", { class: "section" }, [
-        vue.createElementVNode("view", { class: "section-title" }, "十、通知与送达"),
-        vue.createElementVNode("view", { class: "section-content" }, [
-          vue.createElementVNode("view", { class: "item" }, "1、本协议履行过程中，一方传递给另一方的书面通知；或在诉讼程序中，法院对双方进行书面通知的，按照您注册时填写的地址进行送达。书面通知的形式还包括但不限于电子邮件、手机短信和传真等电子方式，在采用电子方式进行书面通知的情况下发送即视为送达。"),
-          vue.createElementVNode("view", { class: "item" }, " 2、一方的送达地址或送达电子邮箱需要变更时应当履行通知义务，通过信件/邮件/电话/短信的方式对另一方进行通知。 ")
-        ])
-      ]),
-      vue.createElementVNode("view", { class: "section" }, [
-        vue.createElementVNode("view", { class: "section-title" }, "十一、您如何管理您的用户信息"),
-        vue.createElementVNode("view", { class: "section-content" }, [
-          vue.createElementVNode("view", { class: "item" }, "迪雷沃非常重视您的用户信息的关注，并尽全力保护您对于用户信息访问、更正、删除以及撤回同意的权利，以使您拥有充分的能力保障您的账户安全。您的权利包括："),
-          vue.createElementVNode("view", { class: "item" }, " 1、迪雷沃非常重视您的用户信息的关注，并尽全力保护您对于用户信息访问、更正、删除以及撤回同意的权利，以使您拥有充分的能力保障您的账户安全。您的权利包括： "),
-          vue.createElementVNode("view", { class: "sub-item" }, " （1）除法律法规规定外，您有权随时访问和更正您的用户信息，具体包括账户信息、收货信息、订单信息、浏览信息、评论信息、发票信息、档案信息。 "),
-          vue.createElementVNode("view", { class: "sub-item" }, " （2）对于您在使用我们的产品与/或服务过程中产生的其他信息需要访问或更正，请随时联系我们。我们会及时响应您的请求。 "),
-          vue.createElementVNode("view", { class: "sub-item" }, " （3）您无法访问和更正的信息：除上述列明的信息外，您的部分信息我们还无法为您提供访问和更正的服务，这些信息主要是为了提升您的用户体验和保证交易安全所收集的您的设备信息、您使用附加功能时产生的信息。上述信息我们会在您的授权范围内进行使用，您无法访问和更正，但您可联系我们进行删除或做匿名化处理。 "),
-          vue.createElementVNode("view", { class: "item" }, " 2、删除您的用户信息 "),
-          vue.createElementVNode("view", { class: "sub-item" }, " 您在我们的产品与/或服务页面中可以直接清除或删除的信息，包括订单信息、浏览信息、收货地址信息； 在以下情形中，您可以向我们提出删除用户信息的请求： "),
-          vue.createElementVNode("view", { class: "sub-item" }, " 您在我们的产品与/或服务页面中可以直接清除或删除的信息，包括订单信息、浏览信息、收货地址信息； 在以下情形中，您可以向我们提出删除用户信息的请求： "),
-          vue.createElementVNode("view", { class: "sub-item" }, [
-            vue.createTextVNode(" （1）如果我们处理用户信息的行为违反法律法规；"),
-            vue.createElementVNode("br"),
-            vue.createTextVNode(" （2）如果我们处理用户信息的行为违反了与您的约定；"),
-            vue.createElementVNode("br"),
-            vue.createTextVNode(" （3）如果您注销了迪雷沃账户；"),
-            vue.createElementVNode("br"),
-            vue.createTextVNode(" （4）如果我们终止服务及运营。"),
-            vue.createElementVNode("br"),
-            vue.createTextVNode(" 若我们决定响应您的删除请求，我们还将同时通知从我们获得您的用户信息的实体，要求其及时删除，除非法律法规另有规定，或这些实体获得您的独立授权。当您从我们的服务中删除信息后，我们可能不会立即备份系统中删除相应的信息，但会在备份更新时删除或進行匿名(去標籤化)處理这些信息。 ")
-          ]),
-          vue.createElementVNode("view", { class: "item" }, " 3、改变您授权同意的范围或撤回您的授权 "),
-          vue.createElementVNode("view", { class: "sub-item" }, [
-            vue.createTextVNode(" 您可以通过删除信息、关闭设备功能、在迪雷沃网站或软件中进行设置等方式改变您授权我们继续收集用户信息的范围或撤回您的授权。您也可以通过注销账户的方式，撤回我们继续收集您用户信息的全部授权。 请您理解，每个业务功能需要一些基本的用户信息才能得以完成，当您撤回同意或授权后，我们无法继续为您提供撤回同意或授权所对应的服务，也不再处理您相应的用户信息。但您撤回同意或授权的决定，不会影响此前基于您的授权而开展的用户信息处理。 "),
-            vue.createElementVNode("br"),
-            vue.createTextVNode(" 请您理解，每个业务功能需要一些基本的用户信息才能得以完成，当您撤回同意或授权后，我们无法继续为您提供撤回同意或授权所对应的服务，也不再处理您相应的用户信息。但您撤回同意或授权的决定，不会影响此前基于您的授权而开展的用户信息处理。 ")
-          ]),
-          vue.createElementVNode("view", { class: "item" }, " 4、注销账户 "),
-          vue.createElementVNode("view", { class: "sub-item" }, " 您可以在我们的产品中直接申请注销账户。关于您注销账户的方式以及您应满足的条件，请详见(《迪雷沃隐私政策》裡的“您的权利”)。您注销账户后，我们将停止为您提供产品与/或服务，并依据您的 要求，除法律法规另有规定外，我们将删除您的用户信息。 "),
-          vue.createElementVNode("view", { class: "item" }, " 5、响应您的请求 "),
-          vue.createElementVNode("view", { class: "item" }, [
-            vue.createTextVNode(" 如果您无法通过上述方式访问、更正或删除您的用户信息，或您需要访问、更正或删除您在使用我们产品与/或服务时所产生的其他用户信息，或您认为迪雷沃存在任何违反法律法规，您均可以发送电子邮件至deraveldaniel@163.com或通过本协议下方的其他方式与我们联系。为了保障安全，我们可能需要您提供书面请求，或以其他方式证明您的身份，我们将在收到您反馈并验证您的身份后的30天内答复您的请求。对于您合理的请求，我们原则上不收取费用，但对多次重复、超出合理限度的请求，我们将视情收取一定成本费用。对于那些无端重复、需要过多技术手段（例如，需要开发新系统或从根本上改变现行惯例）、给他人合法权益带来风险或者非常不切实际（例如，涉及备份磁带上存放的信息）的请求，我们可能会予以拒绝。 "),
-            vue.createElementVNode("br"),
-            vue.createTextVNode(" 在以下情形中，按照法律法规要求，我们将无法响应您的请求： ")
-          ]),
-          vue.createElementVNode("view", { class: "sub-item" }, [
-            vue.createTextVNode(" （1）与国家安全、国防安全有关的；"),
-            vue.createElementVNode("br"),
-            vue.createTextVNode(" （2）与公共安全、公共卫生、重大公共利益有关的；"),
-            vue.createElementVNode("br"),
-            vue.createTextVNode(" （3）与犯罪侦查、起诉和审判等有关的；"),
-            vue.createElementVNode("br"),
-            vue.createTextVNode(" （4）有充分证据表明您存在主观恶意或滥用权利的；"),
-            vue.createElementVNode("br"),
-            vue.createTextVNode(" （5）响应您的请求将导致您或其他个人、组织的合法权益受到严重损害的。 ")
-          ])
-        ]),
-        vue.createElementVNode("view", { class: "section" }, [
-          vue.createElementVNode("view", { class: "section-title" }, "十二、用户行为规范"),
-          vue.createElementVNode("view", { class: "section-content" }, [
-            vue.createElementVNode("view", { class: "item" }, "1、您同意严格遵守法律法规规章规定，依法遵守以下义务："),
-            vue.createElementVNode("view", { class: "sub-item" }, [
-              vue.createTextVNode(" （1） 不得制作、传输或发表以下违法信息资料：反对宪法所确定的基本原则，煽动抗拒、破坏宪法和法律法规实施的；危害国家安全，泄露国家秘密，颠覆国家政权，破坏国家统一的，煽动推翻社会主义制度的；损害国家荣誉和利益的；歪曲、丑化、亵渎、否定英雄烈士事迹和精神，侵害英雄烈士的姓名、肖像、名誉、荣誉的；宣扬或煽动实施恐怖主义、极端主义及其活动的；煽动民族仇恨、民族歧视、破坏民族团结的言论；破坏国家宗教政策，宣扬邪教和封建迷信的；散布谣言，扰乱经济秩序和社会秩序的；散布淫秽、色情、暴力或者教唆犯罪的；侮辱或者诽谤他人，侵害他人名誉、隐私和其他合法权益的；法律、行政法规禁止的其他内容。"),
-              vue.createElementVNode("br"),
-              vue.createTextVNode(" （2） 防范和抵制制作、复制、发布含有下列内容的不良信息资料：标题严重夸张，发表内容与标题严重不符的；不当评述自然灾害、重大事故等灾难的；煽动人群歧视、地域歧视等的；宣扬低俗、庸俗、媚俗内容的；违反社会公德行为的；侵犯未成年人合法权益的；其他对网络生态造 ")
-            ]),
-            vue.createElementVNode("view", { class: "item" }, " 2、本协议依据国家相关法律法规规章制定，您亦同意严格遵守以下义务： "),
-            vue.createElementVNode("view", { class: "sub-item" }, [
-              vue.createTextVNode(" （1） 从中国大陆向境外传输资料信息时必须符合中国有关法规；"),
-              vue.createElementVNode("br"),
-              vue.createTextVNode(" （2） 不得利用本网站从事洗钱、窃取商业秘密、窃取个人信息等违法犯罪活动；"),
-              vue.createElementVNode("br"),
-              vue.createTextVNode(" （3） 不得干扰本网站的正常运转，不得侵入本网站及国家计算机信息系统；"),
-              vue.createElementVNode("br"),
-              vue.createTextVNode(" （4） 不得传输或发表任何违法犯罪的、骚扰性的、中伤他人的、辱骂性的、恐吓性的、伤害性的、庸俗的、不文明的等信息资料；"),
-              vue.createElementVNode("br"),
-              vue.createTextVNode(" （5） 不得教唆他人从事违法违规或本协议、平台规则所禁止的行为；"),
-              vue.createElementVNode("br"),
-              vue.createTextVNode(" （6） 不得利用在本网站注册的账户进行牟利性经营活动；"),
-              vue.createElementVNode("br"),
-              vue.createTextVNode(" （7） 不得发布任何侵犯他人个人信息、著作权、商标权等知识产权或合法权利的内容； ")
-            ]),
-            vue.createElementVNode("view", { class: "item" }, " 3、您须对自己在网上的言论和行为承担法律责任，您若在本网站上散布和传播反动、色情或其它违反国家法律的信息，本网站的系统记录有可能作为您违反法律的证据。 ")
-          ])
-        ]),
-        vue.createElementVNode("view", { class: "section" }, [
-          vue.createElementVNode("view", { class: "section-title" }, "十三、法律管辖适用及其他"),
-          vue.createElementVNode("view", { class: "section-content" }, [
-            vue.createElementVNode("view", { class: "item" }, "1、本协议的订立、执行和解释及争议的解决均应适用中国法律。如双方就本协议内容或其执行发生任何争议，双方应尽力友好协商解决；协商不成时，应向协议签订地有管辖权的人民法院提起诉讼。本协议签订地为中华人民共和国北京市大兴区。"),
-            vue.createElementVNode("view", { class: "item" }, " 2、如果本协议中任何一条被视为废止、无效或因任何理由不可执行，该条应视为可分的且并不影响任何其余条款的有效性和可执行性。 "),
-            vue.createElementVNode("view", { class: "item" }, " 3、本协议未明示授权的其他权利仍由迪雷沃保留，您在行使这些权利时须另外取得迪雷沃的书面许可。迪雷沃如果未行使前述任何权利，并不构成对该权利的放弃。 "),
-            vue.createElementVNode("view", { class: "item" }, " 4、本协议内容中以加粗方式显著标识的条款，请您着重阅读。您点击“同意”按钮即视为您完全接受本协议，在点击之前请您再次确认已知悉并完全理解本协议的全部内容。 ")
-          ])
-        ])
-      ])
-    ]);
-  }
-  const PagesLoginAgreement = /* @__PURE__ */ _export_sfc(_sfc_main$x, [["render", _sfc_render$w], ["__scopeId", "data-v-b4896b2f"], ["__file", "D:/project/dlw/uniapp-dileiwo/pages/login/agreement.vue"]]);
-  const fontData = [
-    {
-      "font_class": "arrow-down",
-      "unicode": ""
-    },
-    {
-      "font_class": "arrow-left",
-      "unicode": ""
-    },
-    {
-      "font_class": "arrow-right",
-      "unicode": ""
-    },
-    {
-      "font_class": "arrow-up",
-      "unicode": ""
-    },
-    {
-      "font_class": "auth",
-      "unicode": ""
-    },
-    {
-      "font_class": "auth-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "back",
-      "unicode": ""
-    },
-    {
-      "font_class": "bars",
-      "unicode": ""
-    },
-    {
-      "font_class": "calendar",
-      "unicode": ""
-    },
-    {
-      "font_class": "calendar-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "camera",
-      "unicode": ""
-    },
-    {
-      "font_class": "camera-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "cart",
-      "unicode": ""
-    },
-    {
-      "font_class": "cart-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "chat",
-      "unicode": ""
-    },
-    {
-      "font_class": "chat-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "chatboxes",
-      "unicode": ""
-    },
-    {
-      "font_class": "chatboxes-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "chatbubble",
-      "unicode": ""
-    },
-    {
-      "font_class": "chatbubble-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "checkbox",
-      "unicode": ""
-    },
-    {
-      "font_class": "checkbox-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "checkmarkempty",
-      "unicode": ""
-    },
-    {
-      "font_class": "circle",
-      "unicode": ""
-    },
-    {
-      "font_class": "circle-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "clear",
-      "unicode": ""
-    },
-    {
-      "font_class": "close",
-      "unicode": ""
-    },
-    {
-      "font_class": "closeempty",
-      "unicode": ""
-    },
-    {
-      "font_class": "cloud-download",
-      "unicode": ""
-    },
-    {
-      "font_class": "cloud-download-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "cloud-upload",
-      "unicode": ""
-    },
-    {
-      "font_class": "cloud-upload-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "color",
-      "unicode": ""
-    },
-    {
-      "font_class": "color-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "compose",
-      "unicode": ""
-    },
-    {
-      "font_class": "contact",
-      "unicode": ""
-    },
-    {
-      "font_class": "contact-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "down",
-      "unicode": ""
-    },
-    {
-      "font_class": "bottom",
-      "unicode": ""
-    },
-    {
-      "font_class": "download",
-      "unicode": ""
-    },
-    {
-      "font_class": "download-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "email",
-      "unicode": ""
-    },
-    {
-      "font_class": "email-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "eye",
-      "unicode": ""
-    },
-    {
-      "font_class": "eye-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "eye-slash",
-      "unicode": ""
-    },
-    {
-      "font_class": "eye-slash-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "fire",
-      "unicode": ""
-    },
-    {
-      "font_class": "fire-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "flag",
-      "unicode": ""
-    },
-    {
-      "font_class": "flag-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "folder-add",
-      "unicode": ""
-    },
-    {
-      "font_class": "folder-add-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "font",
-      "unicode": ""
-    },
-    {
-      "font_class": "forward",
-      "unicode": ""
-    },
-    {
-      "font_class": "gear",
-      "unicode": ""
-    },
-    {
-      "font_class": "gear-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "gift",
-      "unicode": ""
-    },
-    {
-      "font_class": "gift-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "hand-down",
-      "unicode": ""
-    },
-    {
-      "font_class": "hand-down-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "hand-up",
-      "unicode": ""
-    },
-    {
-      "font_class": "hand-up-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "headphones",
-      "unicode": ""
-    },
-    {
-      "font_class": "heart",
-      "unicode": ""
-    },
-    {
-      "font_class": "heart-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "help",
-      "unicode": ""
-    },
-    {
-      "font_class": "help-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "home",
-      "unicode": ""
-    },
-    {
-      "font_class": "home-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "image",
-      "unicode": ""
-    },
-    {
-      "font_class": "image-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "images",
-      "unicode": ""
-    },
-    {
-      "font_class": "images-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "info",
-      "unicode": ""
-    },
-    {
-      "font_class": "info-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "left",
-      "unicode": ""
-    },
-    {
-      "font_class": "link",
-      "unicode": ""
-    },
-    {
-      "font_class": "list",
-      "unicode": ""
-    },
-    {
-      "font_class": "location",
-      "unicode": ""
-    },
-    {
-      "font_class": "location-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "locked",
-      "unicode": ""
-    },
-    {
-      "font_class": "locked-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "loop",
-      "unicode": ""
-    },
-    {
-      "font_class": "mail-open",
-      "unicode": ""
-    },
-    {
-      "font_class": "mail-open-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "map",
-      "unicode": ""
-    },
-    {
-      "font_class": "map-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "map-pin",
-      "unicode": ""
-    },
-    {
-      "font_class": "map-pin-ellipse",
-      "unicode": ""
-    },
-    {
-      "font_class": "medal",
-      "unicode": ""
-    },
-    {
-      "font_class": "medal-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "mic",
-      "unicode": ""
-    },
-    {
-      "font_class": "mic-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "micoff",
-      "unicode": ""
-    },
-    {
-      "font_class": "micoff-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "minus",
-      "unicode": ""
-    },
-    {
-      "font_class": "minus-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "more",
-      "unicode": ""
-    },
-    {
-      "font_class": "more-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "navigate",
-      "unicode": ""
-    },
-    {
-      "font_class": "navigate-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "notification",
-      "unicode": ""
-    },
-    {
-      "font_class": "notification-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "paperclip",
-      "unicode": ""
-    },
-    {
-      "font_class": "paperplane",
-      "unicode": ""
-    },
-    {
-      "font_class": "paperplane-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "person",
-      "unicode": ""
-    },
-    {
-      "font_class": "person-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "personadd",
-      "unicode": ""
-    },
-    {
-      "font_class": "personadd-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "personadd-filled-copy",
-      "unicode": ""
-    },
-    {
-      "font_class": "phone",
-      "unicode": ""
-    },
-    {
-      "font_class": "phone-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "plus",
-      "unicode": ""
-    },
-    {
-      "font_class": "plus-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "plusempty",
-      "unicode": ""
-    },
-    {
-      "font_class": "pulldown",
-      "unicode": ""
-    },
-    {
-      "font_class": "pyq",
-      "unicode": ""
-    },
-    {
-      "font_class": "qq",
-      "unicode": ""
-    },
-    {
-      "font_class": "redo",
-      "unicode": ""
-    },
-    {
-      "font_class": "redo-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "refresh",
-      "unicode": ""
-    },
-    {
-      "font_class": "refresh-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "refreshempty",
-      "unicode": ""
-    },
-    {
-      "font_class": "reload",
-      "unicode": ""
-    },
-    {
-      "font_class": "right",
-      "unicode": ""
-    },
-    {
-      "font_class": "scan",
-      "unicode": ""
-    },
-    {
-      "font_class": "search",
-      "unicode": ""
-    },
-    {
-      "font_class": "settings",
-      "unicode": ""
-    },
-    {
-      "font_class": "settings-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "shop",
-      "unicode": ""
-    },
-    {
-      "font_class": "shop-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "smallcircle",
-      "unicode": ""
-    },
-    {
-      "font_class": "smallcircle-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "sound",
-      "unicode": ""
-    },
-    {
-      "font_class": "sound-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "spinner-cycle",
-      "unicode": ""
-    },
-    {
-      "font_class": "staff",
-      "unicode": ""
-    },
-    {
-      "font_class": "staff-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "star",
-      "unicode": ""
-    },
-    {
-      "font_class": "star-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "starhalf",
-      "unicode": ""
-    },
-    {
-      "font_class": "trash",
-      "unicode": ""
-    },
-    {
-      "font_class": "trash-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "tune",
-      "unicode": ""
-    },
-    {
-      "font_class": "tune-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "undo",
-      "unicode": ""
-    },
-    {
-      "font_class": "undo-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "up",
-      "unicode": ""
-    },
-    {
-      "font_class": "top",
-      "unicode": ""
-    },
-    {
-      "font_class": "upload",
-      "unicode": ""
-    },
-    {
-      "font_class": "upload-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "videocam",
-      "unicode": ""
-    },
-    {
-      "font_class": "videocam-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "vip",
-      "unicode": ""
-    },
-    {
-      "font_class": "vip-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "wallet",
-      "unicode": ""
-    },
-    {
-      "font_class": "wallet-filled",
-      "unicode": ""
-    },
-    {
-      "font_class": "weibo",
-      "unicode": ""
-    },
-    {
-      "font_class": "weixin",
-      "unicode": ""
-    }
-  ];
-  const getVal = (val) => {
-    const reg = /^[0-9]*$/g;
-    return typeof val === "number" || reg.test(val) ? val + "px" : val;
-  };
-  const _sfc_main$w = {
-    name: "UniIcons",
-    emits: ["click"],
-    props: {
-      type: {
-        type: String,
-        default: ""
-      },
-      color: {
-        type: String,
-        default: "#333333"
-      },
-      size: {
-        type: [Number, String],
-        default: 16
-      },
-      customPrefix: {
-        type: String,
-        default: ""
-      },
-      fontFamily: {
-        type: String,
-        default: ""
-      }
-    },
-    data() {
-      return {
-        icons: fontData
-      };
-    },
-    computed: {
-      unicode() {
-        let code = this.icons.find((v2) => v2.font_class === this.type);
-        if (code) {
-          return code.unicode;
-        }
-        return "";
-      },
-      iconSize() {
-        return getVal(this.size);
-      },
-      styleObj() {
-        if (this.fontFamily !== "") {
-          return `color: ${this.color}; font-size: ${this.iconSize}; font-family: ${this.fontFamily};`;
-        }
-        return `color: ${this.color}; font-size: ${this.iconSize};`;
-      }
-    },
-    methods: {
-      _onClick() {
-        this.$emit("click");
-      }
-    }
-  };
-  function _sfc_render$v(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock(
-      "text",
-      {
-        style: vue.normalizeStyle($options.styleObj),
-        class: vue.normalizeClass(["uni-icons", ["uniui-" + $props.type, $props.customPrefix, $props.customPrefix ? $props.type : ""]]),
-        onClick: _cache[0] || (_cache[0] = (...args) => $options._onClick && $options._onClick(...args))
-      },
-      [
-        vue.renderSlot(_ctx.$slots, "default", {}, void 0, true)
-      ],
-      6
-      /* CLASS, STYLE */
-    );
-  }
-  const __easycom_0$3 = /* @__PURE__ */ _export_sfc(_sfc_main$w, [["render", _sfc_render$v], ["__scopeId", "data-v-d31e1c47"], ["__file", "D:/project/dlw/uniapp-dileiwo/uni_modules/uni-icons/components/uni-icons/uni-icons.vue"]]);
-  const _sfc_main$v = {
-    name: "UniCard",
-    emits: ["click"],
-    props: {
-      title: {
-        type: String,
-        default: ""
-      },
-      subTitle: {
-        type: String,
-        default: ""
-      },
-      padding: {
-        type: String,
-        default: "10px"
-      },
-      margin: {
-        type: String,
-        default: "15px"
-      },
-      spacing: {
-        type: String,
-        default: "0 10px"
-      },
-      extra: {
-        type: String,
-        default: ""
-      },
-      cover: {
-        type: String,
-        default: ""
-      },
-      thumbnail: {
-        type: String,
-        default: ""
-      },
-      isFull: {
-        // 内容区域是否通栏
-        type: Boolean,
-        default: false
-      },
-      isShadow: {
-        // 是否开启阴影
-        type: Boolean,
-        default: true
-      },
-      shadow: {
-        type: String,
-        default: "0px 0px 3px 1px rgba(0, 0, 0, 0.08)"
-      },
-      border: {
-        type: Boolean,
-        default: true
-      }
-    },
-    methods: {
-      onClick(type) {
-        this.$emit("click", type);
-      }
-    }
-  };
-  function _sfc_render$u(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock(
-      "view",
-      {
-        class: vue.normalizeClass(["uni-card", { "uni-card--full": $props.isFull, "uni-card--shadow": $props.isShadow, "uni-card--border": $props.border }]),
-        style: vue.normalizeStyle({ "margin": $props.isFull ? 0 : $props.margin, "padding": $props.spacing, "box-shadow": $props.isShadow ? $props.shadow : "" })
-      },
-      [
-        vue.createCommentVNode(" 封面 "),
-        vue.renderSlot(_ctx.$slots, "cover", {}, () => [
-          $props.cover ? (vue.openBlock(), vue.createElementBlock("view", {
-            key: 0,
-            class: "uni-card__cover"
-          }, [
-            vue.createElementVNode("image", {
-              class: "uni-card__cover-image",
-              mode: "widthFix",
-              onClick: _cache[0] || (_cache[0] = ($event) => $options.onClick("cover")),
-              src: $props.cover
-            }, null, 8, ["src"])
-          ])) : vue.createCommentVNode("v-if", true)
-        ], true),
-        vue.renderSlot(_ctx.$slots, "title", {}, () => [
-          $props.title || $props.extra ? (vue.openBlock(), vue.createElementBlock("view", {
-            key: 0,
-            class: "uni-card__header"
-          }, [
-            vue.createCommentVNode(" 卡片标题 "),
-            vue.createElementVNode("view", {
-              class: "uni-card__header-box",
-              onClick: _cache[1] || (_cache[1] = ($event) => $options.onClick("title"))
-            }, [
-              $props.thumbnail ? (vue.openBlock(), vue.createElementBlock("view", {
-                key: 0,
-                class: "uni-card__header-avatar"
-              }, [
-                vue.createElementVNode("image", {
-                  class: "uni-card__header-avatar-image",
-                  src: $props.thumbnail,
-                  mode: "aspectFit"
-                }, null, 8, ["src"])
-              ])) : vue.createCommentVNode("v-if", true),
-              vue.createElementVNode("view", { class: "uni-card__header-content" }, [
-                vue.createElementVNode(
-                  "text",
-                  { class: "uni-card__header-content-title uni-ellipsis" },
-                  vue.toDisplayString($props.title),
-                  1
-                  /* TEXT */
-                ),
-                $props.title && $props.subTitle ? (vue.openBlock(), vue.createElementBlock(
-                  "text",
-                  {
-                    key: 0,
-                    class: "uni-card__header-content-subtitle uni-ellipsis"
-                  },
-                  vue.toDisplayString($props.subTitle),
-                  1
-                  /* TEXT */
-                )) : vue.createCommentVNode("v-if", true)
-              ])
-            ]),
-            vue.createElementVNode("view", {
-              class: "uni-card__header-extra",
-              onClick: _cache[2] || (_cache[2] = ($event) => $options.onClick("extra"))
-            }, [
-              vue.createElementVNode(
-                "text",
-                { class: "uni-card__header-extra-text" },
-                vue.toDisplayString($props.extra),
-                1
-                /* TEXT */
-              )
-            ])
-          ])) : vue.createCommentVNode("v-if", true)
-        ], true),
-        vue.createCommentVNode(" 卡片内容 "),
-        vue.createElementVNode(
-          "view",
-          {
-            class: "uni-card__content",
-            style: vue.normalizeStyle({ padding: $props.padding }),
-            onClick: _cache[3] || (_cache[3] = ($event) => $options.onClick("content"))
-          },
-          [
-            vue.renderSlot(_ctx.$slots, "default", {}, void 0, true)
-          ],
-          4
-          /* STYLE */
-        ),
-        vue.createElementVNode("view", {
-          class: "uni-card__actions",
-          onClick: _cache[4] || (_cache[4] = ($event) => $options.onClick("actions"))
-        }, [
-          vue.renderSlot(_ctx.$slots, "actions", {}, void 0, true)
-        ])
-      ],
-      6
-      /* CLASS, STYLE */
-    );
-  }
-  const __easycom_1$1 = /* @__PURE__ */ _export_sfc(_sfc_main$v, [["render", _sfc_render$u], ["__scopeId", "data-v-ae4bee67"], ["__file", "D:/project/dlw/uniapp-dileiwo/uni_modules/uni-card/components/uni-card/uni-card.vue"]]);
+  const __easycom_0$4 = /* @__PURE__ */ _export_sfc(_sfc_main$A, [["render", _sfc_render$z], ["__scopeId", "data-v-4a111109"], ["__file", "D:/project/dlw/uniapp-dileiwo/uni_modules/v-tabs/components/v-tabs/v-tabs.vue"]]);
   const leftWindow = {
     path: "windows/left-window.vue",
     style: {
@@ -5212,6 +3872,1877 @@ ${i3}
     }
   })();
   var nr = tr;
+  const fontData = [
+    {
+      "font_class": "arrow-down",
+      "unicode": ""
+    },
+    {
+      "font_class": "arrow-left",
+      "unicode": ""
+    },
+    {
+      "font_class": "arrow-right",
+      "unicode": ""
+    },
+    {
+      "font_class": "arrow-up",
+      "unicode": ""
+    },
+    {
+      "font_class": "auth",
+      "unicode": ""
+    },
+    {
+      "font_class": "auth-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "back",
+      "unicode": ""
+    },
+    {
+      "font_class": "bars",
+      "unicode": ""
+    },
+    {
+      "font_class": "calendar",
+      "unicode": ""
+    },
+    {
+      "font_class": "calendar-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "camera",
+      "unicode": ""
+    },
+    {
+      "font_class": "camera-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "cart",
+      "unicode": ""
+    },
+    {
+      "font_class": "cart-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "chat",
+      "unicode": ""
+    },
+    {
+      "font_class": "chat-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "chatboxes",
+      "unicode": ""
+    },
+    {
+      "font_class": "chatboxes-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "chatbubble",
+      "unicode": ""
+    },
+    {
+      "font_class": "chatbubble-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "checkbox",
+      "unicode": ""
+    },
+    {
+      "font_class": "checkbox-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "checkmarkempty",
+      "unicode": ""
+    },
+    {
+      "font_class": "circle",
+      "unicode": ""
+    },
+    {
+      "font_class": "circle-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "clear",
+      "unicode": ""
+    },
+    {
+      "font_class": "close",
+      "unicode": ""
+    },
+    {
+      "font_class": "closeempty",
+      "unicode": ""
+    },
+    {
+      "font_class": "cloud-download",
+      "unicode": ""
+    },
+    {
+      "font_class": "cloud-download-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "cloud-upload",
+      "unicode": ""
+    },
+    {
+      "font_class": "cloud-upload-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "color",
+      "unicode": ""
+    },
+    {
+      "font_class": "color-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "compose",
+      "unicode": ""
+    },
+    {
+      "font_class": "contact",
+      "unicode": ""
+    },
+    {
+      "font_class": "contact-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "down",
+      "unicode": ""
+    },
+    {
+      "font_class": "bottom",
+      "unicode": ""
+    },
+    {
+      "font_class": "download",
+      "unicode": ""
+    },
+    {
+      "font_class": "download-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "email",
+      "unicode": ""
+    },
+    {
+      "font_class": "email-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "eye",
+      "unicode": ""
+    },
+    {
+      "font_class": "eye-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "eye-slash",
+      "unicode": ""
+    },
+    {
+      "font_class": "eye-slash-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "fire",
+      "unicode": ""
+    },
+    {
+      "font_class": "fire-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "flag",
+      "unicode": ""
+    },
+    {
+      "font_class": "flag-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "folder-add",
+      "unicode": ""
+    },
+    {
+      "font_class": "folder-add-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "font",
+      "unicode": ""
+    },
+    {
+      "font_class": "forward",
+      "unicode": ""
+    },
+    {
+      "font_class": "gear",
+      "unicode": ""
+    },
+    {
+      "font_class": "gear-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "gift",
+      "unicode": ""
+    },
+    {
+      "font_class": "gift-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "hand-down",
+      "unicode": ""
+    },
+    {
+      "font_class": "hand-down-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "hand-up",
+      "unicode": ""
+    },
+    {
+      "font_class": "hand-up-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "headphones",
+      "unicode": ""
+    },
+    {
+      "font_class": "heart",
+      "unicode": ""
+    },
+    {
+      "font_class": "heart-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "help",
+      "unicode": ""
+    },
+    {
+      "font_class": "help-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "home",
+      "unicode": ""
+    },
+    {
+      "font_class": "home-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "image",
+      "unicode": ""
+    },
+    {
+      "font_class": "image-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "images",
+      "unicode": ""
+    },
+    {
+      "font_class": "images-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "info",
+      "unicode": ""
+    },
+    {
+      "font_class": "info-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "left",
+      "unicode": ""
+    },
+    {
+      "font_class": "link",
+      "unicode": ""
+    },
+    {
+      "font_class": "list",
+      "unicode": ""
+    },
+    {
+      "font_class": "location",
+      "unicode": ""
+    },
+    {
+      "font_class": "location-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "locked",
+      "unicode": ""
+    },
+    {
+      "font_class": "locked-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "loop",
+      "unicode": ""
+    },
+    {
+      "font_class": "mail-open",
+      "unicode": ""
+    },
+    {
+      "font_class": "mail-open-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "map",
+      "unicode": ""
+    },
+    {
+      "font_class": "map-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "map-pin",
+      "unicode": ""
+    },
+    {
+      "font_class": "map-pin-ellipse",
+      "unicode": ""
+    },
+    {
+      "font_class": "medal",
+      "unicode": ""
+    },
+    {
+      "font_class": "medal-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "mic",
+      "unicode": ""
+    },
+    {
+      "font_class": "mic-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "micoff",
+      "unicode": ""
+    },
+    {
+      "font_class": "micoff-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "minus",
+      "unicode": ""
+    },
+    {
+      "font_class": "minus-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "more",
+      "unicode": ""
+    },
+    {
+      "font_class": "more-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "navigate",
+      "unicode": ""
+    },
+    {
+      "font_class": "navigate-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "notification",
+      "unicode": ""
+    },
+    {
+      "font_class": "notification-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "paperclip",
+      "unicode": ""
+    },
+    {
+      "font_class": "paperplane",
+      "unicode": ""
+    },
+    {
+      "font_class": "paperplane-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "person",
+      "unicode": ""
+    },
+    {
+      "font_class": "person-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "personadd",
+      "unicode": ""
+    },
+    {
+      "font_class": "personadd-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "personadd-filled-copy",
+      "unicode": ""
+    },
+    {
+      "font_class": "phone",
+      "unicode": ""
+    },
+    {
+      "font_class": "phone-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "plus",
+      "unicode": ""
+    },
+    {
+      "font_class": "plus-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "plusempty",
+      "unicode": ""
+    },
+    {
+      "font_class": "pulldown",
+      "unicode": ""
+    },
+    {
+      "font_class": "pyq",
+      "unicode": ""
+    },
+    {
+      "font_class": "qq",
+      "unicode": ""
+    },
+    {
+      "font_class": "redo",
+      "unicode": ""
+    },
+    {
+      "font_class": "redo-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "refresh",
+      "unicode": ""
+    },
+    {
+      "font_class": "refresh-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "refreshempty",
+      "unicode": ""
+    },
+    {
+      "font_class": "reload",
+      "unicode": ""
+    },
+    {
+      "font_class": "right",
+      "unicode": ""
+    },
+    {
+      "font_class": "scan",
+      "unicode": ""
+    },
+    {
+      "font_class": "search",
+      "unicode": ""
+    },
+    {
+      "font_class": "settings",
+      "unicode": ""
+    },
+    {
+      "font_class": "settings-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "shop",
+      "unicode": ""
+    },
+    {
+      "font_class": "shop-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "smallcircle",
+      "unicode": ""
+    },
+    {
+      "font_class": "smallcircle-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "sound",
+      "unicode": ""
+    },
+    {
+      "font_class": "sound-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "spinner-cycle",
+      "unicode": ""
+    },
+    {
+      "font_class": "staff",
+      "unicode": ""
+    },
+    {
+      "font_class": "staff-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "star",
+      "unicode": ""
+    },
+    {
+      "font_class": "star-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "starhalf",
+      "unicode": ""
+    },
+    {
+      "font_class": "trash",
+      "unicode": ""
+    },
+    {
+      "font_class": "trash-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "tune",
+      "unicode": ""
+    },
+    {
+      "font_class": "tune-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "undo",
+      "unicode": ""
+    },
+    {
+      "font_class": "undo-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "up",
+      "unicode": ""
+    },
+    {
+      "font_class": "top",
+      "unicode": ""
+    },
+    {
+      "font_class": "upload",
+      "unicode": ""
+    },
+    {
+      "font_class": "upload-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "videocam",
+      "unicode": ""
+    },
+    {
+      "font_class": "videocam-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "vip",
+      "unicode": ""
+    },
+    {
+      "font_class": "vip-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "wallet",
+      "unicode": ""
+    },
+    {
+      "font_class": "wallet-filled",
+      "unicode": ""
+    },
+    {
+      "font_class": "weibo",
+      "unicode": ""
+    },
+    {
+      "font_class": "weixin",
+      "unicode": ""
+    }
+  ];
+  const getVal = (val) => {
+    const reg = /^[0-9]*$/g;
+    return typeof val === "number" || reg.test(val) ? val + "px" : val;
+  };
+  const _sfc_main$z = {
+    name: "UniIcons",
+    emits: ["click"],
+    props: {
+      type: {
+        type: String,
+        default: ""
+      },
+      color: {
+        type: String,
+        default: "#333333"
+      },
+      size: {
+        type: [Number, String],
+        default: 16
+      },
+      customPrefix: {
+        type: String,
+        default: ""
+      },
+      fontFamily: {
+        type: String,
+        default: ""
+      }
+    },
+    data() {
+      return {
+        icons: fontData
+      };
+    },
+    computed: {
+      unicode() {
+        let code = this.icons.find((v2) => v2.font_class === this.type);
+        if (code) {
+          return code.unicode;
+        }
+        return "";
+      },
+      iconSize() {
+        return getVal(this.size);
+      },
+      styleObj() {
+        if (this.fontFamily !== "") {
+          return `color: ${this.color}; font-size: ${this.iconSize}; font-family: ${this.fontFamily};`;
+        }
+        return `color: ${this.color}; font-size: ${this.iconSize};`;
+      }
+    },
+    methods: {
+      _onClick() {
+        this.$emit("click");
+      }
+    }
+  };
+  function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock(
+      "text",
+      {
+        style: vue.normalizeStyle($options.styleObj),
+        class: vue.normalizeClass(["uni-icons", ["uniui-" + $props.type, $props.customPrefix, $props.customPrefix ? $props.type : ""]]),
+        onClick: _cache[0] || (_cache[0] = (...args) => $options._onClick && $options._onClick(...args))
+      },
+      [
+        vue.renderSlot(_ctx.$slots, "default", {}, void 0, true)
+      ],
+      6
+      /* CLASS, STYLE */
+    );
+  }
+  const __easycom_0$3 = /* @__PURE__ */ _export_sfc(_sfc_main$z, [["render", _sfc_render$y], ["__scopeId", "data-v-d31e1c47"], ["__file", "D:/project/dlw/uniapp-dileiwo/uni_modules/uni-icons/components/uni-icons/uni-icons.vue"]]);
+  const _sfc_main$y = {
+    name: "uni-data-select",
+    mixins: [nr.mixinDatacom || {}],
+    props: {
+      localdata: {
+        type: Array,
+        default() {
+          return [];
+        }
+      },
+      value: {
+        type: [String, Number],
+        default: ""
+      },
+      modelValue: {
+        type: [String, Number],
+        default: ""
+      },
+      label: {
+        type: String,
+        default: ""
+      },
+      placeholder: {
+        type: String,
+        default: "请选择"
+      },
+      emptyTips: {
+        type: String,
+        default: "无选项"
+      },
+      clear: {
+        type: Boolean,
+        default: true
+      },
+      defItem: {
+        type: Number,
+        default: 0
+      },
+      disabled: {
+        type: Boolean,
+        default: false
+      },
+      // 格式化输出 用法 field="_id as value, version as text, uni_platform as label" format="{label} - {text}"
+      format: {
+        type: String,
+        default: ""
+      },
+      placement: {
+        type: String,
+        default: "bottom"
+      }
+    },
+    data() {
+      return {
+        showSelector: false,
+        current: "",
+        mixinDatacomResData: [],
+        apps: [],
+        channels: [],
+        cacheKey: "uni-data-select-lastSelectedValue"
+      };
+    },
+    created() {
+      this.debounceGet = this.debounce(() => {
+        this.query();
+      }, 300);
+      if (this.collection && !this.localdata.length) {
+        this.debounceGet();
+      }
+    },
+    computed: {
+      typePlaceholder() {
+        const text = {
+          "opendb-stat-app-versions": "版本",
+          "opendb-app-channels": "渠道",
+          "opendb-app-list": "应用"
+        };
+        const common = this.placeholder;
+        const placeholder = text[this.collection];
+        return placeholder ? common + placeholder : common;
+      },
+      valueCom() {
+        return this.modelValue;
+      },
+      textShow() {
+        let text = this.current;
+        return text;
+      },
+      getOffsetByPlacement() {
+        switch (this.placement) {
+          case "top":
+            return "bottom:calc(100% + 12px);";
+          case "bottom":
+            return "top:calc(100% + 12px);";
+        }
+      }
+    },
+    watch: {
+      localdata: {
+        immediate: true,
+        handler(val, old) {
+          if (Array.isArray(val) && old !== val) {
+            this.mixinDatacomResData = val;
+          }
+        }
+      },
+      valueCom(val, old) {
+        this.initDefVal();
+      },
+      mixinDatacomResData: {
+        immediate: true,
+        handler(val) {
+          if (val.length) {
+            this.initDefVal();
+          }
+        }
+      }
+    },
+    methods: {
+      debounce(fn, time = 100) {
+        let timer = null;
+        return function(...args) {
+          if (timer)
+            clearTimeout(timer);
+          timer = setTimeout(() => {
+            fn.apply(this, args);
+          }, time);
+        };
+      },
+      // 执行数据库查询
+      query() {
+        this.mixinDatacomEasyGet();
+      },
+      // 监听查询条件变更事件
+      onMixinDatacomPropsChange() {
+        if (this.collection) {
+          this.debounceGet();
+        }
+      },
+      initDefVal() {
+        let defValue = "";
+        if ((this.valueCom || this.valueCom === 0) && !this.isDisabled(this.valueCom)) {
+          defValue = this.valueCom;
+        } else {
+          let strogeValue;
+          if (this.collection) {
+            strogeValue = this.getCache();
+          }
+          if (strogeValue || strogeValue === 0) {
+            defValue = strogeValue;
+          } else {
+            let defItem = "";
+            if (this.defItem > 0 && this.defItem <= this.mixinDatacomResData.length) {
+              defItem = this.mixinDatacomResData[this.defItem - 1].value;
+            }
+            defValue = defItem;
+          }
+          if (defValue || defValue === 0) {
+            this.emit(defValue);
+          }
+        }
+        const def = this.mixinDatacomResData.find((item) => item.value === defValue);
+        this.current = def ? this.formatItemName(def) : "";
+      },
+      /**
+       * @param {[String, Number]} value
+       * 判断用户给的 value 是否同时为禁用状态
+       */
+      isDisabled(value) {
+        let isDisabled = false;
+        this.mixinDatacomResData.forEach((item) => {
+          if (item.value === value) {
+            isDisabled = item.disable;
+          }
+        });
+        return isDisabled;
+      },
+      clearVal() {
+        this.emit("");
+        if (this.collection) {
+          this.removeCache();
+        }
+      },
+      change(item) {
+        if (!item.disable) {
+          this.showSelector = false;
+          this.current = this.formatItemName(item);
+          this.emit(item.value);
+        }
+      },
+      emit(val) {
+        this.$emit("input", val);
+        this.$emit("update:modelValue", val);
+        this.$emit("change", val);
+        if (this.collection) {
+          this.setCache(val);
+        }
+      },
+      toggleSelector() {
+        if (this.disabled) {
+          return;
+        }
+        this.showSelector = !this.showSelector;
+      },
+      formatItemName(item) {
+        let {
+          text,
+          value,
+          channel_code
+        } = item;
+        channel_code = channel_code ? `(${channel_code})` : "";
+        if (this.format) {
+          let str = "";
+          str = this.format;
+          for (let key in item) {
+            str = str.replace(new RegExp(`{${key}}`, "g"), item[key]);
+          }
+          return str;
+        } else {
+          return this.collection.indexOf("app-list") > 0 ? `${text}(${value})` : text ? text : `未命名${channel_code}`;
+        }
+      },
+      // 获取当前加载的数据
+      getLoadData() {
+        return this.mixinDatacomResData;
+      },
+      // 获取当前缓存key
+      getCurrentCacheKey() {
+        return this.collection;
+      },
+      // 获取缓存
+      getCache(name = this.getCurrentCacheKey()) {
+        let cacheData = uni.getStorageSync(this.cacheKey) || {};
+        return cacheData[name];
+      },
+      // 设置缓存
+      setCache(value, name = this.getCurrentCacheKey()) {
+        let cacheData = uni.getStorageSync(this.cacheKey) || {};
+        cacheData[name] = value;
+        uni.setStorageSync(this.cacheKey, cacheData);
+      },
+      // 删除缓存
+      removeCache(name = this.getCurrentCacheKey()) {
+        let cacheData = uni.getStorageSync(this.cacheKey) || {};
+        delete cacheData[name];
+        uni.setStorageSync(this.cacheKey, cacheData);
+      }
+    }
+  };
+  function _sfc_render$x(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$3);
+    return vue.openBlock(), vue.createElementBlock("view", { class: "uni-stat__select" }, [
+      $props.label ? (vue.openBlock(), vue.createElementBlock(
+        "span",
+        {
+          key: 0,
+          class: "uni-label-text hide-on-phone"
+        },
+        vue.toDisplayString($props.label + "："),
+        1
+        /* TEXT */
+      )) : vue.createCommentVNode("v-if", true),
+      vue.createElementVNode(
+        "view",
+        {
+          class: vue.normalizeClass(["uni-stat-box", { "uni-stat__actived": $data.current }])
+        },
+        [
+          vue.createElementVNode(
+            "view",
+            {
+              class: vue.normalizeClass(["uni-select", { "uni-select--disabled": $props.disabled }])
+            },
+            [
+              vue.createElementVNode("view", {
+                class: "uni-select__input-box",
+                onClick: _cache[1] || (_cache[1] = (...args) => $options.toggleSelector && $options.toggleSelector(...args))
+              }, [
+                $data.current ? (vue.openBlock(), vue.createElementBlock(
+                  "view",
+                  {
+                    key: 0,
+                    class: "uni-select__input-text"
+                  },
+                  vue.toDisplayString($options.textShow),
+                  1
+                  /* TEXT */
+                )) : (vue.openBlock(), vue.createElementBlock(
+                  "view",
+                  {
+                    key: 1,
+                    class: "uni-select__input-text uni-select__input-placeholder"
+                  },
+                  vue.toDisplayString($options.typePlaceholder),
+                  1
+                  /* TEXT */
+                )),
+                $data.current && $props.clear && !$props.disabled ? (vue.openBlock(), vue.createElementBlock("view", {
+                  key: 2,
+                  onClick: _cache[0] || (_cache[0] = vue.withModifiers((...args) => $options.clearVal && $options.clearVal(...args), ["stop"]))
+                }, [
+                  vue.createVNode(_component_uni_icons, {
+                    type: "clear",
+                    color: "#c0c4cc",
+                    size: "24"
+                  })
+                ])) : (vue.openBlock(), vue.createElementBlock("view", { key: 3 }, [
+                  vue.createVNode(_component_uni_icons, {
+                    type: $data.showSelector ? "top" : "bottom",
+                    size: "14",
+                    color: "#999"
+                  }, null, 8, ["type"])
+                ]))
+              ]),
+              $data.showSelector ? (vue.openBlock(), vue.createElementBlock("view", {
+                key: 0,
+                class: "uni-select--mask",
+                onClick: _cache[2] || (_cache[2] = (...args) => $options.toggleSelector && $options.toggleSelector(...args))
+              })) : vue.createCommentVNode("v-if", true),
+              $data.showSelector ? (vue.openBlock(), vue.createElementBlock(
+                "view",
+                {
+                  key: 1,
+                  class: "uni-select__selector",
+                  style: vue.normalizeStyle($options.getOffsetByPlacement)
+                },
+                [
+                  vue.createElementVNode(
+                    "view",
+                    {
+                      class: vue.normalizeClass($props.placement == "bottom" ? "uni-popper__arrow_bottom" : "uni-popper__arrow_top")
+                    },
+                    null,
+                    2
+                    /* CLASS */
+                  ),
+                  vue.createElementVNode("scroll-view", {
+                    "scroll-y": "true",
+                    class: "uni-select__selector-scroll"
+                  }, [
+                    $data.mixinDatacomResData.length === 0 ? (vue.openBlock(), vue.createElementBlock("view", {
+                      key: 0,
+                      class: "uni-select__selector-empty"
+                    }, [
+                      vue.createElementVNode(
+                        "text",
+                        null,
+                        vue.toDisplayString($props.emptyTips),
+                        1
+                        /* TEXT */
+                      )
+                    ])) : (vue.openBlock(true), vue.createElementBlock(
+                      vue.Fragment,
+                      { key: 1 },
+                      vue.renderList($data.mixinDatacomResData, (item, index2) => {
+                        return vue.openBlock(), vue.createElementBlock("view", {
+                          class: "uni-select__selector-item",
+                          key: index2,
+                          onClick: ($event) => $options.change(item)
+                        }, [
+                          vue.createElementVNode(
+                            "text",
+                            {
+                              class: vue.normalizeClass({ "uni-select__selector__disabled": item.disable })
+                            },
+                            vue.toDisplayString($options.formatItemName(item)),
+                            3
+                            /* TEXT, CLASS */
+                          )
+                        ], 8, ["onClick"]);
+                      }),
+                      128
+                      /* KEYED_FRAGMENT */
+                    ))
+                  ])
+                ],
+                4
+                /* STYLE */
+              )) : vue.createCommentVNode("v-if", true)
+            ],
+            2
+            /* CLASS */
+          )
+        ],
+        2
+        /* CLASS */
+      )
+    ]);
+  }
+  const __easycom_1$2 = /* @__PURE__ */ _export_sfc(_sfc_main$y, [["render", _sfc_render$x], ["__scopeId", "data-v-ddf9e0a2"], ["__file", "D:/project/dlw/uniapp-dileiwo/uni_modules/uni-data-select/components/uni-data-select/uni-data-select.vue"]]);
+  const packageStatusOption = [
+    {
+      label: "未认证",
+      value: 0
+    },
+    {
+      label: "已认证",
+      value: 1
+    },
+    {
+      label: "已损坏",
+      value: 2
+    },
+    {
+      label: "出库-租赁",
+      value: 3
+    },
+    {
+      label: "出库-购买",
+      value: 4
+    },
+    {
+      label: "客户已认证",
+      value: 5
+    },
+    {
+      label: "客户出库",
+      value: 6
+    },
+    {
+      label: "型号错误",
+      value: 7
+    }
+  ];
+  const adminPkgStatusOption = [
+    {
+      label: "未认证",
+      value: 0
+    },
+    {
+      label: "已认证",
+      value: 1
+    },
+    {
+      label: "已损坏",
+      value: 2
+    },
+    {
+      label: "已出库",
+      value: 3
+    },
+    {
+      label: "已出库",
+      value: 4
+    },
+    {
+      label: "已出库",
+      value: 5
+    },
+    {
+      label: "已出库",
+      value: 6
+    },
+    {
+      label: "型号错误",
+      value: 7
+    }
+  ];
+  const webPkgStatusOption = [
+    {
+      label: "已损坏",
+      value: 2
+    },
+    {
+      label: "未认证",
+      value: 3
+    },
+    {
+      label: "未认证",
+      value: 4
+    },
+    {
+      label: "已认证",
+      value: 5
+    },
+    {
+      label: "已出库",
+      value: 6
+    },
+    {
+      label: "型号错误",
+      value: 7
+    }
+  ];
+  const countryCodeOptions = [
+    {
+      text: "+86 中国",
+      value: "+86",
+      // 中国大陆手机号码 11 位，以 1 开头
+      regex: /^1[3-9]\d{9}$/
+    },
+    {
+      text: "+886 台湾地区(中国)",
+      value: "+886",
+      // 台湾手机号一般为 09 开头的 10 位数字，去掉 0 后是 9 位
+      regex: /^9\d{8}$/
+    },
+    {
+      text: "+852 香港特别行政区(中国)",
+      value: "+852",
+      // 香港手机号为 8 位数字
+      regex: /^\d{8}$/
+    },
+    {
+      text: "+853 澳门特别行政区(中国)",
+      value: "+853",
+      // 澳门手机号为 8 位数字
+      regex: /^\d{8}$/
+    }
+  ];
+  const _sfc_main$x = /* @__PURE__ */ vue.defineComponent({
+    __name: "login",
+    setup(__props, { expose: __expose }) {
+      __expose();
+      const countryCode = vue.ref("");
+      const step = vue.ref(1);
+      const phone = vue.ref("");
+      const agreed = vue.ref(false);
+      const tabs = ["客户端", "管理端"];
+      const role2 = vue.ref("0");
+      formatAppLog("log", "at pages/login/login.vue:62", "show", role2.value);
+      uni.setStorageSync("ROLE_KEY", "web");
+      const changeRole = (e2) => {
+        formatAppLog("log", "at pages/login/login.vue:65", e2);
+        role2.value = e2;
+        const key = e2 == "0" ? "web" : "admin";
+        uni.setStorageSync("ROLE_KEY", key);
+      };
+      const isValidPhone = vue.computed(() => {
+        const currentCountryCode = countryCodeOptions.find(
+          (item) => item.value === countryCode.value
+        );
+        formatAppLog("log", "at pages/login/login.vue:74", "currentCountryCode", currentCountryCode);
+        if (currentCountryCode) {
+          return currentCountryCode.regex.test(phone.value);
+        }
+        return false;
+      });
+      const checkboxChange = (e2) => {
+        agreed.value = e2.detail.value[0] === "true";
+      };
+      const getVerifyCode = async () => {
+        if (!agreed.value) {
+          uni.showToast({
+            title: "请先同意用户协议",
+            icon: "none"
+          });
+          return;
+        }
+        if (!isValidPhone.value) {
+          uni.showToast({
+            title: "请输入正确的手机号",
+            icon: "none"
+          });
+          return;
+        }
+        try {
+          await sendSMS(phone.value, countryCode.value);
+          countdown.value = 60;
+          uni.showToast({
+            title: "验证码已发送",
+            icon: "success"
+          });
+          startCountdown();
+          step.value = 2;
+        } catch (error) {
+        }
+      };
+      const openAgreement = () => {
+        uni.navigateTo({
+          url: "/pages/login/agreement"
+        });
+      };
+      const codeValue = vue.ref([]);
+      const currentFocus = vue.ref(0);
+      const countdown = vue.ref(0);
+      let timer = null;
+      const inputRefs = vue.ref([]);
+      const handleInput = async (event, index2) => {
+        const value = event.detail.value;
+        formatAppLog("log", "at pages/login/login.vue:131", "value", value);
+        if (value.length > 1) {
+          const values = value.split("");
+          values.forEach((v2, i2) => {
+            if (index2 + i2 < 6) {
+              codeValue.value[index2 + i2] = v2;
+              currentFocus.value = index2 + i2;
+            }
+          });
+          const nextEmptyIndex = codeValue.value.findIndex((v2, i2) => !v2 && i2 >= index2);
+          formatAppLog("log", "at pages/login/login.vue:141", nextEmptyIndex);
+          if (nextEmptyIndex !== -1 && nextEmptyIndex < 6) {
+            currentFocus.value = nextEmptyIndex;
+          }
+        } else {
+          codeValue.value[index2] = value;
+          if (value && index2 < 5) {
+            currentFocus.value = index2 + 1;
+          } else if (!value && index2 > 0) {
+            currentFocus.value = index2 - 1;
+          } else {
+            formatAppLog("log", "at pages/login/login.vue:153", codeValue.value);
+            if (codeValue.value.length && index2) {
+              const res2 = await loginApi({
+                phone: phone.value,
+                code: codeValue.value.join("")
+              });
+              formatAppLog("log", "at pages/login/login.vue:159", "res", res2);
+              formatAppLog("log", "at pages/login/login.vue:160", "index", index2);
+              uni.setStorageSync("token", res2.data.accessToken);
+              uni.setStorageSync("userInfo", JSON.stringify(res2.data.user));
+              uni.showToast({
+                title: "登录成功",
+                success() {
+                  uni.switchTab({
+                    url: "/pages/index/index"
+                  });
+                }
+              });
+            }
+          }
+        }
+      };
+      const handleFocus = (index2) => {
+        currentFocus.value = index2;
+      };
+      const startCountdown = () => {
+        timer = setInterval(() => {
+          if (countdown.value > 0) {
+            countdown.value--;
+          } else {
+            if (timer) {
+              clearInterval(timer);
+            }
+          }
+        }, 1e3);
+      };
+      const resendCode = () => {
+        if (countdown.value === 0) {
+          startCountdown();
+          uni.showToast({
+            title: "验证码已重新发送",
+            icon: "none"
+          });
+        }
+      };
+      vue.onMounted(() => {
+      });
+      vue.onUnmounted(() => {
+        if (timer) {
+          countdown.value = 60;
+          clearInterval(timer);
+        }
+      });
+      const __returned__ = { countryCode, step, phone, agreed, tabs, role: role2, changeRole, isValidPhone, checkboxChange, getVerifyCode, openAgreement, codeValue, currentFocus, countdown, get timer() {
+        return timer;
+      }, set timer(v2) {
+        timer = v2;
+      }, inputRefs, handleInput, handleFocus, startCountdown, resendCode, get countryCodeOptions() {
+        return countryCodeOptions;
+      } };
+      Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+      return __returned__;
+    }
+  });
+  function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_v_tabs = resolveEasycom(vue.resolveDynamicComponent("v-tabs"), __easycom_0$4);
+    const _component_uni_data_select = resolveEasycom(vue.resolveDynamicComponent("uni-data-select"), __easycom_1$2);
+    return vue.openBlock(), vue.createElementBlock("view", { class: "container h_100" }, [
+      $setup.step === 1 ? (vue.openBlock(), vue.createElementBlock("view", {
+        key: 0,
+        class: "login-content"
+      }, [
+        vue.createElementVNode("view", { class: "login-title" }, "登录迪雷沃"),
+        vue.createElementVNode("view", { class: "login-subtitle" }, "请输入您的手机号码"),
+        vue.createVNode(_component_v_tabs, {
+          style: { "font-size": "36rpx" },
+          modelValue: $setup.role,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.role = $event),
+          tabs: $setup.tabs,
+          onChange: $setup.changeRole,
+          bgColor: "transport",
+          lineColor: "#99BBA0",
+          activeColor: "#99BBA0"
+        }, null, 8, ["modelValue"]),
+        vue.createElementVNode("view", { class: "input-container uni-common-mt" }, [
+          vue.createVNode(_component_uni_data_select, {
+            class: "code-select",
+            modelValue: $setup.countryCode,
+            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.countryCode = $event),
+            localdata: $setup.countryCodeOptions
+          }, null, 8, ["modelValue", "localdata"]),
+          vue.withDirectives(vue.createElementVNode(
+            "input",
+            {
+              class: "custom-input pl-20",
+              type: "tel",
+              "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.phone = $event),
+              placeholder: "请输入手机号",
+              placeholderStyle: "color: #C8C9CC; font-size: 32rpx;padding-left:20rpx"
+            },
+            null,
+            512
+            /* NEED_PATCH */
+          ), [
+            [vue.vModelText, $setup.phone]
+          ])
+        ]),
+        vue.createElementVNode("button", {
+          class: "verify-btn",
+          disabled: !$setup.isValidPhone,
+          onClick: $setup.getVerifyCode
+        }, " 获取验证码 ", 8, ["disabled"]),
+        vue.createElementVNode("view", { class: "agreement" }, [
+          vue.createElementVNode(
+            "checkbox-group",
+            {
+              style: { "width": "auto" },
+              onChange: $setup.checkboxChange
+            },
+            [
+              vue.createElementVNode("checkbox", {
+                style: { "border-radius": "50%" },
+                color: "#99BBA0",
+                activeBorderColor: "#99BBA0",
+                value: "true",
+                iconColor: "#99BBA0",
+                borderColor: "99BBA0",
+                checked: $setup.agreed
+              }, null, 8, ["checked"])
+            ],
+            32
+            /* NEED_HYDRATION */
+          ),
+          vue.createElementVNode("text", { class: "agreement-text" }, [
+            vue.createTextVNode(" 我已阅读并同意 "),
+            vue.createElementVNode("text", {
+              class: "link",
+              onClick: $setup.openAgreement
+            }, "《用户协议》")
+          ])
+        ])
+      ])) : (vue.openBlock(), vue.createElementBlock(
+        vue.Fragment,
+        { key: 1 },
+        [
+          vue.createElementVNode("view", { class: "header" }, [
+            vue.createElementVNode("text", { class: "title" }, "输入验证码"),
+            vue.createElementVNode(
+              "text",
+              { class: "subtitle" },
+              "验证码已发送" + vue.toDisplayString($setup.phone ? $setup.phone.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2") : ""),
+              1
+              /* TEXT */
+            )
+          ]),
+          vue.createElementVNode("view", { class: "code-input-container" }, [
+            (vue.openBlock(), vue.createElementBlock(
+              vue.Fragment,
+              null,
+              vue.renderList(6, (item, index2) => {
+                return vue.createElementVNode("input", {
+                  key: index2,
+                  type: "number",
+                  maxlength: "1",
+                  value: $setup.codeValue[index2] || "",
+                  onInput: (e2) => $setup.handleInput(e2, index2),
+                  onFocus: ($event) => $setup.handleFocus(index2),
+                  class: vue.normalizeClass(["code-input", { "code-input-focus": $setup.currentFocus === index2 }]),
+                  focus: $setup.currentFocus === index2,
+                  ref_for: true,
+                  ref: (el) => $setup.inputRefs[index2] = el
+                }, null, 42, ["value", "onInput", "onFocus", "focus"]);
+              }),
+              64
+              /* STABLE_FRAGMENT */
+            ))
+          ]),
+          vue.createElementVNode("view", { class: "countdown-container" }, [
+            $setup.countdown > 0 ? (vue.openBlock(), vue.createElementBlock(
+              "text",
+              {
+                key: 0,
+                class: "countdown-text"
+              },
+              vue.toDisplayString($setup.countdown) + " 秒后重新获取验证码",
+              1
+              /* TEXT */
+            )) : (vue.openBlock(), vue.createElementBlock(
+              "button",
+              {
+                key: 1,
+                onClick: $setup.resendCode,
+                class: "resend-button ta-r"
+              },
+              vue.toDisplayString($setup.countdown > 0 ? $setup.countdown : "") + "重新获取验证码 ",
+              1
+              /* TEXT */
+            ))
+          ])
+        ],
+        64
+        /* STABLE_FRAGMENT */
+      ))
+    ]);
+  }
+  const PagesLoginLogin = /* @__PURE__ */ _export_sfc(_sfc_main$x, [["render", _sfc_render$w], ["__file", "D:/project/dlw/uniapp-dileiwo/pages/login/login.vue"]]);
+  const _sfc_main$w = {};
+  function _sfc_render$v(_ctx, _cache) {
+    return vue.openBlock(), vue.createElementBlock("view", { class: "agreement bg-white" }, [
+      vue.createElementVNode("view", { class: "main-title" }, "迪雷沃商用户服务条款"),
+      vue.createElementVNode("view", { class: "section" }, [
+        vue.createElementVNode("view", { class: "section-title" }, "一、服务条款的确认及接受"),
+        vue.createElementVNode("view", { class: "section-content" }, [
+          vue.createElementVNode("view", { class: "item" }, ' 1、迪雷沃系统软件（指www.deravel-tw.com及其移动客户端软件、应用程序，以下称"本系统"）各项电子服务的所有权和运作权归属于"迪雷沃包装设计（上海）有限公司"所有，本网站提供的服务将完全按照其发布的服务条款和操作规则严格执行。您确认所有服务条款并完成注册程序时，本协议在您与本网站间成立并发生法律效力，同时您成为本网站正式用户。 '),
+          vue.createElementVNode("view", { class: "item" }, " 2、根据国家法律法规变化及本网站运营需要，迪雷沃有权对本协议条款及相关规则不时地进行修改，修改后的内容一旦以任何形式公布在本网站上即生效，并取代此前相关内容。您应不时关注本网站公告、提示信息及协议、规则等相关内容的变动。您如继续使用本网站，即视为知悉变更内容并同意接受。 ")
+        ])
+      ]),
+      vue.createElementVNode("view", { class: "section" }, [
+        vue.createElementVNode("view", { class: "section-title" }, "二、服务需知"),
+        vue.createElementVNode("view", { class: "section-content" }, [
+          vue.createElementVNode("view", { class: "item" }, "1、本网站运用自身开发的操作系统通过国际互联网络为用户提供服务。使用本网站，您必须："),
+          vue.createElementVNode("view", { class: "sub-item" }, "(1) 自行配备上网的所需设备，包括手机、平板电脑、调制解调器、路由器等；"),
+          vue.createElementVNode("view", { class: "sub-item" }, "(2) 自行负担上网所支付的与此服务有关的电话费用、网络费用等；")
+        ])
+      ]),
+      vue.createElementVNode("view", { class: "section" }, [
+        vue.createElementVNode("view", { class: "section-title" }, "三、订单"),
+        vue.createElementVNode("view", { class: "section-content" }, [
+          vue.createElementVNode("view", { class: "item" }, " 1、在您使用本网站下订单时，请您仔细确认所购商品的名称、价格、数量、型号、规格、尺寸、联系地址、电话、收货人等信息。收货人的行为和意思表示视为您的行为和意思表示，您应对收货人的行为及意思表示的法律后果承担连带责任。 "),
+          vue.createElementVNode("view", { class: "item" }, " 2、您理解并同意本网站上展示的商品和价格等信息仅仅是要约邀请，您下单时须填写您希望购买的商品数量、价款及支付方式、收货人、联系方式、收货地址（履行地点）、履行方式等内容；系统生成的订单信息是计算机信息系统根据您填写的内容自动生成的数据，仅是您向迪雷沃发出的要约；迪雷沃在收到您的订单信息后，只有在将您在订单中订购的商品从仓库实际直接向您发出时（以商品出库为标志），方视为您与迪雷沃之间有实际的商品建立了关系(例外：批量采购或定制商品需求，开展备货行为后，视为您与迪雷沃之间建立了关系)。 "),
+          vue.createElementVNode("view", { class: "item" }, "3、 尽管迪雷沃做出最大的努力，但由于市场变化及各种以合理商业努力难以控制因素的影响，本网站无法避免您提交的订单信息中的商品出现缺货、价格标示错误等情况；如您下单所购买的商品出现以上情况，您有权取消订单，迪雷沃亦有权自行取消订单，若您已经付款，则为您办理退款。 ")
+        ])
+      ]),
+      vue.createElementVNode("view", { class: "section" }, [
+        vue.createElementVNode("view", { class: "section-title" }, "四、配送和交付"),
+        vue.createElementVNode("view", { class: "section-content" }, [
+          vue.createElementVNode("view", { class: "item" }, "1、您在本网站购买的商品将按照本网站上您所指定的送货地址进行配送。订单信息中列出的送货时间为参考时间，参考时间的计算是根据库存状况、正常的处理过程和送货时间、送货地点的基础上估计得出的。您应当清楚准确地填写您的送货地址、联系人及联系方式等配送信息，您知悉并确认，您所购买的商品应仅由您填写的联系人接受身份查验后接收商品，因您变更联系人或相关配送信息而造成的损失由您自行承担。")
+        ]),
+        vue.createElementVNode("view", { class: "section-content" }, [
+          vue.createElementVNode("view", { class: "item" }, "2、因如下情况造成订单延迟或无法配送等，本网站将无法承担迟延配送或无法配送的责任："),
+          vue.createElementVNode("view", { class: "sub-item" }, "(1) 客户提供错误信息和不详细的地址；"),
+          vue.createElementVNode("view", { class: "sub-item" }, "(2) 货物送达无人签收或拒收，由此造成的重复配送所产生的费用及相关的后果；"),
+          vue.createElementVNode("view", { class: "sub-item" }, " （3）不可抗力，例如：自然灾害及恶劣天气、交通戒严等政府、司法机关的行为、决定或命令、意外交通事故、罢工、法规政策的修改、恐怖事件、抢劫、抢夺等暴力犯罪、突发战争等。 "),
+          vue.createElementVNode("view", { class: "item" }, " 3、迪雷沃依您订单确定的收货信息配送至指定地点并向指定收货人交付，商品一经签收即视为交付，您应当场对商品品类、规格、型号、数量和包装等商品表面状况进行验收。您应及时收取货物，非因确实可证的质量问题不退换货。如您对商品质量有异议的，应于商品交付后及时内向销售商提出，销售商根据实际情况及时处理。 "),
+          vue.createElementVNode("view", { class: "item" }, " 4、您在本网站购买的商品由迪雷沃的关联方或第三方配送公司（包括顺丰、申通等，以下称“物流公司”）为您完成订单交付的，系统或单据记录的签收时间为交付时间；您购买的商品采用在线传输方式交付的，迪雷沃向您指定系统发送的时间为交付时间；您购买服务的，生成的电子或者实物凭证中载明的时间为交付时间。 ")
+        ])
+      ]),
+      vue.createElementVNode("view", { class: "section" }, [
+        vue.createElementVNode("view", { class: "section-title" }, "五、售后服务"),
+        vue.createElementVNode("view", { class: "section-content" }, [
+          vue.createElementVNode("view", { class: "item" }, "销售商依据国家相关规定、厂家规定提供相关售后服务。您作为企业客户，非终端消费者，不适用“七天无理由退货”规则。")
+        ])
+      ]),
+      vue.createElementVNode("view", { class: "section" }, [
+        vue.createElementVNode("view", { class: "section-title" }, "六、结算方式和发票"),
+        vue.createElementVNode("view", { class: "section-content" }, [
+          vue.createElementVNode("view", { class: "item" }, "1、您在平台提交有效采购订单，结算方式应在平台提示的结算方式范围内自主选择。"),
+          vue.createElementVNode("view", { class: "item" }, " 2、 您应保证提交的开票信息及付款信息的真实性与准确性，并保证实际付款方与申请开票方一致，否则造成的一切损失由您自行承担，给迪雷沃造成实际损失的，您应承担相应赔偿责任。 "),
+          vue.createElementVNode("view", { class: "item" }, " 3、您收到发票后应及时跟迪雷沃确认发票送达情况，超过7日未核实，则视为您已确认收到发票。您应及时就已要求开具增值税专用发票进行认证抵扣，如因您的原因超期未抵扣，由此产生全部责任或损失均由您承担。 ")
+        ])
+      ]),
+      vue.createElementVNode("view", { class: "section" }, [
+        vue.createElementVNode("view", { class: "section-title" }, "七、违约责任"),
+        vue.createElementVNode("view", { class: "section-content" }, [
+          vue.createElementVNode("view", { class: "item" }, "1、针对您的批量采购或定制商品需求，迪雷沃开展备货行为后，如您未经迪雷沃书面同意擅自取消采购需求或订单等违约行为，由此产生全部责任或损失均由您承担。"),
+          vue.createElementVNode("view", { class: "item" }, " 2、您应妥善保管本协议项下帐户名及密码信息，如因为您擅自将帐户名及密码信息转让、授权、赠与或因保管不善等任何其它原因导致任何其它人使用的，您需自行对其帐户项下的一切行为独立承担责任。同时迪雷沃在该种情况下有权做出独立判断，可采取暂停或关闭您参与资格等措施。 "),
+          vue.createElementVNode("view", { class: "item" }, " 3、您通过平台采购的商品不得销售给任何其他分销商或经销商，若产生与任何本协议外第三方的争议均由您自行解决，给迪雷沃造成实际损失的，您应承担相应赔偿责任。 "),
+          vue.createElementVNode("view", { class: "item" }, " 4、 如果迪雷沃发现或收到他人投诉举报您违反法律法规、违反本协议约定或存在任何恶意行为的，迪雷沃有权不经通知随时对相关内容进行删除、屏蔽，并视行为情节对违规帐号处以包括但不限于警告、限制或禁止使用部分或全部功能、帐号封禁、注销等处理，并公告处理结果。 "),
+          vue.createElementVNode("view", { class: "item" }, " 5、除非另有明确的书面说明, 迪雷沃不对本网站的运营及其包含在本网站上的信息、内容、材料、产品（包括软件）或服务作任何形式的、明示或默示的声明或担保（根据中华人民共和国法律另有规定的以外）。 ")
+        ])
+      ]),
+      vue.createElementVNode("view", { class: "section" }, [
+        vue.createElementVNode("view", { class: "section-title" }, "八、所有权及知识产权"),
+        vue.createElementVNode("view", { class: "section-content" }, [
+          vue.createElementVNode("view", { class: "item" }, "1、您一旦接受本协议，即表明您主动将您在任何时间段在本网站发表的任何形式的信息内容（包括但不限于客户评价、客户咨询、各类话题文章等信息内容）的财产性权利等任何可转让的权利，如著作权财产权（包括并不限于：复制权、发行权、出租权、展览权、表演权、放映权、广播权、信息网络传播权、摄制权、改编权、翻译权、汇编权以及应当由著作权人享有的其他可转让权利），全部独家且不可撤销地转让给迪雷沃所有，并且您同意迪雷沃有权就任何主体侵权而单独提起诉讼。"),
+          vue.createElementVNode("view", { class: "item" }, " 2、本协议已经构成《中华人民共和国著作权法》第二十五条（条文序号依照2010年修订版《著作权法》确定）及相关法律规定的著作财产权等权利转让书面协议，其效力及于您在本网站上发布的任何受著作权法保护的作品内容，无论该等内容形成于本协议订立前还是本协议订立后。 "),
+          vue.createElementVNode("view", { class: "item" }, " 3、您同意并已充分了解本协议的条款，承诺不将已发表于本网站的信息，以任何形式发布或授权其它主体以任何方式使用（包括但不限于在各类网站、媒体上使用）。 "),
+          vue.createElementVNode("view", { class: "item" }, " 4、除法律另有强制性规定外，未经迪雷沃明确的特别书面许可,任何单位或个人不得以任何方式非法地全部或部分复制、转载、引用、链接、抓取或以其他方式使用本网站的信息内容，否则，迪雷沃有权追究其法律责任。 "),
+          vue.createElementVNode("view", { class: "item" }, " 5、本网站所刊登的资料信息（诸如文字、图表、标识、按钮图标、图像、声音文件片段、数字下载、数据编辑和软件），均是迪雷沃或其内容提供者的财产，受中国和国际版权法的保护。本网站上所有内容的汇编是迪雷沃的排他财产，受中国和国际版权法的保护。本网站上所有软件都是迪雷沃或其关联公司或其软件供应商的财产，受中国和国际版权法的保护。 ")
+        ])
+      ]),
+      vue.createElementVNode("view", { class: "section" }, [
+        vue.createElementVNode("view", { class: "section-title" }, "九、保密义务"),
+        vue.createElementVNode("view", { class: "section-content" }, [
+          vue.createElementVNode("view", { class: "item" }, "1、本协议任一方（以下简称“获取方”）对于本协议的签订、内容及在履行本协议期间所获知的相对方（以下简称“披露方”）的商业秘密负有保密义务。非经披露方书面同意，不得向任何第三方泄露、给予或转让该等保密信息。（依据法律法规、证券交易所规则向政府、证券交易所和/或其他监管机构提供、协议方的法律、会计、商业及其他顾问、雇员等提供的除外）。"),
+          vue.createElementVNode("view", { class: "item" }, " 2、本协议任一方（以下简称“获取方”）对于本协议的签订、内容及在履行本协议期间所获知的相对方（以下简称“披露方”）的商业秘密负有保密义务。非经披露方书面同意，不得向任何第三方泄露、给予或转让该等保密信息。（依据法律法规、证券交易所规则向政府、证券交易所和/或其他监管机构提供、协议方的法律、会计、商业及其他顾问、雇员等提供的除外）。 "),
+          vue.createElementVNode("view", { class: "item" }, " 3、本协议履行期间及终止后，双方均需履行本协议项下保密义务，直至披露方同意获取方解除此项义务，或事实上不会因获取方违反本协议的保密条款而给披露方造成任何形式的损害时止，包括但不限于保密信息已经由披露方向公众披露的情形等。 "),
+          vue.createElementVNode("view", { class: "item" }, " 4、协议双方均应告知并督促其因履行本协议之目的而必须获知本协议内容及因合作而获知对方商业秘密的雇员、代理人等遵守保密条款，并对其雇员、代理人等的行为承担连带责任。 "),
+          vue.createElementVNode("view", { class: "item" }, " 5、本网站所刊登的资料信息（诸如文字、图表、标识、按钮图标、图像、声音文件片段、数字下载、数据编辑和软件），均是迪雷沃或其内容提供者的财产，受中国和国际版权法的保护。本网站上所有内容的汇编是迪雷沃的排他财产，受中国和国际版权法的保护。本网站上所有软件都是迪雷沃或其关联公司或其软件供应商的财产，受中国和国际版权法的保护。 ")
+        ])
+      ]),
+      vue.createElementVNode("view", { class: "section" }, [
+        vue.createElementVNode("view", { class: "section-title" }, "十、通知与送达"),
+        vue.createElementVNode("view", { class: "section-content" }, [
+          vue.createElementVNode("view", { class: "item" }, "1、本协议履行过程中，一方传递给另一方的书面通知；或在诉讼程序中，法院对双方进行书面通知的，按照您注册时填写的地址进行送达。书面通知的形式还包括但不限于电子邮件、手机短信和传真等电子方式，在采用电子方式进行书面通知的情况下发送即视为送达。"),
+          vue.createElementVNode("view", { class: "item" }, " 2、一方的送达地址或送达电子邮箱需要变更时应当履行通知义务，通过信件/邮件/电话/短信的方式对另一方进行通知。 ")
+        ])
+      ]),
+      vue.createElementVNode("view", { class: "section" }, [
+        vue.createElementVNode("view", { class: "section-title" }, "十一、您如何管理您的用户信息"),
+        vue.createElementVNode("view", { class: "section-content" }, [
+          vue.createElementVNode("view", { class: "item" }, "迪雷沃非常重视您的用户信息的关注，并尽全力保护您对于用户信息访问、更正、删除以及撤回同意的权利，以使您拥有充分的能力保障您的账户安全。您的权利包括："),
+          vue.createElementVNode("view", { class: "item" }, " 1、迪雷沃非常重视您的用户信息的关注，并尽全力保护您对于用户信息访问、更正、删除以及撤回同意的权利，以使您拥有充分的能力保障您的账户安全。您的权利包括： "),
+          vue.createElementVNode("view", { class: "sub-item" }, " （1）除法律法规规定外，您有权随时访问和更正您的用户信息，具体包括账户信息、收货信息、订单信息、浏览信息、评论信息、发票信息、档案信息。 "),
+          vue.createElementVNode("view", { class: "sub-item" }, " （2）对于您在使用我们的产品与/或服务过程中产生的其他信息需要访问或更正，请随时联系我们。我们会及时响应您的请求。 "),
+          vue.createElementVNode("view", { class: "sub-item" }, " （3）您无法访问和更正的信息：除上述列明的信息外，您的部分信息我们还无法为您提供访问和更正的服务，这些信息主要是为了提升您的用户体验和保证交易安全所收集的您的设备信息、您使用附加功能时产生的信息。上述信息我们会在您的授权范围内进行使用，您无法访问和更正，但您可联系我们进行删除或做匿名化处理。 "),
+          vue.createElementVNode("view", { class: "item" }, " 2、删除您的用户信息 "),
+          vue.createElementVNode("view", { class: "sub-item" }, " 您在我们的产品与/或服务页面中可以直接清除或删除的信息，包括订单信息、浏览信息、收货地址信息； 在以下情形中，您可以向我们提出删除用户信息的请求： "),
+          vue.createElementVNode("view", { class: "sub-item" }, " 您在我们的产品与/或服务页面中可以直接清除或删除的信息，包括订单信息、浏览信息、收货地址信息； 在以下情形中，您可以向我们提出删除用户信息的请求： "),
+          vue.createElementVNode("view", { class: "sub-item" }, [
+            vue.createTextVNode(" （1）如果我们处理用户信息的行为违反法律法规；"),
+            vue.createElementVNode("br"),
+            vue.createTextVNode(" （2）如果我们处理用户信息的行为违反了与您的约定；"),
+            vue.createElementVNode("br"),
+            vue.createTextVNode(" （3）如果您注销了迪雷沃账户；"),
+            vue.createElementVNode("br"),
+            vue.createTextVNode(" （4）如果我们终止服务及运营。"),
+            vue.createElementVNode("br"),
+            vue.createTextVNode(" 若我们决定响应您的删除请求，我们还将同时通知从我们获得您的用户信息的实体，要求其及时删除，除非法律法规另有规定，或这些实体获得您的独立授权。当您从我们的服务中删除信息后，我们可能不会立即备份系统中删除相应的信息，但会在备份更新时删除或進行匿名(去標籤化)處理这些信息。 ")
+          ]),
+          vue.createElementVNode("view", { class: "item" }, " 3、改变您授权同意的范围或撤回您的授权 "),
+          vue.createElementVNode("view", { class: "sub-item" }, [
+            vue.createTextVNode(" 您可以通过删除信息、关闭设备功能、在迪雷沃网站或软件中进行设置等方式改变您授权我们继续收集用户信息的范围或撤回您的授权。您也可以通过注销账户的方式，撤回我们继续收集您用户信息的全部授权。 请您理解，每个业务功能需要一些基本的用户信息才能得以完成，当您撤回同意或授权后，我们无法继续为您提供撤回同意或授权所对应的服务，也不再处理您相应的用户信息。但您撤回同意或授权的决定，不会影响此前基于您的授权而开展的用户信息处理。 "),
+            vue.createElementVNode("br"),
+            vue.createTextVNode(" 请您理解，每个业务功能需要一些基本的用户信息才能得以完成，当您撤回同意或授权后，我们无法继续为您提供撤回同意或授权所对应的服务，也不再处理您相应的用户信息。但您撤回同意或授权的决定，不会影响此前基于您的授权而开展的用户信息处理。 ")
+          ]),
+          vue.createElementVNode("view", { class: "item" }, " 4、注销账户 "),
+          vue.createElementVNode("view", { class: "sub-item" }, " 您可以在我们的产品中直接申请注销账户。关于您注销账户的方式以及您应满足的条件，请详见(《迪雷沃隐私政策》裡的“您的权利”)。您注销账户后，我们将停止为您提供产品与/或服务，并依据您的 要求，除法律法规另有规定外，我们将删除您的用户信息。 "),
+          vue.createElementVNode("view", { class: "item" }, " 5、响应您的请求 "),
+          vue.createElementVNode("view", { class: "item" }, [
+            vue.createTextVNode(" 如果您无法通过上述方式访问、更正或删除您的用户信息，或您需要访问、更正或删除您在使用我们产品与/或服务时所产生的其他用户信息，或您认为迪雷沃存在任何违反法律法规，您均可以发送电子邮件至deraveldaniel@163.com或通过本协议下方的其他方式与我们联系。为了保障安全，我们可能需要您提供书面请求，或以其他方式证明您的身份，我们将在收到您反馈并验证您的身份后的30天内答复您的请求。对于您合理的请求，我们原则上不收取费用，但对多次重复、超出合理限度的请求，我们将视情收取一定成本费用。对于那些无端重复、需要过多技术手段（例如，需要开发新系统或从根本上改变现行惯例）、给他人合法权益带来风险或者非常不切实际（例如，涉及备份磁带上存放的信息）的请求，我们可能会予以拒绝。 "),
+            vue.createElementVNode("br"),
+            vue.createTextVNode(" 在以下情形中，按照法律法规要求，我们将无法响应您的请求： ")
+          ]),
+          vue.createElementVNode("view", { class: "sub-item" }, [
+            vue.createTextVNode(" （1）与国家安全、国防安全有关的；"),
+            vue.createElementVNode("br"),
+            vue.createTextVNode(" （2）与公共安全、公共卫生、重大公共利益有关的；"),
+            vue.createElementVNode("br"),
+            vue.createTextVNode(" （3）与犯罪侦查、起诉和审判等有关的；"),
+            vue.createElementVNode("br"),
+            vue.createTextVNode(" （4）有充分证据表明您存在主观恶意或滥用权利的；"),
+            vue.createElementVNode("br"),
+            vue.createTextVNode(" （5）响应您的请求将导致您或其他个人、组织的合法权益受到严重损害的。 ")
+          ])
+        ]),
+        vue.createElementVNode("view", { class: "section" }, [
+          vue.createElementVNode("view", { class: "section-title" }, "十二、用户行为规范"),
+          vue.createElementVNode("view", { class: "section-content" }, [
+            vue.createElementVNode("view", { class: "item" }, "1、您同意严格遵守法律法规规章规定，依法遵守以下义务："),
+            vue.createElementVNode("view", { class: "sub-item" }, [
+              vue.createTextVNode(" （1） 不得制作、传输或发表以下违法信息资料：反对宪法所确定的基本原则，煽动抗拒、破坏宪法和法律法规实施的；危害国家安全，泄露国家秘密，颠覆国家政权，破坏国家统一的，煽动推翻社会主义制度的；损害国家荣誉和利益的；歪曲、丑化、亵渎、否定英雄烈士事迹和精神，侵害英雄烈士的姓名、肖像、名誉、荣誉的；宣扬或煽动实施恐怖主义、极端主义及其活动的；煽动民族仇恨、民族歧视、破坏民族团结的言论；破坏国家宗教政策，宣扬邪教和封建迷信的；散布谣言，扰乱经济秩序和社会秩序的；散布淫秽、色情、暴力或者教唆犯罪的；侮辱或者诽谤他人，侵害他人名誉、隐私和其他合法权益的；法律、行政法规禁止的其他内容。"),
+              vue.createElementVNode("br"),
+              vue.createTextVNode(" （2） 防范和抵制制作、复制、发布含有下列内容的不良信息资料：标题严重夸张，发表内容与标题严重不符的；不当评述自然灾害、重大事故等灾难的；煽动人群歧视、地域歧视等的；宣扬低俗、庸俗、媚俗内容的；违反社会公德行为的；侵犯未成年人合法权益的；其他对网络生态造 ")
+            ]),
+            vue.createElementVNode("view", { class: "item" }, " 2、本协议依据国家相关法律法规规章制定，您亦同意严格遵守以下义务： "),
+            vue.createElementVNode("view", { class: "sub-item" }, [
+              vue.createTextVNode(" （1） 从中国大陆向境外传输资料信息时必须符合中国有关法规；"),
+              vue.createElementVNode("br"),
+              vue.createTextVNode(" （2） 不得利用本网站从事洗钱、窃取商业秘密、窃取个人信息等违法犯罪活动；"),
+              vue.createElementVNode("br"),
+              vue.createTextVNode(" （3） 不得干扰本网站的正常运转，不得侵入本网站及国家计算机信息系统；"),
+              vue.createElementVNode("br"),
+              vue.createTextVNode(" （4） 不得传输或发表任何违法犯罪的、骚扰性的、中伤他人的、辱骂性的、恐吓性的、伤害性的、庸俗的、不文明的等信息资料；"),
+              vue.createElementVNode("br"),
+              vue.createTextVNode(" （5） 不得教唆他人从事违法违规或本协议、平台规则所禁止的行为；"),
+              vue.createElementVNode("br"),
+              vue.createTextVNode(" （6） 不得利用在本网站注册的账户进行牟利性经营活动；"),
+              vue.createElementVNode("br"),
+              vue.createTextVNode(" （7） 不得发布任何侵犯他人个人信息、著作权、商标权等知识产权或合法权利的内容； ")
+            ]),
+            vue.createElementVNode("view", { class: "item" }, " 3、您须对自己在网上的言论和行为承担法律责任，您若在本网站上散布和传播反动、色情或其它违反国家法律的信息，本网站的系统记录有可能作为您违反法律的证据。 ")
+          ])
+        ]),
+        vue.createElementVNode("view", { class: "section" }, [
+          vue.createElementVNode("view", { class: "section-title" }, "十三、法律管辖适用及其他"),
+          vue.createElementVNode("view", { class: "section-content" }, [
+            vue.createElementVNode("view", { class: "item" }, "1、本协议的订立、执行和解释及争议的解决均应适用中国法律。如双方就本协议内容或其执行发生任何争议，双方应尽力友好协商解决；协商不成时，应向协议签订地有管辖权的人民法院提起诉讼。本协议签订地为中华人民共和国北京市大兴区。"),
+            vue.createElementVNode("view", { class: "item" }, " 2、如果本协议中任何一条被视为废止、无效或因任何理由不可执行，该条应视为可分的且并不影响任何其余条款的有效性和可执行性。 "),
+            vue.createElementVNode("view", { class: "item" }, " 3、本协议未明示授权的其他权利仍由迪雷沃保留，您在行使这些权利时须另外取得迪雷沃的书面许可。迪雷沃如果未行使前述任何权利，并不构成对该权利的放弃。 "),
+            vue.createElementVNode("view", { class: "item" }, " 4、本协议内容中以加粗方式显著标识的条款，请您着重阅读。您点击“同意”按钮即视为您完全接受本协议，在点击之前请您再次确认已知悉并完全理解本协议的全部内容。 ")
+          ])
+        ])
+      ])
+    ]);
+  }
+  const PagesLoginAgreement = /* @__PURE__ */ _export_sfc(_sfc_main$w, [["render", _sfc_render$v], ["__scopeId", "data-v-b4896b2f"], ["__file", "D:/project/dlw/uniapp-dileiwo/pages/login/agreement.vue"]]);
+  const _sfc_main$v = {
+    name: "UniCard",
+    emits: ["click"],
+    props: {
+      title: {
+        type: String,
+        default: ""
+      },
+      subTitle: {
+        type: String,
+        default: ""
+      },
+      padding: {
+        type: String,
+        default: "10px"
+      },
+      margin: {
+        type: String,
+        default: "15px"
+      },
+      spacing: {
+        type: String,
+        default: "0 10px"
+      },
+      extra: {
+        type: String,
+        default: ""
+      },
+      cover: {
+        type: String,
+        default: ""
+      },
+      thumbnail: {
+        type: String,
+        default: ""
+      },
+      isFull: {
+        // 内容区域是否通栏
+        type: Boolean,
+        default: false
+      },
+      isShadow: {
+        // 是否开启阴影
+        type: Boolean,
+        default: true
+      },
+      shadow: {
+        type: String,
+        default: "0px 0px 3px 1px rgba(0, 0, 0, 0.08)"
+      },
+      border: {
+        type: Boolean,
+        default: true
+      }
+    },
+    methods: {
+      onClick(type) {
+        this.$emit("click", type);
+      }
+    }
+  };
+  function _sfc_render$u(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock(
+      "view",
+      {
+        class: vue.normalizeClass(["uni-card", { "uni-card--full": $props.isFull, "uni-card--shadow": $props.isShadow, "uni-card--border": $props.border }]),
+        style: vue.normalizeStyle({ "margin": $props.isFull ? 0 : $props.margin, "padding": $props.spacing, "box-shadow": $props.isShadow ? $props.shadow : "" })
+      },
+      [
+        vue.createCommentVNode(" 封面 "),
+        vue.renderSlot(_ctx.$slots, "cover", {}, () => [
+          $props.cover ? (vue.openBlock(), vue.createElementBlock("view", {
+            key: 0,
+            class: "uni-card__cover"
+          }, [
+            vue.createElementVNode("image", {
+              class: "uni-card__cover-image",
+              mode: "widthFix",
+              onClick: _cache[0] || (_cache[0] = ($event) => $options.onClick("cover")),
+              src: $props.cover
+            }, null, 8, ["src"])
+          ])) : vue.createCommentVNode("v-if", true)
+        ], true),
+        vue.renderSlot(_ctx.$slots, "title", {}, () => [
+          $props.title || $props.extra ? (vue.openBlock(), vue.createElementBlock("view", {
+            key: 0,
+            class: "uni-card__header"
+          }, [
+            vue.createCommentVNode(" 卡片标题 "),
+            vue.createElementVNode("view", {
+              class: "uni-card__header-box",
+              onClick: _cache[1] || (_cache[1] = ($event) => $options.onClick("title"))
+            }, [
+              $props.thumbnail ? (vue.openBlock(), vue.createElementBlock("view", {
+                key: 0,
+                class: "uni-card__header-avatar"
+              }, [
+                vue.createElementVNode("image", {
+                  class: "uni-card__header-avatar-image",
+                  src: $props.thumbnail,
+                  mode: "aspectFit"
+                }, null, 8, ["src"])
+              ])) : vue.createCommentVNode("v-if", true),
+              vue.createElementVNode("view", { class: "uni-card__header-content" }, [
+                vue.createElementVNode(
+                  "text",
+                  { class: "uni-card__header-content-title uni-ellipsis" },
+                  vue.toDisplayString($props.title),
+                  1
+                  /* TEXT */
+                ),
+                $props.title && $props.subTitle ? (vue.openBlock(), vue.createElementBlock(
+                  "text",
+                  {
+                    key: 0,
+                    class: "uni-card__header-content-subtitle uni-ellipsis"
+                  },
+                  vue.toDisplayString($props.subTitle),
+                  1
+                  /* TEXT */
+                )) : vue.createCommentVNode("v-if", true)
+              ])
+            ]),
+            vue.createElementVNode("view", {
+              class: "uni-card__header-extra",
+              onClick: _cache[2] || (_cache[2] = ($event) => $options.onClick("extra"))
+            }, [
+              vue.createElementVNode(
+                "text",
+                { class: "uni-card__header-extra-text" },
+                vue.toDisplayString($props.extra),
+                1
+                /* TEXT */
+              )
+            ])
+          ])) : vue.createCommentVNode("v-if", true)
+        ], true),
+        vue.createCommentVNode(" 卡片内容 "),
+        vue.createElementVNode(
+          "view",
+          {
+            class: "uni-card__content",
+            style: vue.normalizeStyle({ padding: $props.padding }),
+            onClick: _cache[3] || (_cache[3] = ($event) => $options.onClick("content"))
+          },
+          [
+            vue.renderSlot(_ctx.$slots, "default", {}, void 0, true)
+          ],
+          4
+          /* STYLE */
+        ),
+        vue.createElementVNode("view", {
+          class: "uni-card__actions",
+          onClick: _cache[4] || (_cache[4] = ($event) => $options.onClick("actions"))
+        }, [
+          vue.renderSlot(_ctx.$slots, "actions", {}, void 0, true)
+        ])
+      ],
+      6
+      /* CLASS, STYLE */
+    );
+  }
+  const __easycom_1$1 = /* @__PURE__ */ _export_sfc(_sfc_main$v, [["render", _sfc_render$u], ["__scopeId", "data-v-ae4bee67"], ["__file", "D:/project/dlw/uniapp-dileiwo/uni_modules/uni-card/components/uni-card/uni-card.vue"]]);
   const isObject$1 = (val) => val !== null && typeof val === "object";
   const defaultDelimiters = ["{", "}"];
   class BaseFormatter {
@@ -8262,17 +8793,17 @@ ${i3}
       onLoad((option) => {
         const item = JSON.parse(option.item);
         row2.value = item;
-        loadDetail();
       });
       onShow(() => {
+        loadDetail(true);
       });
       const update = () => {
-        formatAppLog("log", "at pages/delivery/detailList.vue:55", "update:");
+        formatAppLog("log", "at pages/delivery/detailList.vue:56", "update:");
       };
       const loadDetail = async (isfresh) => {
         try {
           const res2 = await getOutboundDetail(row2.value.id);
-          formatAppLog("log", "at pages/delivery/detailList.vue:60", res2);
+          formatAppLog("log", "at pages/delivery/detailList.vue:61", res2);
           if (isfresh) {
             list.value = res2.data.list;
           } else {
@@ -8341,7 +8872,7 @@ ${i3}
         loadDetail(true);
       });
       onReachBottom(() => {
-        formatAppLog("log", "at pages/delivery/detailList.vue:157", "onReachBottom");
+        formatAppLog("log", "at pages/delivery/detailList.vue:158", "onReachBottom");
         if (list.value.length == total_count.value) {
           loadMoreText2.value = "没有更多数据了!";
           return;
@@ -8452,10 +8983,11 @@ ${i3}
       };
       const handleConfirm = async () => {
         if (active.value == 1) {
-          let pages2 = getCurrentPages();
-          formatAppLog("log", "at pages/delivery/deliveryError.vue:73", "pages", pages2.length);
-          let prevPage = pages2[pages2.length - 2];
-          prevPage.update();
+          await usePacakge({
+            outbound: row2.value.id,
+            detail_no: row2.value.detail_no,
+            force: true
+          });
           uni.navigateBack(2);
         } else {
           uni.navigateBack(1);
@@ -8543,7 +9075,7 @@ ${i3}
                 onClick: _cache[2] || (_cache[2] = ($event) => $setup.handleChange(3))
               },
               [
-                vue.createElementVNode("text", { class: "card-text" }, "取消使用次包装")
+                vue.createElementVNode("text", { class: "card-text" }, "取消使用此包装")
               ],
               2
               /* CLASS */
@@ -10318,7 +10850,7 @@ ${i3}
           });
           return;
         }
-        if (!((_b = formData.value) == null ? void 0 : _b.isCateCorrect)) {
+        if (!((_b = formData.value) == null ? void 0 : _b.quantity)) {
           uni.showToast({
             title: "请确认包装数量",
             icon: "none"
@@ -10345,7 +10877,7 @@ ${i3}
           }
         } else {
           uni.navigateTo({
-            url: "/pages/auth/detailList?item=" + JSON.stringify(row2.value)
+            url: "/pages/auth/detailList?item=" + JSON.stringify(row2.value) + "&formData=" + JSON.stringify(formData.value)
           });
         }
       };
@@ -10519,100 +11051,6 @@ ${i3}
     ]);
   }
   const PagesAuthCheck = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$e], ["__scopeId", "data-v-f0ba12bd"], ["__file", "D:/project/dlw/uniapp-dileiwo/pages/auth/check.vue"]]);
-  const packageStatusOption = [
-    {
-      label: "未认证",
-      value: 0
-    },
-    {
-      label: "已认证",
-      value: 1
-    },
-    {
-      label: "已损坏",
-      value: 2
-    },
-    {
-      label: "出库-租赁",
-      value: 3
-    },
-    {
-      label: "出库-购买",
-      value: 4
-    },
-    {
-      label: "客户已认证",
-      value: 5
-    },
-    {
-      label: "客户出库",
-      value: 6
-    },
-    {
-      label: "型号错误",
-      value: 7
-    }
-  ];
-  const adminPkgStatusOption = [
-    {
-      label: "未认证",
-      value: 0
-    },
-    {
-      label: "已认证",
-      value: 1
-    },
-    {
-      label: "已损坏",
-      value: 2
-    },
-    {
-      label: "已出库",
-      value: 3
-    },
-    {
-      label: "已出库",
-      value: 4
-    },
-    {
-      label: "已出库",
-      value: 5
-    },
-    {
-      label: "已出库",
-      value: 6
-    },
-    {
-      label: "型号错误",
-      value: 7
-    }
-  ];
-  const webPkgStatusOption = [
-    {
-      label: "已损坏",
-      value: 2
-    },
-    {
-      label: "未认证",
-      value: 3
-    },
-    {
-      label: "未认证",
-      value: 4
-    },
-    {
-      label: "已认证",
-      value: 5
-    },
-    {
-      label: "已出库",
-      value: 6
-    },
-    {
-      label: "型号错误",
-      value: 7
-    }
-  ];
   const _sfc_main$e = {
     __name: "detailList",
     setup(__props, { expose: __expose }) {
@@ -10622,11 +11060,13 @@ ${i3}
       const isLoad = vue.ref(false);
       const row2 = vue.ref({});
       const role2 = vue.ref("");
+      const formData = vue.ref({});
       onLoad((option) => {
         role2.value = uni.getStorageSync("ROLE_KEY");
-        formatAppLog("log", "at pages/auth/detailList.vue:59", role2.value);
-        formatAppLog("log", "at pages/auth/detailList.vue:60", "option", option);
+        formatAppLog("log", "at pages/auth/detailList.vue:60", role2.value);
+        formatAppLog("log", "at pages/auth/detailList.vue:61", "option", option);
         const item = option.item ? JSON.parse(option.item) : {};
+        formData.value = option.formData ? JSON.parse(option.formData) : {};
         row2.value = item;
         const id = item.id;
         loadDetail(id);
@@ -10635,9 +11075,6 @@ ${i3}
       const loadMoreText2 = vue.ref("加载中...");
       const showLoadMore = vue.ref(false);
       const total = vue.ref(0);
-      const formData = vue.ref({
-        isCateCorrect: ""
-      });
       const success_count = vue.ref(0);
       const loadDetail = async (id, isfresh) => {
         try {
@@ -10753,6 +11190,10 @@ ${i3}
             uni.navigateTo({
               url: "/pages/auth/authError?errorType=2"
             });
+          } else {
+            uni.navigateBack({
+              delta: 2
+            });
           }
         } else {
           uni.navigateBack({
@@ -10760,7 +11201,7 @@ ${i3}
           });
         }
       };
-      const __returned__ = { verified_count, total_count, isLoad, row: row2, role: role2, list, loadMoreText: loadMoreText2, showLoadMore, total, formData, success_count, loadDetail, pageTo, handleScan, checkPermission, handleFinish, get permision() {
+      const __returned__ = { verified_count, total_count, isLoad, row: row2, role: role2, formData, list, loadMoreText: loadMoreText2, showLoadMore, total, success_count, loadDetail, pageTo, handleScan, checkPermission, handleFinish, get permision() {
         return permission;
       }, Empty, ref: vue.ref, onMounted: vue.onMounted, getCurrentInstance: vue.getCurrentInstance, get onLoad() {
         return onLoad;

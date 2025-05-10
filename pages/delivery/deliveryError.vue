@@ -21,7 +21,7 @@
 					<text class="card-text">更换其他包装</text>
 				</view>
 				<view class="option-card"  :class="{ 'active' : active == 3 }" @click="handleChange(3)">
-					<text class="card-text">取消使用次包装</text>
+					<text class="card-text">取消使用此包装</text>
 				</view>
 				<button class="custom-btn mt-80" @click="handleConfirm">确认</button>
 			</view>
@@ -64,15 +64,11 @@
 	}
 	const handleConfirm = async() => {
 		if(active.value == 1){
-			// await usePacakge({
-			// 	outbound: row.value.id,
-			// 	detail_no: row.value.detail_no,
-			// 	force: true
-			// })
-			let pages = getCurrentPages(); // 获取页面栈
-			console.log('pages',pages.length)
-			let prevPage = pages[pages.length - 2]; // 上一页
-			prevPage.update()
+			await usePacakge({
+				outbound: row.value.id,
+				detail_no: row.value.detail_no,
+				force: true
+			})
 			uni.navigateBack(2)
 		}else{
 			uni.navigateBack(1)
