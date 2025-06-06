@@ -14,11 +14,13 @@ const _sfc_main = {
     const isLoad = common_vendor.ref(false);
     const row = common_vendor.ref({});
     const role = common_vendor.ref("");
+    const formData = common_vendor.ref({});
     common_vendor.onLoad((option) => {
       role.value = common_vendor.index.getStorageSync("ROLE_KEY");
-      common_vendor.index.__f__("log", "at pages/auth/detailList.vue:59", role.value);
-      common_vendor.index.__f__("log", "at pages/auth/detailList.vue:60", "option", option);
+      common_vendor.index.__f__("log", "at pages/auth/detailList.vue:60", role.value);
+      common_vendor.index.__f__("log", "at pages/auth/detailList.vue:61", "option", option);
       const item = option.item ? JSON.parse(option.item) : {};
+      formData.value = option.formData ? JSON.parse(option.formData) : {};
       row.value = item;
       const id = item.id;
       loadDetail(id);
@@ -27,9 +29,6 @@ const _sfc_main = {
     const loadMoreText = common_vendor.ref("加载中...");
     const showLoadMore = common_vendor.ref(false);
     const total = common_vendor.ref(0);
-    common_vendor.ref({
-      isCateCorrect: ""
-    });
     const success_count = common_vendor.ref(0);
     const loadDetail = async (id, isfresh) => {
       try {
@@ -123,6 +122,10 @@ const _sfc_main = {
         if (success_count.value != total.value) {
           common_vendor.index.navigateTo({
             url: "/pages/auth/authError?errorType=2"
+          });
+        } else {
+          common_vendor.index.navigateBack({
+            delta: 2
           });
         }
       } else {

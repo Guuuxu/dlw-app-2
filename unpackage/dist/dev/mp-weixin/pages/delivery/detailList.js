@@ -21,12 +21,14 @@ const _sfc_main = {
     common_vendor.onLoad((option) => {
       const item = JSON.parse(option.item);
       row.value = item;
-      loadDetail();
+    });
+    common_vendor.onShow(() => {
+      loadDetail(true);
     });
     const loadDetail = async (isfresh) => {
       try {
         const res = await api_outbound.getOutboundDetail(row.value.id);
-        common_vendor.index.__f__("log", "at pages/delivery/detailList.vue:56", res);
+        common_vendor.index.__f__("log", "at pages/delivery/detailList.vue:61", res);
         if (isfresh) {
           list.value = res.data.list;
         } else {
@@ -54,6 +56,7 @@ const _sfc_main = {
             });
             common_vendor.index.startPullDownRefresh();
           } catch ({ data }) {
+            row.value.detail_no = res.result;
             if (data.msg && data.msg.includes("单月循环用量达上限")) {
               common_vendor.index.navigateTo({
                 url: `/pages/delivery/deliveryError?item=${JSON.stringify(row.value)}&msg=${data.msg}`
@@ -73,7 +76,7 @@ const _sfc_main = {
       loadDetail(true);
     });
     common_vendor.onReachBottom(() => {
-      common_vendor.index.__f__("log", "at pages/delivery/detailList.vue:153", "onReachBottom");
+      common_vendor.index.__f__("log", "at pages/delivery/detailList.vue:158", "onReachBottom");
       if (list.value.length == total_count.value) {
         loadMoreText.value = "没有更多数据了!";
         return;

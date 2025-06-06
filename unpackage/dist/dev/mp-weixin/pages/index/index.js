@@ -8,7 +8,7 @@ const _sfc_main = {
     var _a;
     const userInfo = common_vendor.ref({});
     userInfo.value = common_vendor.index.getStorageSync("userInfo") ? JSON.parse(common_vendor.index.getStorageSync("userInfo")) : {};
-    common_vendor.index.__f__("log", "at pages/index/index.vue:69", userInfo);
+    common_vendor.index.__f__("log", "at pages/index/index.vue:122", userInfo);
     const roleName = common_vendor.index.getStorageSync("ROLE_KEY") || "";
     if (!((_a = userInfo.value) == null ? void 0 : _a.name)) {
       common_vendor.index.reLaunch({

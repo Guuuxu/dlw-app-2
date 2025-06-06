@@ -62,7 +62,7 @@ const _sfc_main = {
         });
         return;
       }
-      if (!((_b = formData.value) == null ? void 0 : _b.isCateCorrect)) {
+      if (!((_b = formData.value) == null ? void 0 : _b.quantity)) {
         common_vendor.index.showToast({
           title: "请确认包装数量",
           icon: "none"
@@ -89,7 +89,7 @@ const _sfc_main = {
         }
       } else {
         common_vendor.index.navigateTo({
-          url: "/pages/auth/detailList?item=" + JSON.stringify(row.value)
+          url: "/pages/auth/detailList?item=" + JSON.stringify(row.value) + "&formData=" + JSON.stringify(formData.value)
         });
       }
     };

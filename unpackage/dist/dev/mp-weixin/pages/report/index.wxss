@@ -43,7 +43,7 @@
   word-break: break-all;
 }
 .form-item .select-text.data-v-14542b8b {
-  color: #A7B0BF;
+  color: #a7b0bf;
 }
 .upload-grid.data-v-14542b8b {
   gap: 6px;
@@ -70,7 +70,7 @@
 .upload-box.data-v-14542b8b {
   width: 160rpx;
   height: 160rpx;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   border-radius: 8rpx;
   display: flex;
   align-items: center;
@@ -95,7 +95,7 @@
   margin-left: 10rpx;
 }
 .reason-popup .uni-textarea.data-v-14542b8b {
-  background-color: #F6F7F8;
+  background-color: #f6f7f8;
 }
 .submit-btn.data-v-14542b8b {
   position: fixed;

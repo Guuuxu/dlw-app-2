@@ -2,9 +2,8 @@
   <view class="report-wrap pt-16">
     <uni-card :is-shadow="false" is-full>
       <view class="form-item w_100 jc-sb">
-        <view class="form-label"
-          ><text class="uni-error">*</text>损坏申报编码</view
-        >
+        <view class="form-label">
+			<text class="uni-error">*</text>损坏申报编码</view>
         <view class="form-value pl-20" @click="handleScan">{{ code }}</view>
       </view>
       <!-- 损坏原因 -->
@@ -154,9 +153,11 @@ const handleScan = async () => {
     success: async (res) => {
       code.value = res.result
       const resScan = await scanRepair(code.value)
+	  console.log('resScan',resScan)
       model_detail_id.value = resScan.data.id
     },
     fail: (err) => {
+		console.log(160)
       // 需要注意的是小程序扫码不需要申请相机权限
     },
   })

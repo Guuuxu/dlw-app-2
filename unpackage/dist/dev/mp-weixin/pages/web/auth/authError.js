@@ -6,7 +6,7 @@ const _sfc_main = {
   setup(__props) {
     const errorType = common_vendor.ref(1);
     common_vendor.onLoad((option) => {
-      common_vendor.index.__f__("log", "at pages/web/auth/authError.vue:37", option);
+      common_vendor.index.__f__("log", "at pages/web/auth/authError.vue:57", option);
       let data = option;
       errorType.value = data.errorType;
     });

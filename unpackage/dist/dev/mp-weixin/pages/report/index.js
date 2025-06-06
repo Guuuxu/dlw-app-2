@@ -2,7 +2,6 @@
 const common_vendor = require("../../common/vendor.js");
 const common_assets = require("../../common/assets.js");
 const api_repair = require("../../api/repair.js");
-const api_common = require("../../api/common.js");
 if (!Array) {
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
   const _easycom_uni_card2 = common_vendor.resolveComponent("uni-card");
@@ -27,10 +26,17 @@ const _sfc_main = {
       common_vendor.index.scanCode({
         success: async (res) => {
           code.value = res.result;
-          const resScan = await api_repair.scanRepair(code.value);
-          model_detail_id.value = resScan.data.id;
+          common_vendor.index.__f__("log", "at pages/report/index.vue:177", "176", res);
+          try {
+            const resScan = await api_repair.scanRepair(code.value);
+            common_vendor.index.__f__("log", "at pages/report/index.vue:180", "resScan", resScan);
+            model_detail_id.value = resScan.data.id;
+          } catch (error) {
+            common_vendor.index.__f__("log", "at pages/report/index.vue:183", "182", error);
+          }
         },
         fail: (err) => {
+          common_vendor.index.__f__("log", "at pages/report/index.vue:187", "160", err);
         }
       });
     };
@@ -74,7 +80,7 @@ const _sfc_main = {
     const tempReason = common_vendor.ref("");
     const change = (e) => {
       var _a, _b;
-      common_vendor.index.__f__("log", "at pages/report/index.vue:173", "e:", e);
+      common_vendor.index.__f__("log", "at pages/report/index.vue:255", "e:", e);
       broken_reason.value = (_a = e.detail) == null ? void 0 : _a.value;
       tempReason.value = ((_b = e.detail) == null ? void 0 : _b.data.map((item) => item.text).toString()) || "";
     };
@@ -83,24 +89,12 @@ const _sfc_main = {
     const secondImgList = common_vendor.ref([]);
     const handleUpload = async (index) => {
       common_vendor.index.chooseImage({
-        // sourceType: sourceType[sourceTypeIndex],
-        // sizeType: sizeType[this.sizeTypeIndex],
         count: 1,
         success: async (res) => {
-          common_vendor.index.__f__("log", "at pages/report/index.vue:198", "chooseImage", res.tempFilePaths);
-          const urlRes = await api_common.uploadApi(res.tempFilePaths[0]);
-          const url = urlRes.data.url;
-          common_vendor.index.__f__("log", "at pages/report/index.vue:201", "urlRes", urlRes);
-          if (index === 1) {
-            imageList.value = [url];
-          } else if (index === 2) {
-            imageDetailList.value = [url];
-          } else {
-            secondImgList.value = [url];
-          }
+          common_vendor.index.__f__("log", "at pages/report/index.vue:278", "chooseImage", res.tempFilePaths);
         },
         fail: (err) => {
-          common_vendor.index.__f__("log", "at pages/report/index.vue:212", "err: ", err);
+          common_vendor.index.__f__("log", "at pages/report/index.vue:291", "err: ", err);
           if (err.errMsg.indexOf("cancel") !== "-1") {
             return;
           }
@@ -121,7 +115,7 @@ const _sfc_main = {
               if (!authStatus) {
                 common_vendor.index.showModal({
                   title: "授权失败",
-                  content: "迪雷沃需要从您的相机或相册获取图片，请在设置界面打开相关权限",
+                  content: "迪雷沃APP需要从您的相机或相册获取图片，请在设置界面打开相关权限",
                   success: (res2) => {
                     if (res2.confirm) {
                       common_vendor.index.openSetting();
@@ -151,12 +145,12 @@ const _sfc_main = {
       secondImgList.value = [];
     };
     const handleConfirm = () => {
-      common_vendor.index.__f__("log", "at pages/report/index.vue:274", broken_reason);
+      common_vendor.index.__f__("log", "at pages/report/index.vue:355", broken_reason);
       reasonName.value = tempReason.value;
       popup.value.close();
     };
     const handleSubmit = async () => {
-      common_vendor.index.__f__("log", "at pages/report/index.vue:280", imageList.value);
+      common_vendor.index.__f__("log", "at pages/report/index.vue:361", imageList.value);
       if (!broken_reason.value.length) {
         common_vendor.index.showToast({
           icon: "none",
@@ -182,9 +176,9 @@ const _sfc_main = {
         params.first_img = imageDetailList.value.join("");
       if (secondImgList.value.length)
         params.second_img = secondImgList.value.join("");
-      common_vendor.index.__f__("log", "at pages/report/index.vue:303", "params", params);
+      common_vendor.index.__f__("log", "at pages/report/index.vue:386", "params", params);
       await api_repair.updateRepair(params);
-      common_vendor.index.__f__("log", "at pages/report/index.vue:305", code.value, broken_reason.value, imageList.value);
+      common_vendor.index.__f__("log", "at pages/report/index.vue:388", code.value, broken_reason.value, imageList.value);
       common_vendor.index.navigateTo({
         url: "/pages/report/reportSuccess"
       });
@@ -228,7 +222,7 @@ const _sfc_main = {
           size: "20",
           color: "#999999"
         }),
-        k: common_vendor.o(($event) => handleUpload(1)),
+        k: common_vendor.o(($event) => handleUpload()),
         l: common_vendor.f(imageDetailList.value, (image, index, i0) => {
           return {
             a: image,
@@ -244,7 +238,7 @@ const _sfc_main = {
           size: "20",
           color: "#999999"
         }),
-        o: common_vendor.o(($event) => handleUpload(2)),
+        o: common_vendor.o(($event) => handleUpload()),
         p: common_vendor.f(secondImgList.value, (image, index, i0) => {
           return {
             a: image,
@@ -260,7 +254,7 @@ const _sfc_main = {
           size: "20",
           color: "#999999"
         }),
-        s: common_vendor.o(($event) => handleUpload(3)),
+        s: common_vendor.o(($event) => handleUpload()),
         t: common_vendor.p({
           ["is-shadow"]: false,
           ["is-full"]: true

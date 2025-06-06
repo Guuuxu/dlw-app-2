@@ -26,9 +26,11 @@ const _sfc_main = {
         success: async (res) => {
           code.value = res.result;
           const resScan = await api_repair.scanRepair(code.value);
+          common_vendor.index.__f__("log", "at pages/web/report/index.vue:156", "resScan", resScan);
           model_detail_id.value = resScan.data.id;
         },
         fail: (err) => {
+          common_vendor.index.__f__("log", "at pages/web/report/index.vue:160", 160);
         }
       });
     };
@@ -72,7 +74,7 @@ const _sfc_main = {
     const tempReason = common_vendor.ref("");
     const change = (e) => {
       var _a, _b;
-      common_vendor.index.__f__("log", "at pages/web/report/index.vue:166", "e:", e);
+      common_vendor.index.__f__("log", "at pages/web/report/index.vue:228", "e:", e);
       broken_reason.value = (_a = e.detail) == null ? void 0 : _a.value;
       tempReason.value = ((_b = e.detail) == null ? void 0 : _b.data.map((item) => item.text).toString()) || "";
     };
@@ -85,7 +87,7 @@ const _sfc_main = {
         // sizeType: sizeType[this.sizeTypeIndex],
         count: 1,
         success: (res) => {
-          common_vendor.index.__f__("log", "at pages/web/report/index.vue:191", "chooseImage", res.tempFilePaths);
+          common_vendor.index.__f__("log", "at pages/web/report/index.vue:253", "chooseImage", res.tempFilePaths);
           if (index === 1) {
             imageList.value = res.tempFilePaths;
           } else if (index === 2) {
@@ -95,7 +97,7 @@ const _sfc_main = {
           }
         },
         fail: (err) => {
-          common_vendor.index.__f__("log", "at pages/web/report/index.vue:202", "err: ", err);
+          common_vendor.index.__f__("log", "at pages/web/report/index.vue:263", "err: ", err);
           if (err.errMsg.indexOf("cancel") !== "-1") {
             return;
           }
@@ -137,7 +139,7 @@ const _sfc_main = {
       });
     };
     const handleConfirm = () => {
-      common_vendor.index.__f__("log", "at pages/web/report/index.vue:255", broken_reason);
+      common_vendor.index.__f__("log", "at pages/web/report/index.vue:318", broken_reason);
       reasonName.value = tempReason.value;
       popup.value.close();
     };
@@ -168,7 +170,7 @@ const _sfc_main = {
       if (secondImgList.value.length)
         params.second_img = secondImgList.value.join("");
       await api_repair.updateRepair(params);
-      common_vendor.index.__f__("log", "at pages/web/report/index.vue:284", code.value, broken_reason.value, imageList.value);
+      common_vendor.index.__f__("log", "at pages/web/report/index.vue:349", code.value, broken_reason.value, imageList.value);
       common_vendor.index.navigateTo({
         url: "/pages/report/reportSuccess"
       });

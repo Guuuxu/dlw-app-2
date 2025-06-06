@@ -58,7 +58,7 @@ if (uni.restoreGlobal) {
   const onUnload = /* @__PURE__ */ createHook(ON_UNLOAD);
   const onReachBottom = /* @__PURE__ */ createHook(ON_REACH_BOTTOM);
   const onPullDownRefresh = /* @__PURE__ */ createHook(ON_PULL_DOWN_REFRESH);
-  const API_BASE_URL = "http://api.deravel.com.cn";
+  const API_BASE_URL = "http://dileiwo-api.test.muke.design";
   const defaults = {
     baseURL: API_BASE_URL,
     // 基础路径
@@ -205,9 +205,6 @@ if (uni.restoreGlobal) {
   const loginApi = ({ phone, code }) => {
     return http.post("/login", { phone, code });
   };
-  const uploadApi = (filePath) => {
-    return http.upload("/upload", filePath, "file");
-  };
   const sendSMS = (phone, code) => {
     return http.post("/sendSMS", { phone, code });
   };
@@ -235,7 +232,7 @@ if (uni.restoreGlobal) {
       __expose();
       const userInfo = vue.ref({});
       userInfo.value = uni.getStorageSync("userInfo") ? JSON.parse(uni.getStorageSync("userInfo")) : {};
-      formatAppLog("log", "at pages/index/index.vue:69", userInfo);
+      formatAppLog("log", "at pages/index/index.vue:122", userInfo);
       const roleName = uni.getStorageSync("ROLE_KEY") || "";
       if (!((_a = userInfo.value) == null ? void 0 : _a.name)) {
         uni.reLaunch({
@@ -5112,10 +5109,10 @@ ${i3}
       const agreed = vue.ref(false);
       const tabs = ["客户端", "管理端"];
       const role2 = vue.ref("0");
-      formatAppLog("log", "at pages/login/login.vue:62", "show", role2.value);
+      formatAppLog("log", "at pages/login/login.vue:106", "show", role2.value);
       uni.setStorageSync("ROLE_KEY", "web");
       const changeRole = (e2) => {
-        formatAppLog("log", "at pages/login/login.vue:65", e2);
+        formatAppLog("log", "at pages/login/login.vue:109", e2);
         role2.value = e2;
         const key = e2 == "0" ? "web" : "admin";
         uni.setStorageSync("ROLE_KEY", key);
@@ -5124,7 +5121,7 @@ ${i3}
         const currentCountryCode = countryCodeOptions.find(
           (item) => item.value === countryCode.value
         );
-        formatAppLog("log", "at pages/login/login.vue:74", "currentCountryCode", currentCountryCode);
+        formatAppLog("log", "at pages/login/login.vue:118", "currentCountryCode", currentCountryCode);
         if (currentCountryCode) {
           return currentCountryCode.regex.test(phone.value);
         }
@@ -5172,7 +5169,7 @@ ${i3}
       const inputRefs = vue.ref([]);
       const handleInput = async (event, index2) => {
         const value = event.detail.value;
-        formatAppLog("log", "at pages/login/login.vue:131", "value", value);
+        formatAppLog("log", "at pages/login/login.vue:172", "value", value);
         if (value.length > 1) {
           const values = value.split("");
           values.forEach((v2, i2) => {
@@ -5182,7 +5179,7 @@ ${i3}
             }
           });
           const nextEmptyIndex = codeValue.value.findIndex((v2, i2) => !v2 && i2 >= index2);
-          formatAppLog("log", "at pages/login/login.vue:141", nextEmptyIndex);
+          formatAppLog("log", "at pages/login/login.vue:182", nextEmptyIndex);
           if (nextEmptyIndex !== -1 && nextEmptyIndex < 6) {
             currentFocus.value = nextEmptyIndex;
           }
@@ -5193,14 +5190,14 @@ ${i3}
           } else if (!value && index2 > 0) {
             currentFocus.value = index2 - 1;
           } else {
-            formatAppLog("log", "at pages/login/login.vue:153", codeValue.value);
+            formatAppLog("log", "at pages/login/login.vue:194", codeValue.value);
             if (codeValue.value.length && index2) {
               const res2 = await loginApi({
                 phone: phone.value,
                 code: codeValue.value.join("")
               });
-              formatAppLog("log", "at pages/login/login.vue:159", "res", res2);
-              formatAppLog("log", "at pages/login/login.vue:160", "index", index2);
+              formatAppLog("log", "at pages/login/login.vue:200", "res", res2);
+              formatAppLog("log", "at pages/login/login.vue:201", "index", index2);
               uni.setStorageSync("token", res2.data.accessToken);
               uni.setStorageSync("userInfo", JSON.stringify(res2.data.user));
               uni.showToast({
@@ -7831,10 +7828,17 @@ ${i3}
         uni.scanCode({
           success: async (res2) => {
             code.value = res2.result;
-            const resScan = await scanRepair(code.value);
-            model_detail_id.value = resScan.data.id;
+            formatAppLog("log", "at pages/report/index.vue:177", "176", res2);
+            try {
+              const resScan = await scanRepair(code.value);
+              formatAppLog("log", "at pages/report/index.vue:180", "resScan", resScan);
+              model_detail_id.value = resScan.data.id;
+            } catch (error) {
+              formatAppLog("log", "at pages/report/index.vue:183", "182", error);
+            }
           },
           fail: (err) => {
+            formatAppLog("log", "at pages/report/index.vue:187", "160", err);
           }
         });
       };
@@ -7895,7 +7899,7 @@ ${i3}
       const tempReason = vue.ref("");
       const change = (e2) => {
         var _a, _b;
-        formatAppLog("log", "at pages/report/index.vue:173", "e:", e2);
+        formatAppLog("log", "at pages/report/index.vue:255", "e:", e2);
         broken_reason.value = (_a = e2.detail) == null ? void 0 : _a.value;
         tempReason.value = ((_b = e2.detail) == null ? void 0 : _b.data.map((item) => item.text).toString()) || "";
       };
@@ -7905,26 +7909,14 @@ ${i3}
       const sourceType = ["拍照", "相册", "拍照或相册"];
       const handleUpload = async (index2) => {
         uni.chooseImage({
-          // sourceType: sourceType[sourceTypeIndex],
-          // sizeType: sizeType[this.sizeTypeIndex],
           count: 1,
           success: async (res2) => {
-            formatAppLog("log", "at pages/report/index.vue:198", "chooseImage", res2.tempFilePaths);
-            const urlRes = await uploadApi(res2.tempFilePaths[0]);
-            const url = urlRes.data.url;
-            formatAppLog("log", "at pages/report/index.vue:201", "urlRes", urlRes);
-            if (index2 === 1) {
-              imageList.value = [url];
-            } else if (index2 === 2) {
-              imageDetailList.value = [url];
-            } else {
-              secondImgList.value = [url];
-            }
+            formatAppLog("log", "at pages/report/index.vue:278", "chooseImage", res2.tempFilePaths);
           },
           fail: (err) => {
-            formatAppLog("log", "at pages/report/index.vue:212", "err: ", err);
+            formatAppLog("log", "at pages/report/index.vue:291", "err: ", err);
             if (err["code"] && err.code !== 0 && sourceTypeIndex$1 === 2) {
-              formatAppLog("log", "at pages/report/index.vue:215", "checkPermission", err.code);
+              formatAppLog("log", "at pages/report/index.vue:294", "checkPermission", err.code);
               checkPermission(err.code);
             }
           }
@@ -7947,12 +7939,12 @@ ${i3}
         secondImgList.value = [];
       };
       const handleConfirm = () => {
-        formatAppLog("log", "at pages/report/index.vue:274", broken_reason);
+        formatAppLog("log", "at pages/report/index.vue:355", broken_reason);
         reasonName.value = tempReason.value;
         popup.value.close();
       };
       const handleSubmit = async () => {
-        formatAppLog("log", "at pages/report/index.vue:280", imageList.value);
+        formatAppLog("log", "at pages/report/index.vue:361", imageList.value);
         if (!broken_reason.value.length) {
           uni.showToast({
             icon: "none",
@@ -7978,9 +7970,9 @@ ${i3}
           params.first_img = imageDetailList.value.join("");
         if (secondImgList.value.length)
           params.second_img = secondImgList.value.join("");
-        formatAppLog("log", "at pages/report/index.vue:303", "params", params);
+        formatAppLog("log", "at pages/report/index.vue:386", "params", params);
         await updateRepair(params);
-        formatAppLog("log", "at pages/report/index.vue:305", code.value, broken_reason.value, imageList.value);
+        formatAppLog("log", "at pages/report/index.vue:388", code.value, broken_reason.value, imageList.value);
         uni.navigateTo({
           url: "/pages/report/reportSuccess"
         });
@@ -7995,12 +7987,10 @@ ${i3}
       };
       const __returned__ = { code, model_detail_id, handleScan, checkPermission, reasonOption, popup, broken_reason, reason, reasonName, handleShowPop, tempReason, change, imageList, imageDetailList, secondImgList, sourceTypeIndex: sourceTypeIndex$1, sourceType, handleUpload, previewImage, deleteMainImage, deleteDetailImage, deleteSecondImage, handleConfirm, handleSubmit, ref: vue.ref, get permision() {
         return permission;
-      }, get updateRepair() {
-        return updateRepair;
       }, get scanRepair() {
         return scanRepair;
-      }, get uploadApi() {
-        return uploadApi;
+      }, get updateRepair() {
+        return updateRepair;
       } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
@@ -11308,7 +11298,7 @@ ${i3}
       __expose();
       const errorType = vue.ref(1);
       onLoad((option) => {
-        formatAppLog("log", "at pages/auth/authError.vue:37", option);
+        formatAppLog("log", "at pages/auth/authError.vue:57", option);
         let data = option;
         errorType.value = data.errorType;
       });
@@ -11406,7 +11396,7 @@ ${i3}
         vue.createElementVNode("button", {
           class: "custom-btn verify-btn",
           onClick: _cache[0] || (_cache[0] = ($event) => $setup.navigatorBack())
-        }, "继续初始认证")
+        }, " 继续初始认证 ")
       ])
     ]);
   }
@@ -11439,7 +11429,7 @@ ${i3}
         vue.createElementVNode("button", {
           class: "custom-btn verify-btn",
           onClick: $setup.handleBack
-        }, "继续损坏申报")
+        }, " 继续损坏申报 ")
       ])
     ]);
   }
@@ -11460,9 +11450,11 @@ ${i3}
           success: async (res2) => {
             code.value = res2.result;
             const resScan = await scanRepair(code.value);
+            formatAppLog("log", "at pages/web/report/index.vue:156", "resScan", resScan);
             model_detail_id.value = resScan.data.id;
           },
           fail: (err) => {
+            formatAppLog("log", "at pages/web/report/index.vue:160", 160);
           }
         });
       };
@@ -11523,7 +11515,7 @@ ${i3}
       const tempReason = vue.ref("");
       const change = (e2) => {
         var _a, _b;
-        formatAppLog("log", "at pages/web/report/index.vue:166", "e:", e2);
+        formatAppLog("log", "at pages/web/report/index.vue:228", "e:", e2);
         broken_reason.value = (_a = e2.detail) == null ? void 0 : _a.value;
         tempReason.value = ((_b = e2.detail) == null ? void 0 : _b.data.map((item) => item.text).toString()) || "";
       };
@@ -11537,7 +11529,7 @@ ${i3}
           // sizeType: sizeType[this.sizeTypeIndex],
           count: 1,
           success: (res2) => {
-            formatAppLog("log", "at pages/web/report/index.vue:191", "chooseImage", res2.tempFilePaths);
+            formatAppLog("log", "at pages/web/report/index.vue:253", "chooseImage", res2.tempFilePaths);
             if (index2 === 1) {
               imageList.value = res2.tempFilePaths;
             } else if (index2 === 2) {
@@ -11547,9 +11539,9 @@ ${i3}
             }
           },
           fail: (err) => {
-            formatAppLog("log", "at pages/web/report/index.vue:202", "err: ", err);
+            formatAppLog("log", "at pages/web/report/index.vue:263", "err: ", err);
             if (err["code"] && err.code !== 0 && sourceTypeIndex === 2) {
-              formatAppLog("log", "at pages/web/report/index.vue:205", "checkPermission", err.code);
+              formatAppLog("log", "at pages/web/report/index.vue:266", "checkPermission", err.code);
               checkPermission(err.code);
             }
           }
@@ -11563,7 +11555,7 @@ ${i3}
         });
       };
       const handleConfirm = () => {
-        formatAppLog("log", "at pages/web/report/index.vue:255", broken_reason);
+        formatAppLog("log", "at pages/web/report/index.vue:318", broken_reason);
         reasonName.value = tempReason.value;
         popup.value.close();
       };
@@ -11594,7 +11586,7 @@ ${i3}
         if (secondImgList.value.length)
           params.second_img = secondImgList.value.join("");
         await updateRepair(params);
-        formatAppLog("log", "at pages/web/report/index.vue:284", code.value, broken_reason.value, imageList.value);
+        formatAppLog("log", "at pages/web/report/index.vue:349", code.value, broken_reason.value, imageList.value);
         uni.navigateTo({
           url: "/pages/report/reportSuccess"
         });
@@ -13025,7 +13017,7 @@ ${i3}
       __expose();
       const errorType = vue.ref(1);
       onLoad((option) => {
-        formatAppLog("log", "at pages/web/auth/authError.vue:37", option);
+        formatAppLog("log", "at pages/web/auth/authError.vue:57", option);
         let data = option;
         errorType.value = data.errorType;
       });
@@ -13123,7 +13115,7 @@ ${i3}
         vue.createElementVNode("button", {
           class: "custom-btn verify-btn",
           onClick: _cache[0] || (_cache[0] = ($event) => $setup.navigatorBack())
-        }, "继续初始认证")
+        }, " 继续初始认证 ")
       ])
     ]);
   }
@@ -13155,7 +13147,7 @@ ${i3}
         vue.createElementVNode("button", {
           class: "custom-btn verify-btn",
           onClick: $setup.handleBack
-        }, "继续损坏申报")
+        }, " 继续损坏申报 ")
       ])
     ]);
   }

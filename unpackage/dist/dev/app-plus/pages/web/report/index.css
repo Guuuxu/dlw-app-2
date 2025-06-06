@@ -1231,7 +1231,7 @@
   word-break: break-all;
 }
 .form-item .select-text[data-v-8bfa610c] {
-  color: #45464A;
+  color: #45464a;
 }
 .upload-grid[data-v-8bfa610c] {
   gap: 6px;
@@ -1250,7 +1250,7 @@
 .upload-box[data-v-8bfa610c] {
   width: 5rem;
   height: 5rem;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   border-radius: 0.25rem;
   display: flex;
   align-items: center;
@@ -1275,7 +1275,7 @@
   margin-left: 0.3125rem;
 }
 .reason-popup .uni-textarea[data-v-8bfa610c] {
-  background-color: #F6F7F8;
+  background-color: #f6f7f8;
 }
 .submit-btn[data-v-8bfa610c] {
   position: fixed;

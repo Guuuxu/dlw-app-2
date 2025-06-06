@@ -34,7 +34,7 @@ page {
 .custom-input {
   height: 96rpx;
   border-radius: 48rpx;
-  border: #8BAE9D 2rpx solid;
+  border: #8bae9d 2rpx solid;
 }
 .custom-input .is-input-border {
   border-radius: 48rpx !important;
@@ -45,6 +45,23 @@ page {
 }
 .custom-input .uni-easyinput__content-input .uni-input-wrapper {
   padding-left: 20rpx;
+}
+.code-select {
+  margin-bottom: 10rpx;
+}
+.code-select .uni-stat-box {
+  background-color: transparent;
+}
+.code-select .uni-select {
+  height: 96rpx !important;
+  padding-left: 40rpx;
+  padding-right: 20rpx;
+  border-radius: 48rpx !important;
+  border: #8bae9d 2rpx solid;
+}
+.code-select .uni-select .uni-select__input-placeholder {
+  font-size: 32rpx;
+  color: #c8c9cc;
 }
 .container {
   padding: 40rpx;
@@ -74,16 +91,16 @@ page {
   width: 100% !important;
   height: 96rpx;
   line-height: 96rpx;
-  background-color: #8BAE9D;
-  color: #FFFFFF;
+  background-color: #8bae9d;
+  color: #ffffff;
   font-size: 32rpx;
   border-radius: 44rpx;
   border: none;
   margin-bottom: 40rpx;
 }
 .container .login-content .verify-btn[disabled] {
-  background-color: #CCCCCC !important;
-  color: #FFFFFF !important;
+  background-color: #cccccc !important;
+  color: #ffffff !important;
   border: none;
 }
 .container .login-content .verify-btn[disabled]::after {
@@ -101,7 +118,7 @@ page {
   color: #999999;
 }
 .container .login-content .link {
-  color: #8BAE9D;
+  color: #8bae9d;
 }
 .header {
   width: 100%;
@@ -118,7 +135,7 @@ page {
 .subtitle {
   display: block;
   font-size: 32rpx;
-  color: #A7B0BF;
+  color: #a7b0bf;
 }
 .code-input-container {
   display: flex;
@@ -136,8 +153,8 @@ page {
   border-radius: 16rpx;
 }
 .code-input-focus {
-  border: 2px solid #99BBA0;
-  caret-color: #99BBA0;
+  border: 2px solid #99bba0;
+  caret-color: #99bba0;
 }
 .countdown-text {
   font-size: 14px;
@@ -159,8 +176,8 @@ page {
   height: 15px;
 }
  .uni-checkbox-input:hover {
-  border-color: #99BBA0;
+  border-color: #99bba0;
 }
  uni-checkbox:not([disabled]) .uni-checkbox-input:hover {
-  border-color: #99BBA0;
+  border-color: #99bba0;
 }

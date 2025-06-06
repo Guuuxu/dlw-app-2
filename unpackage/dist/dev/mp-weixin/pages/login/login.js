@@ -1,38 +1,48 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const api_common = require("../../api/common.js");
+const utils_dict = require("../../utils/dict.js");
 if (!Array) {
   const _easycom_v_tabs2 = common_vendor.resolveComponent("v-tabs");
-  _easycom_v_tabs2();
+  const _easycom_uni_data_select2 = common_vendor.resolveComponent("uni-data-select");
+  (_easycom_v_tabs2 + _easycom_uni_data_select2)();
 }
 const _easycom_v_tabs = () => "../../uni_modules/v-tabs/components/v-tabs/v-tabs.js";
+const _easycom_uni_data_select = () => "../../uni_modules/uni-data-select/components/uni-data-select/uni-data-select.js";
 if (!Math) {
-  _easycom_v_tabs();
+  (_easycom_v_tabs + _easycom_uni_data_select)();
 }
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "login",
   setup(__props) {
+    const countryCode = common_vendor.ref("");
     const step = common_vendor.ref(1);
     const phone = common_vendor.ref("");
     const agreed = common_vendor.ref(false);
     const tabs = ["客户端", "管理端"];
     const role = common_vendor.ref("0");
-    common_vendor.index.__f__("log", "at pages/login/login.vue:67", "show", role.value);
+    common_vendor.index.__f__("log", "at pages/login/login.vue:106", "show", role.value);
     common_vendor.index.setStorageSync("ROLE_KEY", "web");
     const changeRole = (e) => {
-      common_vendor.index.__f__("log", "at pages/login/login.vue:70", e);
+      common_vendor.index.__f__("log", "at pages/login/login.vue:109", e);
       role.value = e;
       const key = e == "0" ? "web" : "admin";
       common_vendor.index.setStorageSync("ROLE_KEY", key);
     };
     const isValidPhone = common_vendor.computed(() => {
-      const phoneReg = /^1[3-9]\d{9}$/;
-      return phoneReg.test(phone.value);
+      const currentCountryCode = utils_dict.countryCodeOptions.find(
+        (item) => item.value === countryCode.value
+      );
+      common_vendor.index.__f__("log", "at pages/login/login.vue:118", "currentCountryCode", currentCountryCode);
+      if (currentCountryCode) {
+        return currentCountryCode.regex.test(phone.value);
+      }
+      return false;
     });
     const checkboxChange = (e) => {
       agreed.value = e.detail.value[0] === "true";
     };
-    const getVerifyCode = () => {
+    const getVerifyCode = async () => {
       if (!agreed.value) {
         common_vendor.index.showToast({
           title: "请先同意用户协议",
@@ -47,11 +57,17 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         });
         return;
       }
-      common_vendor.index.showToast({
-        title: "验证码已发送",
-        icon: "success"
-      });
-      step.value = 2;
+      try {
+        await api_common.sendSMS(phone.value, countryCode.value);
+        countdown.value = 60;
+        common_vendor.index.showToast({
+          title: "验证码已发送",
+          icon: "success"
+        });
+        startCountdown();
+        step.value = 2;
+      } catch (error) {
+      }
     };
     const openAgreement = () => {
       common_vendor.index.navigateTo({
@@ -60,12 +76,12 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
     const codeValue = common_vendor.ref([]);
     const currentFocus = common_vendor.ref(0);
-    const countdown = common_vendor.ref(60);
+    const countdown = common_vendor.ref(0);
     let timer = null;
     const inputRefs = common_vendor.ref([]);
     const handleInput = async (event, index) => {
       const value = event.detail.value;
-      common_vendor.index.__f__("log", "at pages/login/login.vue:123", "value", value);
+      common_vendor.index.__f__("log", "at pages/login/login.vue:172", "value", value);
       if (value.length > 1) {
         const values = value.split("");
         values.forEach((v, i) => {
@@ -75,7 +91,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           }
         });
         const nextEmptyIndex = codeValue.value.findIndex((v, i) => !v && i >= index);
-        common_vendor.index.__f__("log", "at pages/login/login.vue:133", nextEmptyIndex);
+        common_vendor.index.__f__("log", "at pages/login/login.vue:182", nextEmptyIndex);
         if (nextEmptyIndex !== -1 && nextEmptyIndex < 6) {
           currentFocus.value = nextEmptyIndex;
         }
@@ -86,14 +102,14 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         } else if (!value && index > 0) {
           currentFocus.value = index - 1;
         } else {
-          common_vendor.index.__f__("log", "at pages/login/login.vue:145", codeValue.value);
+          common_vendor.index.__f__("log", "at pages/login/login.vue:194", codeValue.value);
           if (codeValue.value.length && index) {
             const res = await api_common.loginApi({
               phone: phone.value,
               code: codeValue.value.join("")
             });
-            common_vendor.index.__f__("log", "at pages/login/login.vue:151", "res", res);
-            common_vendor.index.__f__("log", "at pages/login/login.vue:152", "index", index);
+            common_vendor.index.__f__("log", "at pages/login/login.vue:200", "res", res);
+            common_vendor.index.__f__("log", "at pages/login/login.vue:201", "index", index);
             common_vendor.index.setStorageSync("token", res.data.accessToken);
             common_vendor.index.setStorageSync("userInfo", JSON.stringify(res.data.user));
             common_vendor.index.showToast({
@@ -124,7 +140,6 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
     const resendCode = () => {
       if (countdown.value === 0) {
-        countdown.value = 60;
         startCountdown();
         common_vendor.index.showToast({
           title: "验证码已重新发送",
@@ -133,10 +148,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       }
     };
     common_vendor.onMounted(() => {
-      startCountdown();
     });
     common_vendor.onUnmounted(() => {
       if (timer) {
+        countdown.value = 60;
         clearInterval(timer);
       }
     });
@@ -153,16 +168,21 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           activeColor: "#99BBA0",
           modelValue: role.value
         }),
-        e: phone.value,
-        f: common_vendor.o(($event) => phone.value = $event.detail.value),
-        g: !isValidPhone.value,
-        h: common_vendor.o(getVerifyCode),
-        i: agreed.value,
-        j: common_vendor.o(checkboxChange),
-        k: common_vendor.o(openAgreement)
+        e: common_vendor.o(($event) => countryCode.value = $event),
+        f: common_vendor.p({
+          localdata: common_vendor.unref(utils_dict.countryCodeOptions),
+          modelValue: countryCode.value
+        }),
+        g: phone.value,
+        h: common_vendor.o(($event) => phone.value = $event.detail.value),
+        i: !isValidPhone.value,
+        j: common_vendor.o(getVerifyCode),
+        k: agreed.value,
+        l: common_vendor.o(checkboxChange),
+        m: common_vendor.o(openAgreement)
       } : common_vendor.e({
-        l: common_vendor.t(phone.value ? phone.value.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2") : ""),
-        m: common_vendor.f(6, (item, index, i0) => {
+        n: common_vendor.t(phone.value ? phone.value.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2") : ""),
+        o: common_vendor.f(6, (item, index, i0) => {
           return {
             a: index,
             b: codeValue.value[index] || "",
@@ -173,12 +193,12 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             g: (el) => inputRefs.value[index] = el
           };
         }),
-        n: countdown.value > 0
+        p: countdown.value > 0
       }, countdown.value > 0 ? {
-        o: common_vendor.t(countdown.value)
+        q: common_vendor.t(countdown.value)
       } : {
-        p: common_vendor.t(countdown.value > 0 ? countdown.value : ""),
-        q: common_vendor.o(resendCode)
+        r: common_vendor.t(countdown.value > 0 ? countdown.value : ""),
+        s: common_vendor.o(resendCode)
       }));
     };
   }

@@ -7,10 +7,10 @@
   "id": "__UNI__74CDCF2",
   "name": "迪雷沃",
   "version": {
-    "name": "1.0.1",
-    "code": 101
+    "name": "1.0.2",
+    "code": 102
   },
-  "description": "迪雷沃包装管理APP",
+  "description": "迪雷沃包装管理",
   "developer": {
     "name": "",
     "email": "",
@@ -19,7 +19,6 @@
   "permissions": {
     "OAuth": {},
     "Payment": {},
-    "Push": {},
     "Share": {},
     "Speech": {},
     "VideoPlayer": {},
@@ -138,9 +137,7 @@
         "dSYMs": false
       },
       "plugins": {
-        "speech": {
-          "ifly": {}
-        },
+        "speech": {},
         "ad": {},
         "audio": {
           "mp3": {

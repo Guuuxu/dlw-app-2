@@ -93,7 +93,34 @@ const webPkgStatusOption = [
     value: 7
   }
 ];
+const countryCodeOptions = [
+  {
+    text: "+86 中国",
+    value: "+86",
+    // 中国大陆手机号码 11 位，以 1 开头
+    regex: /^1[3-9]\d{9}$/
+  },
+  {
+    text: "+886 台湾地区(中国)",
+    value: "+886",
+    // 台湾手机号一般为 09 开头的 10 位数字，去掉 0 后是 9 位
+    regex: /^9\d{8}$/
+  },
+  {
+    text: "+852 香港特别行政区(中国)",
+    value: "+852",
+    // 香港手机号为 8 位数字
+    regex: /^\d{8}$/
+  },
+  {
+    text: "+853 澳门特别行政区(中国)",
+    value: "+853",
+    // 澳门手机号为 8 位数字
+    regex: /^\d{8}$/
+  }
+];
 exports.adminPkgStatusOption = adminPkgStatusOption;
+exports.countryCodeOptions = countryCodeOptions;
 exports.packageStatusOption = packageStatusOption;
 exports.webPkgStatusOption = webPkgStatusOption;
 //# sourceMappingURL=../../.sourcemap/mp-weixin/utils/dict.js.map

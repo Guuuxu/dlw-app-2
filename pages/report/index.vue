@@ -160,6 +160,7 @@
 <script setup>
 import { ref } from 'vue'
 import permision from '@/common/permission.js'
+import { scanRepair,updateRepair } from "@/api/repair"
 const code = ref('请扫描编码')
 
 const model_detail_id = ref('')
@@ -173,10 +174,17 @@ const handleScan = async () => {
   uni.scanCode({
     success: async (res) => {
       code.value = res.result
-      const resScan = await scanRepair(code.value)
-      model_detail_id.value = resScan.data.id
+	  console.log('176',res)
+      try {
+      	const resScan = await scanRepair(code.value)
+      	console.log('resScan',resScan)
+      	model_detail_id.value = resScan.data.id
+      } catch (error) {
+      	console.log('182',error)
+      }
     },
     fail: (err) => {
+		console.log('160',err)
       // 需要注意的是小程序扫码不需要申请相机权限
     },
   })
