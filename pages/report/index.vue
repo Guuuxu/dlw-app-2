@@ -1,12 +1,12 @@
 <template>
   <view class="report-wrap pt-16">
     <uni-card :is-shadow="false" is-full>
-      <view class="form-item w_100 jc-sb">
-        <view class="form-label"
-          ><text class="uni-error">*</text>损坏申报编码</view
-        >
-        <view class="form-value pl-20 d-f ai-c" @click="handleScan">
-          <text class="select-text">{{ code }}</text>
+      <view class="form-item w_100 jc-sb ai-c">
+        <view class="form-label" >
+			<text class="uni-error">*</text>损坏申报编码
+		</view>
+        <view class="form-value pl-10 d-f ai-c" @click="handleScan">
+          <text class="select-text d-f ai-c">{{ code }}</text>
           <image
             class="w-32 h-32 ml-5"
             src="/static/image/scan-code@2x.png"
@@ -42,7 +42,7 @@
               class="uni-uploader__img"
               :src="image"
               :data-src="image"
-              @tap="previewImage"
+              @tap="previewImage(image,imageList)"
             ></image>
             <image
               class="icon-close w-32 h-32"
@@ -73,7 +73,7 @@
               class="uni-uploader__img"
               :src="image"
               :data-src="image"
-              @tap="previewImage"
+              @tap="previewImage(image,imageDetailList)"
             ></image>
             <image
               class="icon-close w-32 h-32"
@@ -104,7 +104,7 @@
               class="uni-uploader__img"
               :src="image"
               :data-src="image"
-              @tap="previewImage"
+              @tap="previewImage(image,secondImgList)"
             ></image>
             <image
               class="icon-close w-32 h-32"
@@ -161,6 +161,7 @@
 import { ref } from 'vue'
 import permision from '@/common/permission.js'
 import { scanRepair,updateRepair } from "@/api/repair"
+import { uploadApi } from "@/api/common.js"
 const code = ref('请扫描编码')
 
 const model_detail_id = ref('')
@@ -276,16 +277,16 @@ const handleUpload = async (index) => {
     count: 1,
     success: async (res) => {
       console.log('chooseImage', res.tempFilePaths)
-      // const urlRes = await uploadApi(res.tempFilePaths[0])
-      // const url = urlRes.data.url
-      // console.log('urlRes', urlRes)
-      // if (index === 1) {
-      // 	imageList.value = [url]
-      // } else if (index === 2) {
-      // 	imageDetailList.value = [url];
-      // }else{
-      // 	secondImgList.value = [url]
-      // }
+      const urlRes = await uploadApi(res.tempFilePaths[0])
+      const url = urlRes.data.url
+      console.log('urlRes', urlRes)
+      if (index === 1) {
+      	imageList.value = [url]
+      } else if (index === 2) {
+      	imageDetailList.value = [url];
+      }else{
+      	secondImgList.value = [url]
+      }
     },
     fail: (err) => {
       console.log('err: ', err)
@@ -335,11 +336,10 @@ const handleUpload = async (index) => {
     },
   })
 }
-const previewImage = (e) => {
-  var current = e.target.dataset.src
+const previewImage = (img, imgList) => {
   uni.previewImage({
-    current: current,
-    urls: imageList.value,
+    current: img,
+    urls: imgList,
   })
 }
 const deleteMainImage = () => {

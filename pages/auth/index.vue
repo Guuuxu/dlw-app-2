@@ -52,7 +52,7 @@ import { onReady,onLoad,onShow,onHide,onReachBottom,onPullDownRefresh } from '@d
 	                    'card-sm*4',
 	                    40,
 	                ]
-	onShow(()=>{
+	onLoad(()=>{
 		isLoad.value= false
 		page.value.page = 1
 		role.value = uni.getStorageSync('ROLE_KEY')
@@ -60,9 +60,12 @@ import { onReady,onLoad,onShow,onHide,onReachBottom,onPullDownRefresh } from '@d
 		
 		init()
 	})
+	onShow(()=>{
+		
+	})
 	onHide(()=>{
 		
-		list.value = []
+		// list.value = []
 	})
 	const goCheck = (item) => {
 		

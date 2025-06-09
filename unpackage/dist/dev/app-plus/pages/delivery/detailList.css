@@ -76,3 +76,7 @@
   border-bottom: 0.0625rem solid #F6F7F8;
   height: 3.375rem;
 }
+.footer-wrap[data-v-576bb335] {
+  display: flex;
+  flex-direction: column;
+}

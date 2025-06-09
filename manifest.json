@@ -2,8 +2,8 @@
     "name" : "迪雷沃",
     "appid" : "__UNI__74CDCF2",
     "description" : "迪雷沃包装管理",
-    "versionName" : "1.0.2",
-    "versionCode" : 102,
+    "versionName" : "1.0.3",
+    "versionCode" : 103,
     "transformPx" : false,
     "app-plus" : {
         "usingComponents" : true,
@@ -34,7 +34,9 @@
             "Payment" : {},
             "Share" : {},
             "Speech" : {},
-            "VideoPlayer" : {}
+            "VideoPlayer" : {},
+            "Barcode" : {},
+            "Camera" : {}
         },
         "distribute" : {
             "android" : {

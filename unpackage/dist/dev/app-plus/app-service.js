@@ -58,7 +58,7 @@ if (uni.restoreGlobal) {
   const onUnload = /* @__PURE__ */ createHook(ON_UNLOAD);
   const onReachBottom = /* @__PURE__ */ createHook(ON_REACH_BOTTOM);
   const onPullDownRefresh = /* @__PURE__ */ createHook(ON_PULL_DOWN_REFRESH);
-  const API_BASE_URL = "http://dileiwo-api.test.muke.design";
+  const API_BASE_URL = "http://api.deravel.com.cn";
   const defaults = {
     baseURL: API_BASE_URL,
     // 基础路径
@@ -204,6 +204,9 @@ if (uni.restoreGlobal) {
   };
   const loginApi = ({ phone, code }) => {
     return http.post("/login", { phone, code });
+  };
+  const uploadApi = (filePath) => {
+    return http.upload("/upload", filePath, "file");
   };
   const sendSMS = (phone, code) => {
     return http.post("/sendSMS", { phone, code });
@@ -5203,7 +5206,7 @@ ${i3}
               uni.showToast({
                 title: "登录成功",
                 success() {
-                  uni.switchTab({
+                  uni.reLaunch({
                     url: "/pages/index/index"
                   });
                 }
@@ -7566,7 +7569,7 @@ ${i3}
   var isIOS;
   function album() {
     var result = 0;
-    var PHPhotoLibrary = plus.ios.import("PHPhotoLibrary");
+    var PHPhotoLibrary = plus.ios.importClass("PHPhotoLibrary");
     var authStatus = PHPhotoLibrary.authorizationStatus();
     if (authStatus === 0) {
       result = null;
@@ -7580,7 +7583,7 @@ ${i3}
   }
   function camera() {
     var result = 0;
-    var AVCaptureDevice = plus.ios.import("AVCaptureDevice");
+    var AVCaptureDevice = plus.ios.importClass("AVCaptureDevice");
     var authStatus = AVCaptureDevice.authorizationStatusForMediaType("vide");
     if (authStatus === 0) {
       result = null;
@@ -7828,17 +7831,17 @@ ${i3}
         uni.scanCode({
           success: async (res2) => {
             code.value = res2.result;
-            formatAppLog("log", "at pages/report/index.vue:177", "176", res2);
+            formatAppLog("log", "at pages/report/index.vue:178", "176", res2);
             try {
               const resScan = await scanRepair(code.value);
-              formatAppLog("log", "at pages/report/index.vue:180", "resScan", resScan);
+              formatAppLog("log", "at pages/report/index.vue:181", "resScan", resScan);
               model_detail_id.value = resScan.data.id;
             } catch (error) {
-              formatAppLog("log", "at pages/report/index.vue:183", "182", error);
+              formatAppLog("log", "at pages/report/index.vue:184", "182", error);
             }
           },
           fail: (err) => {
-            formatAppLog("log", "at pages/report/index.vue:187", "160", err);
+            formatAppLog("log", "at pages/report/index.vue:188", "160", err);
           }
         });
       };
@@ -7899,7 +7902,7 @@ ${i3}
       const tempReason = vue.ref("");
       const change = (e2) => {
         var _a, _b;
-        formatAppLog("log", "at pages/report/index.vue:255", "e:", e2);
+        formatAppLog("log", "at pages/report/index.vue:256", "e:", e2);
         broken_reason.value = (_a = e2.detail) == null ? void 0 : _a.value;
         tempReason.value = ((_b = e2.detail) == null ? void 0 : _b.data.map((item) => item.text).toString()) || "";
       };
@@ -7911,22 +7914,31 @@ ${i3}
         uni.chooseImage({
           count: 1,
           success: async (res2) => {
-            formatAppLog("log", "at pages/report/index.vue:278", "chooseImage", res2.tempFilePaths);
+            formatAppLog("log", "at pages/report/index.vue:279", "chooseImage", res2.tempFilePaths);
+            const urlRes = await uploadApi(res2.tempFilePaths[0]);
+            const url = urlRes.data.url;
+            formatAppLog("log", "at pages/report/index.vue:282", "urlRes", urlRes);
+            if (index2 === 1) {
+              imageList.value = [url];
+            } else if (index2 === 2) {
+              imageDetailList.value = [url];
+            } else {
+              secondImgList.value = [url];
+            }
           },
           fail: (err) => {
-            formatAppLog("log", "at pages/report/index.vue:291", "err: ", err);
+            formatAppLog("log", "at pages/report/index.vue:292", "err: ", err);
             if (err["code"] && err.code !== 0 && sourceTypeIndex$1 === 2) {
-              formatAppLog("log", "at pages/report/index.vue:294", "checkPermission", err.code);
+              formatAppLog("log", "at pages/report/index.vue:295", "checkPermission", err.code);
               checkPermission(err.code);
             }
           }
         });
       };
-      const previewImage = (e2) => {
-        var current = e2.target.dataset.src;
+      const previewImage = (img, imgList) => {
         uni.previewImage({
-          current,
-          urls: imageList.value
+          current: img,
+          urls: imgList
         });
       };
       const deleteMainImage = () => {
@@ -7991,6 +8003,8 @@ ${i3}
         return scanRepair;
       }, get updateRepair() {
         return updateRepair;
+      }, get uploadApi() {
+        return uploadApi;
       } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
@@ -8007,18 +8021,18 @@ ${i3}
         "is-full": ""
       }, {
         default: vue.withCtx(() => [
-          vue.createElementVNode("view", { class: "form-item w_100 jc-sb" }, [
+          vue.createElementVNode("view", { class: "form-item w_100 jc-sb ai-c" }, [
             vue.createElementVNode("view", { class: "form-label" }, [
               vue.createElementVNode("text", { class: "uni-error" }, "*"),
-              vue.createTextVNode("损坏申报编码")
+              vue.createTextVNode("损坏申报编码 ")
             ]),
             vue.createElementVNode("view", {
-              class: "form-value pl-20 d-f ai-c",
+              class: "form-value pl-10 d-f ai-c",
               onClick: $setup.handleScan
             }, [
               vue.createElementVNode(
                 "text",
-                { class: "select-text" },
+                { class: "select-text d-f ai-c" },
                 vue.toDisplayString($setup.code),
                 1
                 /* TEXT */
@@ -8080,8 +8094,8 @@ ${i3}
                       class: "uni-uploader__img",
                       src: image,
                       "data-src": image,
-                      onClick: $setup.previewImage
-                    }, null, 8, ["src", "data-src"]),
+                      onClick: ($event) => $setup.previewImage(image, $setup.imageList)
+                    }, null, 8, ["src", "data-src", "onClick"]),
                     vue.createElementVNode("image", {
                       class: "icon-close w-32 h-32",
                       src: _imports_1$2,
@@ -8121,8 +8135,8 @@ ${i3}
                       class: "uni-uploader__img",
                       src: image,
                       "data-src": image,
-                      onClick: $setup.previewImage
-                    }, null, 8, ["src", "data-src"]),
+                      onClick: ($event) => $setup.previewImage(image, $setup.imageDetailList)
+                    }, null, 8, ["src", "data-src", "onClick"]),
                     vue.createElementVNode("image", {
                       class: "icon-close w-32 h-32",
                       src: _imports_1$2,
@@ -8162,8 +8176,8 @@ ${i3}
                       class: "uni-uploader__img",
                       src: image,
                       "data-src": image,
-                      onClick: $setup.previewImage
-                    }, null, 8, ["src", "data-src"]),
+                      onClick: ($event) => $setup.previewImage(image, $setup.secondImgList)
+                    }, null, 8, ["src", "data-src", "onClick"]),
                     vue.createElementVNode("image", {
                       class: "icon-close w-32 h-32",
                       src: _imports_1$2,
@@ -8626,17 +8640,14 @@ ${i3}
       const total_count = vue.ref(0);
       formatAppLog("log", "at pages/delivery/index.vue:49", role2.value);
       onLoad(() => {
-        formatAppLog("log", "at pages/delivery/index.vue:51", "onLoadonLoadonLoad");
-      });
-      onShow(() => {
         isLoad.value = false;
         page2.value.page = 1;
         role2.value = uni.getStorageSync("ROLE_KEY");
-        formatAppLog("log", "at pages/delivery/index.vue:57", "onShowonShowonShowonShow");
         getList();
       });
+      onShow(() => {
+      });
       onHide(() => {
-        list.value = [];
       });
       const getList = async (isFresh) => {
         try {
@@ -8665,7 +8676,7 @@ ${i3}
         getList(true);
       });
       onReachBottom(() => {
-        formatAppLog("log", "at pages/delivery/index.vue:91", "onReachBottom", list.value.length, total_count.value);
+        formatAppLog("log", "at pages/delivery/index.vue:90", "onReachBottom", list.value.length, total_count.value);
         if (list.value.length == total_count.value) {
           loadMoreText2.value = "没有更多数据了!";
           return;
@@ -8938,7 +8949,7 @@ ${i3}
           /* TEXT */
         )) : vue.createCommentVNode("v-if", true)
       ]),
-      vue.createElementVNode("view", { class: "w_100 mt-48 fixed pb-20 safe-area-bottom" }, [
+      vue.createElementVNode("view", { class: "footer-wrap mt-48 fixed pb-20 safe-area-bottom" }, [
         vue.createElementVNode("button", {
           class: "custom-btn",
           type: "",
@@ -9296,7 +9307,7 @@ ${i3}
         class: "no-data ta-c uni-list-cell-pd"
       })),
       vue.createElementVNode("view", {
-        class: "footer w_100 mt-48 fixed pb-20 safe-area-bottom",
+        class: "footer d-f flex-col w_100 mt-48 fixed pb-20 safe-area-bottom",
         style: {}
       }, [
         vue.createElementVNode("button", {
@@ -9367,18 +9378,19 @@ ${i3}
         "card-sm*4",
         40
       ];
-      onShow(() => {
+      onLoad(() => {
         isLoad.value = false;
         page2.value.page = 1;
         role2.value = uni.getStorageSync("ROLE_KEY");
         formatAppLog("log", "at pages/auth/index.vue:59", "onLoadonLoadonLoad");
         init();
       });
+      onShow(() => {
+      });
       onHide(() => {
-        list.value = [];
       });
       const goCheck = (item) => {
-        formatAppLog("log", "at pages/auth/index.vue:69", item);
+        formatAppLog("log", "at pages/auth/index.vue:72", item);
         const url = role2.value === "admin" ? "/pages/auth/detailList?" : "/pages/auth/check?";
         uni.navigateTo({
           url: `${url}?item=${JSON.stringify(item)}`
@@ -9407,15 +9419,15 @@ ${i3}
         init(true);
       });
       onReachBottom(() => {
-        formatAppLog("log", "at pages/auth/index.vue:99", list.value.length, total_count.value);
+        formatAppLog("log", "at pages/auth/index.vue:102", list.value.length, total_count.value);
         if (list.value.length === total_count.value) {
-          formatAppLog("log", "at pages/auth/index.vue:101", "没有更多数据了");
+          formatAppLog("log", "at pages/auth/index.vue:104", "没有更多数据了");
           loadMoreText2.value = "没有更多数据了!";
           showLoadMore.value = true;
           return;
         }
         showLoadMore.value = true;
-        formatAppLog("log", "at pages/auth/index.vue:107", "onReachBottom");
+        formatAppLog("log", "at pages/auth/index.vue:110", "onReachBottom");
         ++page2.value.page;
         init();
       });
@@ -11272,7 +11284,7 @@ ${i3}
         }))
       ]),
       vue.createElementVNode("view", {
-        class: "footer w_100 mt-48 pt-20 fixed pb-20 safe-area-bottom bg-white",
+        class: "footer d-f w_100 mt-48 pt-20 fixed pb-20 safe-area-bottom bg-white",
         style: {}
       }, [
         vue.createElementVNode("button", {
@@ -12995,7 +13007,7 @@ ${i3}
         ))
       ]),
       vue.createElementVNode("view", {
-        class: "footer w_100 mt-48 pt-20 fixed pb-20 safe-area-bottom bg-white",
+        class: "footer d-f ai-c jc-c w_100 mt-48 pt-20 fixed pb-20 safe-area-bottom bg-white",
         style: {}
       }, [
         vue.createElementVNode("button", {
@@ -13004,7 +13016,7 @@ ${i3}
           onClick: $setup.handleScan
         }, "扫一扫"),
         vue.createElementVNode("button", {
-          class: "custom-btn mt-10",
+          class: "custom-btn mt-10 ml-40",
           onClick: $setup.handleFinish
         }, "结束初始认证")
       ])

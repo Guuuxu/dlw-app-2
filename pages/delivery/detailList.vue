@@ -16,7 +16,7 @@
 			<Empty v-else class="no-data ta-c uni-list-cell-pd"></Empty>
 			<view class="uni-loadmore" v-if="showLoadMore">{{loadMoreText}}</view>
 		</view>
-		<view class="w_100 mt-48 fixed pb-20 safe-area-bottom">
+		<view class="footer-wrap mt-48 fixed pb-20 safe-area-bottom">
 			<button class="custom-btn" type="" @click="handleScan">扫一扫</button>
 			<button class="custom-btn mt-10" @click="handleFinish">结束包装出库</button>
 		</view>
@@ -181,5 +181,9 @@
 			height: 108rpx;
 		}
 
+	}
+	.footer-wrap{
+		display: flex;
+		flex-direction: column;
 	}
 </style>

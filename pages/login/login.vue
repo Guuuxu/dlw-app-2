@@ -204,7 +204,7 @@ const handleInput = async (event: any, index: number) => {
         uni.showToast({
           title: '登录成功',
           success() {
-            uni.switchTab({
+            uni.reLaunch({
               url: '/pages/index/index',
             })
           },

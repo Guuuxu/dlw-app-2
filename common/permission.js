@@ -4,7 +4,7 @@ var isIOS
 
 function album() {
     var result = 0;
-    var PHPhotoLibrary = plus.ios.import("PHPhotoLibrary");
+    var PHPhotoLibrary = plus.ios.importClass("PHPhotoLibrary");
     var authStatus = PHPhotoLibrary.authorizationStatus();
     if (authStatus === 0) {
         result = null;
@@ -19,7 +19,7 @@ function album() {
 
 function camera() {
     var result = 0;
-    var AVCaptureDevice = plus.ios.import("AVCaptureDevice");
+    var AVCaptureDevice = plus.ios.importClass("AVCaptureDevice");
     var authStatus = AVCaptureDevice.authorizationStatusForMediaType('vide');
     if (authStatus === 0) {
         result = null;

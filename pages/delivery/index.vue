@@ -48,17 +48,16 @@ import Empty from "@/components/empty/empty.vue"
 	
 	console.log(role.value)
 	onLoad(()=>{
-		console.log('onLoadonLoadonLoad')
-	})
-	onShow(() => {
 		isLoad.value= false
 		page.value.page = 1
-	      role.value = uni.getStorageSync('ROLE_KEY')
-		  console.log('onShowonShowonShowonShow')
+		  role.value = uni.getStorageSync('ROLE_KEY')
 		getList()
 	})
+	onShow(() => {
+		
+	})
 	onHide(()=>{
-		list.value = []
+		// list.value = []
 	})
 	const getList = async (isFresh)=>{
 		try{

@@ -115,7 +115,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             common_vendor.index.showToast({
               title: "登录成功",
               success() {
-                common_vendor.index.switchTab({
+                common_vendor.index.reLaunch({
                   url: "/pages/index/index"
                 });
               }

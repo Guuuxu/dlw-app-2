@@ -18,7 +18,7 @@
 			</template>
 			<Empty v-else class="no-data ta-c uni-list-cell-pd"></Empty>
 		</view>
-		<view class="footer w_100 mt-48 pt-20 fixed pb-20 safe-area-bottom bg-white" style="">
+		<view class="footer d-f w_100 mt-48 pt-20 fixed pb-20 safe-area-bottom bg-white" style="">
 			<button class="custom-btn" type="" @click="handleScan">扫一扫</button>
 			<button class="custom-btn mt-10" @click="handleFinish">结束初始认证</button>
 		</view>
@@ -264,7 +264,7 @@ import Empty from "@/components/empty/empty.vue"
 	}
 
 	.footer {
-
+	   flex-direction: column;
 		padding-bottom: constant(safe-area-inset-bottom);
 		/*兼容 IOS<11.2*/
 		padding-bottom: env(safe-area-inset-bottom);

@@ -16,7 +16,7 @@
 			
 		</view>
 		<Empty v-else class="no-data ta-c uni-list-cell-pd"></Empty>
-		<view class="footer w_100 mt-48 fixed pb-20 safe-area-bottom" style="">
+		<view class="footer d-f flex-col w_100 mt-48 fixed pb-20 safe-area-bottom" style="">
 			<button class="custom-btn" type="" @click="handleScan">扫一扫</button>
 			<button class="custom-btn mt-10" @click="handleFinish">结束回收复查</button>
 		</view>
@@ -152,5 +152,9 @@
 			height: 108rpx;
 		}
 
+	}
+	.footer{
+		display: flex;
+		flex-direction: column;
 	}
 </style>
