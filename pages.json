@@ -231,33 +231,9 @@
 		"selectedColor": "#99BBA0",
 		"borderStyle": "white",
 		"backgroundColor": "#F8F8F8",
-		"list": [{
-				"pagePath": "pages/auth/index",
-				"iconPath": "static/image/tabbar-auth@2x.png",
-				"selectedIconPath": "static/image/tabbar-auth-active@2x.png",
-				"text": "初始认证"
-			},
-			{
-				"pagePath": "pages/delivery/index",
-				"iconPath": "static/image/tabbar-delivery@2x.png",
-				"selectedIconPath": "static/image/tabbar-delivery-active@2x.png",
-				"text": "包装出库"
-			}, {
-				"pagePath": "pages/index/index",
-				"iconPath": "static/image/tabbar-home-active@2x.png",
-				"selectedIconPath": "static/image/tabbar-home-active@2x.png",
-				"text": "主页"
-			}, {
-				"pagePath": "pages/recycle/detailList",
-				"iconPath": "static/image/tabbar-recycle@2x.png",
-				"selectedIconPath": "static/image/tabbar-recycle-active@2x.png",
-				"text": "回收复查"
-			}, {
-				"pagePath": "pages/report/index",
-				"iconPath": "static/image/tabbar-report@2x.png",
-				"selectedIconPath": "static/image/tabbar-report-active@2x.png",
-				"text": "损坏申报"
-			}
+    "custom": true,
+		"list": [
+			
 		]
 	}
 }

@@ -9197,9 +9197,14 @@ ${i3}
                   title: "回收成功",
                   icon: "none"
                 });
-              } catch (error) {
+                list.value.unshift({
+                  msg: "回收成功",
+                  detail_no: res2.result
+                });
+              } catch ({ data }) {
                 list.value.unshift({
                   status: 7,
+                  msg: data.msg,
                   detail_no: res2.result
                 });
               }
@@ -9225,7 +9230,7 @@ ${i3}
             }
           },
           fail: (err) => {
-            formatAppLog("log", "at pages/recycle/detailList.vue:107", "fail");
+            formatAppLog("log", "at pages/recycle/detailList.vue:112", "fail");
           }
         });
       };

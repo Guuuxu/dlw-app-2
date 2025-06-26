@@ -1,10 +1,10 @@
 <template>
-  <view class="report-wrap pt-16">
+  <view class="report-wrap pt-16 pb-90">
     <uni-card :is-shadow="false" is-full>
       <view class="form-item w_100 jc-sb ai-c">
-        <view class="form-label" >
-			<text class="uni-error">*</text>损坏申报编码
-		</view>
+        <view class="form-label">
+          <text class="uni-error">*</text>损坏申报编码
+        </view>
         <view class="form-value pl-10 d-f ai-c" @click="handleScan">
           <text class="select-text d-f ai-c">{{ code }}</text>
           <image
@@ -42,7 +42,7 @@
               class="uni-uploader__img"
               :src="image"
               :data-src="image"
-              @tap="previewImage(image,imageList)"
+              @tap="previewImage(image, imageList)"
             ></image>
             <image
               class="icon-close w-32 h-32"
@@ -73,7 +73,7 @@
               class="uni-uploader__img"
               :src="image"
               :data-src="image"
-              @tap="previewImage(image,imageDetailList)"
+              @tap="previewImage(image, imageDetailList)"
             ></image>
             <image
               class="icon-close w-32 h-32"
@@ -104,7 +104,7 @@
               class="uni-uploader__img"
               :src="image"
               :data-src="image"
-              @tap="previewImage(image,secondImgList)"
+              @tap="previewImage(image, secondImgList)"
             ></image>
             <image
               class="icon-close w-32 h-32"
@@ -154,14 +154,17 @@
         <button class="custom-btn mt-48" @click="handleConfirm()">确 定</button>
       </view>
     </uni-popup>
+    <!-- 页面内容 -->
+    <custom-tabbar />
   </view>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import customTabbar from '@/components/custom-tabbar/custom-tabbar.vue'
 import permision from '@/common/permission.js'
-import { scanRepair,updateRepair } from "@/api/repair"
-import { uploadApi } from "@/api/common.js"
+import { scanRepair, updateRepair } from '@/api/repair'
+import { uploadApi } from '@/api/common.js'
 const code = ref('请扫描编码')
 
 const model_detail_id = ref('')
@@ -175,17 +178,17 @@ const handleScan = async () => {
   uni.scanCode({
     success: async (res) => {
       code.value = res.result
-	  console.log('176',res)
+      console.log('176', res)
       try {
-      	const resScan = await scanRepair(code.value)
-      	console.log('resScan',resScan)
-      	model_detail_id.value = resScan.data.id
+        const resScan = await scanRepair(code.value)
+        console.log('resScan', resScan)
+        model_detail_id.value = resScan.data.id
       } catch (error) {
-      	console.log('182',error)
+        console.log('182', error)
       }
     },
     fail: (err) => {
-		console.log('160',err)
+      console.log('160', err)
       // 需要注意的是小程序扫码不需要申请相机权限
     },
   })
@@ -281,11 +284,11 @@ const handleUpload = async (index) => {
       const url = urlRes.data.url
       console.log('urlRes', urlRes)
       if (index === 1) {
-      	imageList.value = [url]
+        imageList.value = [url]
       } else if (index === 2) {
-      	imageDetailList.value = [url];
-      }else{
-      	secondImgList.value = [url]
+        imageDetailList.value = [url]
+      } else {
+        secondImgList.value = [url]
       }
     },
     fail: (err) => {
@@ -487,7 +490,7 @@ const handleSubmit = async () => {
 
 .submit-btn {
   position: fixed;
-  bottom: 44rpx;
+  bottom: 120rpx;
   width: 100%;
 }
 </style>

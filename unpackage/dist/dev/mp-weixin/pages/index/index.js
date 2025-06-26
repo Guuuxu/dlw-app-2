@@ -8,7 +8,7 @@ const _sfc_main = {
     var _a;
     const userInfo = common_vendor.ref({});
     userInfo.value = common_vendor.index.getStorageSync("userInfo") ? JSON.parse(common_vendor.index.getStorageSync("userInfo")) : {};
-    common_vendor.index.__f__("log", "at pages/index/index.vue:122", userInfo);
+    common_vendor.index.__f__("log", "at pages/index/index.vue:75", userInfo);
     const roleName = common_vendor.index.getStorageSync("ROLE_KEY") || "";
     if (!((_a = userInfo.value) == null ? void 0 : _a.name)) {
       common_vendor.index.reLaunch({
@@ -21,7 +21,9 @@ const _sfc_main = {
       common_vendor.index.showModal({
         title: "提示",
         content: "确定退出登录？",
-        async success({ confirm }) {
+        async success({
+          confirm
+        }) {
           if (confirm) {
             await api_common.logOutApi();
             common_vendor.index.setStorageSync("token", "");
@@ -36,6 +38,22 @@ const _sfc_main = {
     const pageTo = (url) => {
       common_vendor.index.switchTab({
         url
+      });
+    };
+    const handleUnsubscribe = () => {
+      common_vendor.index.showModal({
+        title: "注销账号",
+        content: "一旦注销，您的账号将无法继续使用？",
+        async success({ confirm }) {
+          if (confirm) {
+            await api_common.deleteUserApi();
+            common_vendor.index.setStorageSync("token", "");
+            common_vendor.index.setStorageSync("userInfo", "");
+            common_vendor.index.reLaunch({
+              url: "/pages/login/login"
+            });
+          }
+        }
       });
     };
     return (_ctx, _cache) => {
@@ -57,7 +75,8 @@ const _sfc_main = {
         o: common_vendor.o(($event) => pageTo("/pages/recycle/detailList")),
         p: common_assets._imports_6,
         q: common_assets._imports_0$1,
-        r: common_vendor.o(($event) => pageTo("/pages/report/index"))
+        r: common_vendor.o(($event) => pageTo("/pages/report/index")),
+        s: common_vendor.o(handleUnsubscribe)
       };
     };
   }

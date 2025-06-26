@@ -27,17 +27,14 @@ const _sfc_main = {
     const total_count = common_vendor.ref(0);
     common_vendor.index.__f__("log", "at pages/delivery/index.vue:49", role.value);
     common_vendor.onLoad(() => {
-      common_vendor.index.__f__("log", "at pages/delivery/index.vue:51", "onLoadonLoadonLoad");
-    });
-    common_vendor.onShow(() => {
       isLoad.value = false;
       page.value.page = 1;
       role.value = common_vendor.index.getStorageSync("ROLE_KEY");
-      common_vendor.index.__f__("log", "at pages/delivery/index.vue:57", "onShowonShowonShowonShow");
       getList();
     });
+    common_vendor.onShow(() => {
+    });
     common_vendor.onHide(() => {
-      list.value = [];
     });
     const getList = async (isFresh) => {
       try {
@@ -66,7 +63,7 @@ const _sfc_main = {
       getList(true);
     });
     common_vendor.onReachBottom(() => {
-      common_vendor.index.__f__("log", "at pages/delivery/index.vue:91", "onReachBottom", list.value.length, total_count.value);
+      common_vendor.index.__f__("log", "at pages/delivery/index.vue:90", "onReachBottom", list.value.length, total_count.value);
       if (list.value.length == total_count.value) {
         loadMoreText.value = "没有更多数据了!";
         return;

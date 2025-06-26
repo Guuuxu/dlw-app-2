@@ -90,6 +90,7 @@
         </button>
       </view>
     </template>
+	<!-- <view class="copyright">版权所有© 2025迪雷沃包装设计(上海)有限公司</view> -->
   </view>
 </template>
 
@@ -436,5 +437,12 @@ page {
   uni-checkbox:not([disabled]) .uni-checkbox-input:hover {
     border-color: #99bba0;
   }
+}
+.copyright{
+	position: fixed;
+	bottom: 0;
+	text-align: center;
+	left: 0;
+	right: 0;
 }
 </style>

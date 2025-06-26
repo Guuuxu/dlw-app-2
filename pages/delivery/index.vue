@@ -1,5 +1,5 @@
 <template>
-	<view class="auth-container pt-16">
+	<view class="auth-container pt-16 pb-90">
 		<lsSkeleton :skeleton="skeleton" :loading="!isLoad">
 		<template v-if="list.length">
 			<view class="auth-item d-f ai-c" @click="goDetail(item)" v-for="(item,index) in list" :key="item.id">
@@ -21,6 +21,8 @@
 		<Empty v-else class="no-data ta-c uni-list-cell-pd"></Empty>
 		<view class="uni-loadmore" v-if="showLoadMore">{{loadMoreText}}</view>
 		</lsSkeleton>
+		<!-- 页面内容 -->
+		<custom-tabbar />
 	</view>
 </template>
 
@@ -30,6 +32,8 @@ import lsSkeleton from '@/components/ls-skeleton/ls-skeleton.nvue';
 import { onReady,onShow,onHide,onLoad,onReachBottom,onPullDownRefresh } from '@dcloudio/uni-app'
 import { getOutboundList } from '@/api/outbound.js'
 import Empty from "@/components/empty/empty.vue"
+import customTabbar from '@/components/custom-tabbar/custom-tabbar.vue'
+
 	const role = ref('')
 	const list = ref([])
 	const page = ref({

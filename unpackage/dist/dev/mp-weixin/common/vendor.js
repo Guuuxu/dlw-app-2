@@ -6471,8 +6471,8 @@ function populateParameters(fromRes, toRes) {
   const parameters = {
     appId: "__UNI__74CDCF2",
     appName: "迪雷沃",
-    appVersion: "1.0.1",
-    appVersionCode: 101,
+    appVersion: "1.0.6",
+    appVersionCode: 106,
     appLanguage: getAppLanguage(hostLanguage),
     uniCompileVersion: "4.57",
     uniCompilerVersion: "4.57",
@@ -6620,8 +6620,8 @@ const getAppBaseInfo = {
       hostTheme: theme,
       appId: "__UNI__74CDCF2",
       appName: "迪雷沃",
-      appVersion: "1.0.1",
-      appVersionCode: 101,
+      appVersion: "1.0.6",
+      appVersionCode: 106,
       appLanguage: getAppLanguage(hostLanguage),
       isUniAppX: false,
       uniPlatform: "mp-weixin",
@@ -7336,7 +7336,7 @@ function initOnError() {
 function initRuntimeSocketService() {
   const hosts = "192.168.0.22,127.0.0.1";
   const port = "8090";
-  const id = "mp-weixin_Fe6eh5";
+  const id = "mp-weixin__iJujn";
   const lazy = typeof swan !== "undefined";
   let restoreError = lazy ? () => {
   } : initOnError();

@@ -33,9 +33,14 @@ const _sfc_main = {
                 title: "回收成功",
                 icon: "none"
               });
-            } catch (error) {
+              list.value.unshift({
+                msg: "回收成功",
+                detail_no: res.result
+              });
+            } catch ({ data }) {
               list.value.unshift({
                 status: 7,
+                msg: data.msg,
                 detail_no: res.result
               });
             }
@@ -61,7 +66,7 @@ const _sfc_main = {
           }
         },
         fail: (err) => {
-          common_vendor.index.__f__("log", "at pages/recycle/detailList.vue:107", "fail");
+          common_vendor.index.__f__("log", "at pages/recycle/detailList.vue:112", "fail");
         }
       });
     };

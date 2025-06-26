@@ -36,3 +36,7 @@
   border-bottom: 2rpx solid #F6F7F8;
   height: 108rpx;
 }
+.footer.data-v-0a052cc1 {
+  display: flex;
+  flex-direction: column;
+}

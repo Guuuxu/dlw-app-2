@@ -109,12 +109,19 @@
         ></image>
       </view>
     </view>
+    <view class="unsubscribe-btn ta-c mt-16 uni" @click="handleUnsubscribe"
+      >注销账号</view
+    >
+    <!-- 页面内容 -->
+    <custom-tabbar />
   </view>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { logOutApi } from '@/api/common.js'
+import customTabbar from '@/components/custom-tabbar/custom-tabbar.vue'
+import { logOutApi, deleteUserApi } from '@/api/common.js'
+
 const userInfo = ref({})
 userInfo.value = uni.getStorageSync('userInfo')
   ? JSON.parse(uni.getStorageSync('userInfo'))
@@ -149,6 +156,22 @@ const pageTo = (url) => {
     url: url,
   })
 }
+const handleUnsubscribe = () => {
+  uni.showModal({
+    title: '注销账号',
+    content: '一旦注销，您的账号将无法继续使用？',
+    async success({ confirm }) {
+      if (confirm) {
+        await deleteUserApi()
+        uni.setStorageSync('token', '')
+        uni.setStorageSync('userInfo', '')
+        uni.reLaunch({
+          url: '/pages/login/login',
+        })
+      }
+    },
+  })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -156,19 +179,23 @@ const pageTo = (url) => {
   height: 100% !important;
   padding-top: var(--status-bar-height);
   background: url('/static/image/bg-home-head@2x.png') top no-repeat;
-
+  padding-bottom: 120rpx;
   background-size: 750rpx 480rpx;
+
   .header {
     height: 324rpx;
+
     .welcom {
       color: #0f182c;
       width: 100%;
+
       image {
         width: 506rpx;
         height: 140rpx;
         margin: auto;
       }
     }
+
     .icon-logout {
       width: 48rpx;
       height: 48rpx;
@@ -177,23 +204,31 @@ const pageTo = (url) => {
       top: 96rpx;
     }
   }
+
   .content {
     background: url('/static/image/bg-home-content@2x.png');
     background-size: cover;
     padding: 64rpx 32rpx 0;
     color: #0f182c;
+
     .content-item {
       height: 194rpx;
       border-radius: 16rpx;
+
       .home-icon {
         width: 80rpx;
         height: 80rpx;
       }
+
       .arrow {
         width: 48rpx;
         height: 48rpx;
       }
     }
+  }
+  .unsubscribe-btn {
+    color: #a7b0bf;
+    margin-bottom: 10px;
   }
 }
 </style>

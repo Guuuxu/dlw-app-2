@@ -23,6 +23,11 @@ export const logOutApi = () =>{
 	return http.post('/logout', )
 }
 
+//删除用户
+export const deleteUserApi = () =>{
+	return http.post('/system/deleteUser', )
+}
+
 // POST 请求
 // http.post('/api/login', { username: 'admin', password: '123456' })
 //   .then(data => {

@@ -27,18 +27,19 @@ const _sfc_main = {
       "card-sm*4",
       40
     ];
-    common_vendor.onShow(() => {
+    common_vendor.onLoad(() => {
       isLoad.value = false;
       page.value.page = 1;
       role.value = common_vendor.index.getStorageSync("ROLE_KEY");
       common_vendor.index.__f__("log", "at pages/auth/index.vue:59", "onLoadonLoadonLoad");
       init();
     });
+    common_vendor.onShow(() => {
+    });
     common_vendor.onHide(() => {
-      list.value = [];
     });
     const goCheck = (item) => {
-      common_vendor.index.__f__("log", "at pages/auth/index.vue:69", item);
+      common_vendor.index.__f__("log", "at pages/auth/index.vue:72", item);
       const url = role.value === "admin" ? "/pages/auth/detailList?" : "/pages/auth/check?";
       common_vendor.index.navigateTo({
         url: `${url}?item=${JSON.stringify(item)}`
@@ -67,15 +68,15 @@ const _sfc_main = {
       init(true);
     });
     common_vendor.onReachBottom(() => {
-      common_vendor.index.__f__("log", "at pages/auth/index.vue:99", list.value.length, total_count.value);
+      common_vendor.index.__f__("log", "at pages/auth/index.vue:102", list.value.length, total_count.value);
       if (list.value.length === total_count.value) {
-        common_vendor.index.__f__("log", "at pages/auth/index.vue:101", "没有更多数据了");
+        common_vendor.index.__f__("log", "at pages/auth/index.vue:104", "没有更多数据了");
         loadMoreText.value = "没有更多数据了!";
         showLoadMore.value = true;
         return;
       }
       showLoadMore.value = true;
-      common_vendor.index.__f__("log", "at pages/auth/index.vue:107", "onReachBottom");
+      common_vendor.index.__f__("log", "at pages/auth/index.vue:110", "onReachBottom");
       ++page.value.page;
       init();
     });

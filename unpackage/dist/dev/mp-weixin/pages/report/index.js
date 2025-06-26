@@ -139,11 +139,10 @@ const _sfc_main = {
         }
       });
     };
-    const previewImage = (e) => {
-      var current = e.target.dataset.src;
+    const previewImage = (img, imgList) => {
       common_vendor.index.previewImage({
-        current,
-        urls: imageList.value
+        current: img,
+        urls: imgList
       });
     };
     const deleteMainImage = () => {
@@ -156,12 +155,12 @@ const _sfc_main = {
       secondImgList.value = [];
     };
     const handleConfirm = () => {
-      common_vendor.index.__f__("log", "at pages/report/index.vue:356", broken_reason);
+      common_vendor.index.__f__("log", "at pages/report/index.vue:355", broken_reason);
       reasonName.value = tempReason.value;
       popup.value.close();
     };
     const handleSubmit = async () => {
-      common_vendor.index.__f__("log", "at pages/report/index.vue:362", imageList.value);
+      common_vendor.index.__f__("log", "at pages/report/index.vue:361", imageList.value);
       if (!broken_reason.value.length) {
         common_vendor.index.showToast({
           icon: "none",
@@ -187,9 +186,9 @@ const _sfc_main = {
         params.first_img = imageDetailList.value.join("");
       if (secondImgList.value.length)
         params.second_img = secondImgList.value.join("");
-      common_vendor.index.__f__("log", "at pages/report/index.vue:387", "params", params);
+      common_vendor.index.__f__("log", "at pages/report/index.vue:386", "params", params);
       await api_repair.updateRepair(params);
-      common_vendor.index.__f__("log", "at pages/report/index.vue:389", code.value, broken_reason.value, imageList.value);
+      common_vendor.index.__f__("log", "at pages/report/index.vue:388", code.value, broken_reason.value, imageList.value);
       common_vendor.index.navigateTo({
         url: "/pages/report/reportSuccess"
       });
@@ -222,7 +221,7 @@ const _sfc_main = {
           return {
             a: image,
             b: image,
-            c: common_vendor.o(previewImage, index),
+            c: common_vendor.o(($event) => previewImage(image, imageList.value), index),
             d: common_vendor.o(deleteMainImage, index),
             e: index
           };
@@ -238,7 +237,7 @@ const _sfc_main = {
           return {
             a: image,
             b: image,
-            c: common_vendor.o(previewImage, index),
+            c: common_vendor.o(($event) => previewImage(image, imageDetailList.value), index),
             d: common_vendor.o(deleteDetailImage, index),
             e: index
           };
@@ -254,7 +253,7 @@ const _sfc_main = {
           return {
             a: image,
             b: image,
-            c: common_vendor.o(previewImage, index),
+            c: common_vendor.o(($event) => previewImage(image, secondImgList.value), index),
             d: common_vendor.o(deleteSecondImage, index),
             e: index
           };

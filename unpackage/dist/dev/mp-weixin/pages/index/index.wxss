@@ -71,3 +71,7 @@
   width: 48rpx;
   height: 48rpx;
 }
+.home-container .unsubscribe-btn.data-v-1cf27b2a {
+  color: #A7B0BF;
+  margin-bottom: 10px;
+}

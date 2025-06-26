@@ -21,10 +21,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     const agreed = common_vendor.ref(false);
     const tabs = ["客户端", "管理端"];
     const role = common_vendor.ref("0");
-    common_vendor.index.__f__("log", "at pages/login/login.vue:106", "show", role.value);
+    common_vendor.index.__f__("log", "at pages/login/login.vue:107", "show", role.value);
     common_vendor.index.setStorageSync("ROLE_KEY", "web");
     const changeRole = (e) => {
-      common_vendor.index.__f__("log", "at pages/login/login.vue:109", e);
+      common_vendor.index.__f__("log", "at pages/login/login.vue:110", e);
       role.value = e;
       const key = e == "0" ? "web" : "admin";
       common_vendor.index.setStorageSync("ROLE_KEY", key);
@@ -33,7 +33,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       const currentCountryCode = utils_dict.countryCodeOptions.find(
         (item) => item.value === countryCode.value
       );
-      common_vendor.index.__f__("log", "at pages/login/login.vue:118", "currentCountryCode", currentCountryCode);
+      common_vendor.index.__f__("log", "at pages/login/login.vue:119", "currentCountryCode", currentCountryCode);
       if (currentCountryCode) {
         return currentCountryCode.regex.test(phone.value);
       }
@@ -81,7 +81,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     const inputRefs = common_vendor.ref([]);
     const handleInput = async (event, index) => {
       const value = event.detail.value;
-      common_vendor.index.__f__("log", "at pages/login/login.vue:172", "value", value);
+      common_vendor.index.__f__("log", "at pages/login/login.vue:173", "value", value);
       if (value.length > 1) {
         const values = value.split("");
         values.forEach((v, i) => {
@@ -91,7 +91,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           }
         });
         const nextEmptyIndex = codeValue.value.findIndex((v, i) => !v && i >= index);
-        common_vendor.index.__f__("log", "at pages/login/login.vue:182", nextEmptyIndex);
+        common_vendor.index.__f__("log", "at pages/login/login.vue:183", nextEmptyIndex);
         if (nextEmptyIndex !== -1 && nextEmptyIndex < 6) {
           currentFocus.value = nextEmptyIndex;
         }
@@ -102,14 +102,14 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         } else if (!value && index > 0) {
           currentFocus.value = index - 1;
         } else {
-          common_vendor.index.__f__("log", "at pages/login/login.vue:194", codeValue.value);
+          common_vendor.index.__f__("log", "at pages/login/login.vue:195", codeValue.value);
           if (codeValue.value.length && index) {
             const res = await api_common.loginApi({
               phone: phone.value,
               code: codeValue.value.join("")
             });
-            common_vendor.index.__f__("log", "at pages/login/login.vue:200", "res", res);
-            common_vendor.index.__f__("log", "at pages/login/login.vue:201", "index", index);
+            common_vendor.index.__f__("log", "at pages/login/login.vue:201", "res", res);
+            common_vendor.index.__f__("log", "at pages/login/login.vue:202", "index", index);
             common_vendor.index.setStorageSync("token", res.data.accessToken);
             common_vendor.index.setStorageSync("userInfo", JSON.stringify(res.data.user));
             common_vendor.index.showToast({

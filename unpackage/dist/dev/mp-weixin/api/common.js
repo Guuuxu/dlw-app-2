@@ -12,6 +12,10 @@ const sendSMS = (phone, code) => {
 const logOutApi = () => {
   return utils_request.http.post("/logout");
 };
+const deleteUserApi = () => {
+  return utils_request.http.post("/system/deleteUser");
+};
+exports.deleteUserApi = deleteUserApi;
 exports.logOutApi = logOutApi;
 exports.loginApi = loginApi;
 exports.sendSMS = sendSMS;
