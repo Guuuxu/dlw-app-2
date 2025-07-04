@@ -3796,6 +3796,9 @@ uni-radio-group uni-label, uni-checkbox-group uni-label{
 .align-self-center {
   align-self: center;
 }
+.flex-col {
+  flex-direction: column;
+}
 /**
  * @see https://docs.emmet.io/cheat-sheet/
  */

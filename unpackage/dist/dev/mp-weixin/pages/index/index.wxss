@@ -32,6 +32,7 @@
   height: 100% !important;
   padding-top: var(--status-bar-height);
   background: url("../../static/image/bg-home-head@2x.png") top no-repeat;
+  padding-bottom: 120rpx;
   background-size: 750rpx 480rpx;
 }
 .home-container .header.data-v-1cf27b2a {
@@ -72,6 +73,6 @@
   height: 48rpx;
 }
 .home-container .unsubscribe-btn.data-v-1cf27b2a {
-  color: #A7B0BF;
+  color: #a7b0bf;
   margin-bottom: 10px;
 }

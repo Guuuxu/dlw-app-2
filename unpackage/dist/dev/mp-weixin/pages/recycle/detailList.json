@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "回收复查",
   "usingComponents": {
-    "empty": "../../components/empty/empty"
+    "empty": "../../components/empty/empty",
+    "custom-tabbar": "../../components/custom-tabbar/custom-tabbar"
   }
 }

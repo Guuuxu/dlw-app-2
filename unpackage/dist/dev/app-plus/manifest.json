@@ -7,8 +7,8 @@
   "id": "__UNI__74CDCF2",
   "name": "迪雷沃",
   "version": {
-    "name": "1.0.4",
-    "code": 104
+    "name": "1.0.9",
+    "code": 109
   },
   "description": "迪雷沃包装管理",
   "developer": {
@@ -21,7 +21,6 @@
     "Payment": {},
     "Share": {},
     "Speech": {},
-    "VideoPlayer": {},
     "Barcode": {},
     "Camera": {},
     "UniNView": {
@@ -41,6 +40,7 @@
     },
     "popGesture": "close",
     "launchwebview": {
+      "render": "always",
       "id": "1",
       "kernel": "WKWebview"
     },
@@ -92,6 +92,9 @@
           }
         }
       },
+      "splashscreen": {
+        "iosStyle": "common"
+      },
       "google": {
         "permissions": [
           "<uses-feature android:name=\"android.hardware.camera\"/>",
@@ -125,9 +128,6 @@
         "minSdkVersion": 21
       },
       "apple": {
-        "UIBackgroundModes": [
-          "audio"
-        ],
         "urlschemewhitelist": [
           "baidumap",
           "iosamap"
@@ -136,7 +136,8 @@
           "NSPhotoLibraryUsageDescription": "包装损坏图片上传",
           "NSCameraUsageDescription": "包装损坏图片上传"
         },
-        "dSYMs": false
+        "dSYMs": false,
+        "idfa": false
       },
       "plugins": {
         "speech": {},
@@ -171,56 +172,6 @@
       "webView": {
         "minUserAgentVersion": "49.0"
       }
-    },
-    "tabBar": {
-      "position": "bottom",
-      "color": "#7A7E83",
-      "selectedColor": "#99BBA0",
-      "borderStyle": "rgba(255,255,255,0.4)",
-      "blurEffect": "none",
-      "fontSize": "10px",
-      "iconWidth": "24px",
-      "spacing": "3px",
-      "height": "50px",
-      "list": [
-        {
-          "pagePath": "pages/auth/index",
-          "iconPath": "/static/image/tabbar-auth@2x.png",
-          "selectedIconPath": "/static/image/tabbar-auth-active@2x.png",
-          "text": "初始认证"
-        },
-        {
-          "pagePath": "pages/delivery/index",
-          "iconPath": "/static/image/tabbar-delivery@2x.png",
-          "selectedIconPath": "/static/image/tabbar-delivery-active@2x.png",
-          "text": "包装出库"
-        },
-        {
-          "pagePath": "pages/index/index",
-          "iconPath": "/static/image/tabbar-home-active@2x.png",
-          "selectedIconPath": "/static/image/tabbar-home-active@2x.png",
-          "text": "主页"
-        },
-        {
-          "pagePath": "pages/recycle/detailList",
-          "iconPath": "/static/image/tabbar-recycle@2x.png",
-          "selectedIconPath": "/static/image/tabbar-recycle-active@2x.png",
-          "text": "回收复查"
-        },
-        {
-          "pagePath": "pages/report/index",
-          "iconPath": "/static/image/tabbar-report@2x.png",
-          "selectedIconPath": "/static/image/tabbar-report-active@2x.png",
-          "text": "损坏申报"
-        }
-      ],
-      "backgroundColor": "#F8F8F8",
-      "selectedIndex": 0,
-      "shown": true,
-      "child": [
-        "lauchwebview"
-      ],
-      "selected": 2
     }
   },
   "app-harmony": {
@@ -231,12 +182,6 @@
     "uniStatistics": {
       "version": "2",
       "enable": true
-    },
-    "safearea": {
-      "background": "#F8F8F8",
-      "bottom": {
-        "offset": "auto"
-      }
     }
   },
   "screenOrientation": [

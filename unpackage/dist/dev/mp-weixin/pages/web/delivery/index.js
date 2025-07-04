@@ -70,7 +70,7 @@ const _sfc_main = {
             e: item.id
           };
         }),
-        c: common_assets._imports_0$1
+        c: common_assets._imports_0
       } : {});
     };
   }

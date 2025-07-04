@@ -17,6 +17,7 @@
 				</view>
 			</template>
 			<Empty v-else class="no-data ta-c uni-list-cell-pd"></Empty>
+			<view class="uni-loadmore" v-if="showLoadMore">{{loadMoreText}}</view>
 		</view>
 		<view class="footer d-f w_100 mt-48 pt-20 fixed pb-20 safe-area-bottom bg-white" style="">
 			<button class="custom-btn" type="" @click="handleScan">扫一扫</button>
@@ -55,6 +56,10 @@ import Empty from "@/components/empty/empty.vue"
 	const row = ref({})
 	const role = ref('') // 角色
 	const formData = ref({})
+	const page = ref({
+		page: 1,
+		per_page: 15
+	})
 	onLoad((option) => {
 		role.value = uni.getStorageSync('ROLE_KEY')
 		console.log(role.value)
@@ -75,16 +80,15 @@ import Empty from "@/components/empty/empty.vue"
 	const success_count = ref(0)
 	const loadDetail = async (id,isfresh) => {
 		try{
-			const res = await getScanResult(id)
+			const res = await getScanResult(id,page.value)
 			total.value = res.data.total_count
+			console.log(res.data.list)
 			if (role.value === 'admin') {
 				if(isfresh){
 					list.value = res.data.list
 				}else{
 					list.value = list.value.concat(res.data.list)
 				}
-				// list.value = list.value.concat(res.data.list)
-				console.log(list.value)
 				uni.stopPullDownRefresh();
 				uni.setNavigationBarTitle({
 					title: `明细列表(${res.data.success_count}/${total.value})`

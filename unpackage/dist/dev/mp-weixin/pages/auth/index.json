@@ -3,6 +3,7 @@
   "enablePullDownRefresh": true,
   "usingComponents": {
     "empty": "../../components/empty/empty",
+    "custom-tabbar": "../../components/custom-tabbar/custom-tabbar",
     "ls-skeleton": "../../components/ls-skeleton/ls-skeleton"
   }
 }

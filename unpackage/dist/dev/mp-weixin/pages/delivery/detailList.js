@@ -11,7 +11,7 @@ const _sfc_main = {
     const list = common_vendor.ref([]);
     const page = common_vendor.ref({
       page: 1,
-      per_page: 10
+      per_page: 15
     });
     const isLoad = common_vendor.ref(false);
     const loadMoreText = common_vendor.ref("加载中...");

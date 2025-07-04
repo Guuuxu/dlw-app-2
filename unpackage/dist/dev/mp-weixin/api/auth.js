@@ -11,8 +11,8 @@ const getBoundList = ({
     type_name
   });
 };
-const getScanResult = (inbound) => {
-  return utils_request.http.get(`/bound/inbound/${inbound}/result`);
+const getScanResult = (inbound, page) => {
+  return utils_request.http.get(`/bound/inbound/${inbound}/result`, page);
 };
 const scanAdmin = ({
   id,

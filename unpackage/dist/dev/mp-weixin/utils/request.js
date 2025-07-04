@@ -1,6 +1,6 @@
 "use strict";
 const common_vendor = require("../common/vendor.js");
-const API_BASE_URL = "http://dileiwo-api.test.muke.design";
+const API_BASE_URL = "http://api.deravel.com.cn";
 const defaults = {
   baseURL: API_BASE_URL,
   // 基础路径

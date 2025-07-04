@@ -99,6 +99,6 @@
 }
 .submit-btn.data-v-14542b8b {
   position: fixed;
-  bottom: 44rpx;
+  bottom: 120rpx;
   width: 100%;
 }

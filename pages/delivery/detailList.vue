@@ -37,7 +37,7 @@
 	const list = ref([])
 	const page = ref({
 		page: 1,
-		per_page: 10
+		per_page: 15
 	})
 	const isLoad = ref(false)
 	const loadMoreText = ref("加载中...")

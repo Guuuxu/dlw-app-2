@@ -38,7 +38,7 @@ import customTabbar from '@/components/custom-tabbar/custom-tabbar.vue'
 	const list = ref([])
 	const page = ref({
 		page: 1,
-		per_page: 10
+		per_page: 15
 	})
 	const skeleton = [
 	                    40,

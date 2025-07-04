@@ -69,6 +69,7 @@
         ></image>
       </view>
       <view
+		v-if="(userInfo.type !== 3 && roleName === 'admin') || roleName === 'web'"
         class="content-item d-f bg_white ai-c pl-48 pr-32 mb-32"
         @click="pageTo('/pages/recycle/detailList')"
       >
@@ -88,6 +89,7 @@
         ></image>
       </view>
       <view
+		v-if="(userInfo.type !== 3 && roleName === 'admin') || roleName === 'web'"
         class="content-item d-f bg_white ai-c pl-48 pr-32"
         @click="pageTo('/pages/report/index')"
       >
@@ -126,7 +128,7 @@ const userInfo = ref({})
 userInfo.value = uni.getStorageSync('userInfo')
   ? JSON.parse(uni.getStorageSync('userInfo'))
   : {}
-console.log(userInfo)
+console.log('userInfo',userInfo)
 const roleName = uni.getStorageSync('ROLE_KEY') || ''
 if (!userInfo.value?.name) {
   uni.reLaunch({
@@ -152,7 +154,7 @@ const handleLogout = () => {
   })
 }
 const pageTo = (url) => {
-  uni.switchTab({
+  uni.reLaunch({
     url: url,
   })
 }

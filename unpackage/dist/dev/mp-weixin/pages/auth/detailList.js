@@ -15,10 +15,14 @@ const _sfc_main = {
     const row = common_vendor.ref({});
     const role = common_vendor.ref("");
     const formData = common_vendor.ref({});
+    const page = common_vendor.ref({
+      page: 1,
+      per_page: 15
+    });
     common_vendor.onLoad((option) => {
       role.value = common_vendor.index.getStorageSync("ROLE_KEY");
-      common_vendor.index.__f__("log", "at pages/auth/detailList.vue:60", role.value);
-      common_vendor.index.__f__("log", "at pages/auth/detailList.vue:61", "option", option);
+      common_vendor.index.__f__("log", "at pages/auth/detailList.vue:65", role.value);
+      common_vendor.index.__f__("log", "at pages/auth/detailList.vue:66", "option", option);
       const item = option.item ? JSON.parse(option.item) : {};
       formData.value = option.formData ? JSON.parse(option.formData) : {};
       row.value = item;
@@ -32,15 +36,15 @@ const _sfc_main = {
     const success_count = common_vendor.ref(0);
     const loadDetail = async (id, isfresh) => {
       try {
-        const res = await api_auth.getScanResult(id);
+        const res = await api_auth.getScanResult(id, page.value);
         total.value = res.data.total_count;
+        common_vendor.index.__f__("log", "at pages/auth/detailList.vue:85", res.data.list);
         if (role.value === "admin") {
           if (isfresh) {
             list.value = res.data.list;
           } else {
             list.value = list.value.concat(res.data.list);
           }
-          common_vendor.index.__f__("log", "at pages/auth/detailList.vue:87", list.value);
           common_vendor.index.stopPullDownRefresh();
           common_vendor.index.setNavigationBarTitle({
             title: `明细列表(${res.data.success_count}/${total.value})`
@@ -64,11 +68,11 @@ const _sfc_main = {
       }
     };
     common_vendor.onPullDownRefresh(() => {
-      common_vendor.index.__f__("log", "at pages/auth/detailList.vue:112", row.value.id);
+      common_vendor.index.__f__("log", "at pages/auth/detailList.vue:116", row.value.id);
       loadDetail(row.value.id, true);
     });
     common_vendor.onReachBottom(() => {
-      common_vendor.index.__f__("log", "at pages/auth/detailList.vue:116", "onReachBottom");
+      common_vendor.index.__f__("log", "at pages/auth/detailList.vue:120", "onReachBottom");
       if (list.value.length == total.value) {
         loadMoreText.value = "没有更多数据了!";
         return;
@@ -156,8 +160,12 @@ const _sfc_main = {
         d: role.value === "admin",
         e: role.value === "web"
       } : {}, {
-        f: common_vendor.o(handleScan),
-        g: common_vendor.o(handleFinish)
+        f: showLoadMore.value
+      }, showLoadMore.value ? {
+        g: common_vendor.t(loadMoreText.value)
+      } : {}, {
+        h: common_vendor.o(handleScan),
+        i: common_vendor.o(handleFinish)
       }) : {});
     };
   }

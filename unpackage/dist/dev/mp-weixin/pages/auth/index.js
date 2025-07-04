@@ -3,16 +3,17 @@ const common_vendor = require("../../common/vendor.js");
 const common_assets = require("../../common/assets.js");
 const api_auth = require("../../api/auth.js");
 if (!Math) {
-  (Empty + common_vendor.unref(lsSkeleton))();
+  (Empty + common_vendor.unref(lsSkeleton) + customTabbar)();
 }
 const Empty = () => "../../components/empty/empty.js";
+const customTabbar = () => "../../components/custom-tabbar/custom-tabbar.js";
 const lsSkeleton = () => "../../components/ls-skeleton/ls-skeleton.js";
 const _sfc_main = {
   __name: "index",
   setup(__props) {
     const page = common_vendor.ref({
       page: 1,
-      per_page: 10
+      per_page: 15
     });
     const isLoad = common_vendor.ref(false);
     const list = common_vendor.ref([]);
@@ -22,16 +23,12 @@ const _sfc_main = {
     const total_count = common_vendor.ref(0);
     const loadMoreText = common_vendor.ref("加载中...");
     const showLoadMore = common_vendor.ref(false);
-    const skeleton = [
-      40,
-      "card-sm*4",
-      40
-    ];
+    const skeleton = [40, "card-sm*4", 40];
     common_vendor.onLoad(() => {
       isLoad.value = false;
       page.value.page = 1;
       role.value = common_vendor.index.getStorageSync("ROLE_KEY");
-      common_vendor.index.__f__("log", "at pages/auth/index.vue:59", "onLoadonLoadonLoad");
+      common_vendor.index.__f__("log", "at pages/auth/index.vue:74", "onLoadonLoadonLoad");
       init();
     });
     common_vendor.onShow(() => {
@@ -39,7 +36,7 @@ const _sfc_main = {
     common_vendor.onHide(() => {
     });
     const goCheck = (item) => {
-      common_vendor.index.__f__("log", "at pages/auth/index.vue:72", item);
+      common_vendor.index.__f__("log", "at pages/auth/index.vue:83", item);
       const url = role.value === "admin" ? "/pages/auth/detailList?" : "/pages/auth/check?";
       common_vendor.index.navigateTo({
         url: `${url}?item=${JSON.stringify(item)}`
@@ -68,15 +65,15 @@ const _sfc_main = {
       init(true);
     });
     common_vendor.onReachBottom(() => {
-      common_vendor.index.__f__("log", "at pages/auth/index.vue:102", list.value.length, total_count.value);
+      common_vendor.index.__f__("log", "at pages/auth/index.vue:114", list.value.length, total_count.value);
       if (list.value.length === total_count.value) {
-        common_vendor.index.__f__("log", "at pages/auth/index.vue:104", "没有更多数据了");
+        common_vendor.index.__f__("log", "at pages/auth/index.vue:116", "没有更多数据了");
         loadMoreText.value = "没有更多数据了!";
         showLoadMore.value = true;
         return;
       }
       showLoadMore.value = true;
-      common_vendor.index.__f__("log", "at pages/auth/index.vue:110", "onReachBottom");
+      common_vendor.index.__f__("log", "at pages/auth/index.vue:122", "onReachBottom");
       ++page.value.page;
       init();
     });
@@ -100,7 +97,7 @@ const _sfc_main = {
           });
         }),
         c: role.value == "web",
-        d: common_assets._imports_0$1
+        d: common_assets._imports_0
       } : {}, {
         e: showLoadMore.value
       }, showLoadMore.value ? {

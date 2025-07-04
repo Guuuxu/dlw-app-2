@@ -3,10 +3,11 @@ const common_vendor = require("../../common/vendor.js");
 const common_assets = require("../../common/assets.js");
 const api_outbound = require("../../api/outbound.js");
 if (!Math) {
-  (Empty + common_vendor.unref(lsSkeleton))();
+  (Empty + common_vendor.unref(lsSkeleton) + customTabbar)();
 }
 const lsSkeleton = () => "../../components/ls-skeleton/ls-skeleton.js";
 const Empty = () => "../../components/empty/empty.js";
+const customTabbar = () => "../../components/custom-tabbar/custom-tabbar.js";
 const _sfc_main = {
   __name: "index",
   setup(__props) {
@@ -14,7 +15,7 @@ const _sfc_main = {
     const list = common_vendor.ref([]);
     const page = common_vendor.ref({
       page: 1,
-      per_page: 10
+      per_page: 15
     });
     const skeleton = [
       40,
@@ -25,7 +26,7 @@ const _sfc_main = {
     const loadMoreText = common_vendor.ref("加载中...");
     const showLoadMore = common_vendor.ref(false);
     const total_count = common_vendor.ref(0);
-    common_vendor.index.__f__("log", "at pages/delivery/index.vue:49", role.value);
+    common_vendor.index.__f__("log", "at pages/delivery/index.vue:53", role.value);
     common_vendor.onLoad(() => {
       isLoad.value = false;
       page.value.page = 1;
@@ -63,7 +64,7 @@ const _sfc_main = {
       getList(true);
     });
     common_vendor.onReachBottom(() => {
-      common_vendor.index.__f__("log", "at pages/delivery/index.vue:90", "onReachBottom", list.value.length, total_count.value);
+      common_vendor.index.__f__("log", "at pages/delivery/index.vue:94", "onReachBottom", list.value.length, total_count.value);
       if (list.value.length == total_count.value) {
         loadMoreText.value = "没有更多数据了!";
         return;
@@ -87,7 +88,7 @@ const _sfc_main = {
             e: item.id
           };
         }),
-        c: common_assets._imports_0$1
+        c: common_assets._imports_0
       } : {}, {
         d: showLoadMore.value
       }, showLoadMore.value ? {

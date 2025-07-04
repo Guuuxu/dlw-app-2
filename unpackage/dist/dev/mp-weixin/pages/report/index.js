@@ -15,8 +15,9 @@ const _easycom_uni_card = () => "../../uni_modules/uni-card/components/uni-card/
 const _easycom_uni_data_checkbox = () => "../../uni_modules/uni-data-checkbox/components/uni-data-checkbox/uni-data-checkbox.js";
 const _easycom_uni_popup = () => "../../uni_modules/uni-popup/components/uni-popup/uni-popup.js";
 if (!Math) {
-  (_easycom_uni_icons + _easycom_uni_card + _easycom_uni_data_checkbox + _easycom_uni_popup)();
+  (_easycom_uni_icons + _easycom_uni_card + _easycom_uni_data_checkbox + _easycom_uni_popup + customTabbar)();
 }
+const customTabbar = () => "../../components/custom-tabbar/custom-tabbar.js";
 const sourceTypeIndex = 2;
 const _sfc_main = {
   __name: "index",
@@ -27,17 +28,17 @@ const _sfc_main = {
       common_vendor.index.scanCode({
         success: async (res) => {
           code.value = res.result;
-          common_vendor.index.__f__("log", "at pages/report/index.vue:178", "176", res);
+          common_vendor.index.__f__("log", "at pages/report/index.vue:181", "176", res);
           try {
             const resScan = await api_repair.scanRepair(code.value);
-            common_vendor.index.__f__("log", "at pages/report/index.vue:181", "resScan", resScan);
+            common_vendor.index.__f__("log", "at pages/report/index.vue:184", "resScan", resScan);
             model_detail_id.value = resScan.data.id;
           } catch (error) {
-            common_vendor.index.__f__("log", "at pages/report/index.vue:184", "182", error);
+            common_vendor.index.__f__("log", "at pages/report/index.vue:187", "182", error);
           }
         },
         fail: (err) => {
-          common_vendor.index.__f__("log", "at pages/report/index.vue:188", "160", err);
+          common_vendor.index.__f__("log", "at pages/report/index.vue:191", "160", err);
         }
       });
     };
@@ -81,7 +82,7 @@ const _sfc_main = {
     const tempReason = common_vendor.ref("");
     const change = (e) => {
       var _a, _b;
-      common_vendor.index.__f__("log", "at pages/report/index.vue:256", "e:", e);
+      common_vendor.index.__f__("log", "at pages/report/index.vue:259", "e:", e);
       broken_reason.value = (_a = e.detail) == null ? void 0 : _a.value;
       tempReason.value = ((_b = e.detail) == null ? void 0 : _b.data.map((item) => item.text).toString()) || "";
     };
@@ -92,10 +93,10 @@ const _sfc_main = {
       common_vendor.index.chooseImage({
         count: 1,
         success: async (res) => {
-          common_vendor.index.__f__("log", "at pages/report/index.vue:279", "chooseImage", res.tempFilePaths);
+          common_vendor.index.__f__("log", "at pages/report/index.vue:282", "chooseImage", res.tempFilePaths);
           const urlRes = await api_common.uploadApi(res.tempFilePaths[0]);
           const url = urlRes.data.url;
-          common_vendor.index.__f__("log", "at pages/report/index.vue:282", "urlRes", urlRes);
+          common_vendor.index.__f__("log", "at pages/report/index.vue:285", "urlRes", urlRes);
           if (index === 1) {
             imageList.value = [url];
           } else if (index === 2) {
@@ -105,7 +106,7 @@ const _sfc_main = {
           }
         },
         fail: (err) => {
-          common_vendor.index.__f__("log", "at pages/report/index.vue:292", "err: ", err);
+          common_vendor.index.__f__("log", "at pages/report/index.vue:295", "err: ", err);
           if (err.errMsg.indexOf("cancel") !== "-1") {
             return;
           }
@@ -155,12 +156,12 @@ const _sfc_main = {
       secondImgList.value = [];
     };
     const handleConfirm = () => {
-      common_vendor.index.__f__("log", "at pages/report/index.vue:355", broken_reason);
+      common_vendor.index.__f__("log", "at pages/report/index.vue:358", broken_reason);
       reasonName.value = tempReason.value;
       popup.value.close();
     };
     const handleSubmit = async () => {
-      common_vendor.index.__f__("log", "at pages/report/index.vue:361", imageList.value);
+      common_vendor.index.__f__("log", "at pages/report/index.vue:364", imageList.value);
       if (!broken_reason.value.length) {
         common_vendor.index.showToast({
           icon: "none",
@@ -186,9 +187,9 @@ const _sfc_main = {
         params.first_img = imageDetailList.value.join("");
       if (secondImgList.value.length)
         params.second_img = secondImgList.value.join("");
-      common_vendor.index.__f__("log", "at pages/report/index.vue:386", "params", params);
+      common_vendor.index.__f__("log", "at pages/report/index.vue:389", "params", params);
       await api_repair.updateRepair(params);
-      common_vendor.index.__f__("log", "at pages/report/index.vue:388", code.value, broken_reason.value, imageList.value);
+      common_vendor.index.__f__("log", "at pages/report/index.vue:391", code.value, broken_reason.value, imageList.value);
       common_vendor.index.navigateTo({
         url: "/pages/report/reportSuccess"
       });

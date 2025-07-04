@@ -1,10 +1,10 @@
 <template>
-  <view class="custom-tabbar d-f pb-10 pt-10 safe-area-bottom bg-white">
+  <view class="custom-tabbar d-f pb-15 pt-10 safe-area-bottom bg-white">
     <view
       v-for="(item, index) in filteredTabs"
       :key="index"
       @click="switchTab(item)"
-      class="flex-1 d-f jc-c ai-c flex-col"
+      class="flex-1 d-f jc-c ai-c flex-col uni-secondary-color"
       :class="['tab-item', { active: currentPath === item.pagePath }]"
     >
       <image
@@ -62,14 +62,20 @@ const tabList = [
   },
 ]
 
+const roleName = uni.getStorageSync('ROLE_KEY') || ''
 // 权限过滤后的 tab 列表
 const filteredTabs = computed(() => {
   const userInfo = uni.getStorageSync('userInfo')
     ? JSON.parse(uni.getStorageSync('userInfo'))
     : {}
-  return tabList.filter(
-    (item) => !item?.roles || item?.roles?.includes(userInfo.type)
-  )
+	if(roleName === 'admin'){
+		return tabList.filter(
+		  (item) => !item?.roles || item?.roles?.includes(userInfo.type)
+		)
+	}else{
+		return tabList
+	}
+  
 })
 
 // 显示控制
@@ -96,6 +102,11 @@ const switchTab = (item) => {
   position: fixed;
   width: 100%;
   bottom: 0;
+  .tab-item{
+	  &.active{
+		color: $uni-text-color;
+	  }
+  }
 }
 .icon-tabbar {
   width: 48rpx;

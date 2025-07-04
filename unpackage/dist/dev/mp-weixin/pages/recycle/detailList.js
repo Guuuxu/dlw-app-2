@@ -2,9 +2,10 @@
 const common_vendor = require("../../common/vendor.js");
 const api_auth = require("../../api/auth.js");
 if (!Math) {
-  Empty();
+  (Empty + customTabbar)();
 }
 const Empty = () => "../../components/empty/empty.js";
+const customTabbar = () => "../../components/custom-tabbar/custom-tabbar.js";
 const _sfc_main = {
   __name: "detailList",
   setup(__props) {
@@ -21,8 +22,8 @@ const _sfc_main = {
     const handleScan = async () => {
       common_vendor.index.scanCode({
         success: async (res) => {
-          common_vendor.index.__f__("log", "at pages/recycle/detailList.vue:56", "=====scanCode-success", JSON.stringify(res));
-          common_vendor.index.__f__("log", "at pages/recycle/detailList.vue:57", "role.value", role.value);
+          common_vendor.index.__f__("log", "at pages/recycle/detailList.vue:62", "=====scanCode-success", JSON.stringify(res));
+          common_vendor.index.__f__("log", "at pages/recycle/detailList.vue:63", "role.value", role.value);
           if (role.value === "admin") {
             try {
               const resScan = await api_auth.scanAdmin({
@@ -66,7 +67,7 @@ const _sfc_main = {
           }
         },
         fail: (err) => {
-          common_vendor.index.__f__("log", "at pages/recycle/detailList.vue:112", "fail");
+          common_vendor.index.__f__("log", "at pages/recycle/detailList.vue:117", "fail");
         }
       });
     };

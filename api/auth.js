@@ -2,7 +2,7 @@ import http from '@/utils/request.js';
 
 const pageParams = {
 	page: 1,
-	per_page: 10
+	per_page: 15
 }
 // 新品列表
 export const getBoundList = ({
@@ -18,8 +18,8 @@ export const getBoundList = ({
 }
 
 // 扫描结果
-export const getScanResult = (inbound) => {
-	return http.get(`/bound/inbound/${inbound}/result`, )
+export const getScanResult = (inbound,page) => {
+	return http.get(`/bound/inbound/${inbound}/result`, page )
 }
 
 // admin扫码

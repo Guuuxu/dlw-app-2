@@ -28,17 +28,20 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.auth-container.data-v-3f748249 {
+  padding-bottom: 120rpx;
+}
 .auth-item.data-v-3f748249 {
   height: 156rpx;
   padding: 0 32rpx;
-  background: #FFFFFF;
+  background: #ffffff;
 }
 .auth-item .left.data-v-3f748249 {
   border-radius: 8rpx;
-  background-color: #99BBA0;
+  background-color: #99bba0;
 }
 .auth-item .num.data-v-3f748249 {
-  color: #45464A;
+  color: #45464a;
 }
 .auth-item .arrow.data-v-3f748249 {
   width: 48rpx;

@@ -4,6 +4,7 @@
   "enablePullDownRefresh": true,
   "usingComponents": {
     "ls-skeleton": "../../components/ls-skeleton/ls-skeleton",
-    "empty": "../../components/empty/empty"
+    "empty": "../../components/empty/empty",
+    "custom-tabbar": "../../components/custom-tabbar/custom-tabbar"
   }
 }

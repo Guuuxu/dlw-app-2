@@ -6471,8 +6471,8 @@ function populateParameters(fromRes, toRes) {
   const parameters = {
     appId: "__UNI__74CDCF2",
     appName: "迪雷沃",
-    appVersion: "1.0.6",
-    appVersionCode: 106,
+    appVersion: "1.0.9",
+    appVersionCode: 109,
     appLanguage: getAppLanguage(hostLanguage),
     uniCompileVersion: "4.57",
     uniCompilerVersion: "4.57",
@@ -6620,8 +6620,8 @@ const getAppBaseInfo = {
       hostTheme: theme,
       appId: "__UNI__74CDCF2",
       appName: "迪雷沃",
-      appVersion: "1.0.6",
-      appVersionCode: 106,
+      appVersion: "1.0.9",
+      appVersionCode: 109,
       appLanguage: getAppLanguage(hostLanguage),
       isUniAppX: false,
       uniPlatform: "mp-weixin",
@@ -7334,9 +7334,9 @@ function initOnError() {
   };
 }
 function initRuntimeSocketService() {
-  const hosts = "192.168.0.22,127.0.0.1";
+  const hosts = "192.168.0.4,127.0.0.1";
   const port = "8090";
-  const id = "mp-weixin__iJujn";
+  const id = "mp-weixin_fC8zSr";
   const lazy = typeof swan !== "undefined";
   let restoreError = lazy ? () => {
   } : initOnError();
@@ -10221,38 +10221,8 @@ const tabBar = {
   selectedColor: "#99BBA0",
   borderStyle: "white",
   backgroundColor: "#F8F8F8",
-  list: [
-    {
-      pagePath: "pages/auth/index",
-      iconPath: "static/image/tabbar-auth@2x.png",
-      selectedIconPath: "static/image/tabbar-auth-active@2x.png",
-      text: "初始认证"
-    },
-    {
-      pagePath: "pages/delivery/index",
-      iconPath: "static/image/tabbar-delivery@2x.png",
-      selectedIconPath: "static/image/tabbar-delivery-active@2x.png",
-      text: "包装出库"
-    },
-    {
-      pagePath: "pages/index/index",
-      iconPath: "static/image/tabbar-home-active@2x.png",
-      selectedIconPath: "static/image/tabbar-home-active@2x.png",
-      text: "主页"
-    },
-    {
-      pagePath: "pages/recycle/detailList",
-      iconPath: "static/image/tabbar-recycle@2x.png",
-      selectedIconPath: "static/image/tabbar-recycle-active@2x.png",
-      text: "回收复查"
-    },
-    {
-      pagePath: "pages/report/index",
-      iconPath: "static/image/tabbar-report@2x.png",
-      selectedIconPath: "static/image/tabbar-report-active@2x.png",
-      text: "损坏申报"
-    }
-  ]
+  custom: true,
+  list: []
 };
 const e = {
   leftWindow,
@@ -14295,4 +14265,5 @@ exports.s = s$1;
 exports.sr = sr;
 exports.t = t$1;
 exports.unref = unref;
+exports.useStore = useStore;
 //# sourceMappingURL=../../.sourcemap/mp-weixin/common/vendor.js.map

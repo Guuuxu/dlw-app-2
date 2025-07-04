@@ -30,13 +30,14 @@
 /* 文章场景相关 */
 .detail-list.data-v-0a052cc1 {
   font-size: 32rpx;
-  color: #0F182C;
+  color: #0f182c;
 }
 .detail-list .detail-item.data-v-0a052cc1 {
-  border-bottom: 2rpx solid #F6F7F8;
+  border-bottom: 2rpx solid #f6f7f8;
   height: 108rpx;
 }
 .footer.data-v-0a052cc1 {
   display: flex;
   flex-direction: column;
+  bottom: 120rpx;
 }
