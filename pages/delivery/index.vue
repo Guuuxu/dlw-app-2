@@ -8,7 +8,7 @@
 				</view>
 				<view class="middle flex-1 ml-24">
 					<view class="title">
-						{{ role == 'admin' ?item.name : item.order_no}}
+						{{ item.name}}
 						
 					</view>
 					<view class="sub color-subTitlle mt-8">
