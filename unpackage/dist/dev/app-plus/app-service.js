@@ -1505,7 +1505,7 @@ if (uni.restoreGlobal) {
     ]);
   }
   const customTabbar = /* @__PURE__ */ _export_sfc(_sfc_main$C, [["render", _sfc_render$B], ["__scopeId", "data-v-51c48e3c"], ["__file", "D:/project/dlw/uniapp-dileiwo/components/custom-tabbar/custom-tabbar.vue"]]);
-  const API_BASE_URL = "http://api.deravel.com.cn";
+  const API_BASE_URL = "http://dileiwo-api.test.muke.design";
   const defaults = {
     baseURL: API_BASE_URL,
     // 基础路径
@@ -1685,8 +1685,8 @@ if (uni.restoreGlobal) {
           url: "/pages/login/login"
         });
       }
-      const webTypeOption = ["管理员", "操作员", "法人"];
-      const adminTypeOption = ["管理员", "操作员", "代工厂"];
+      const webTypeOption = ["总管员", "管理员", "操作员", "法人"];
+      const adminTypeOption = ["总管员", "管理员", "操作员", "代工厂"];
       const handleLogout = () => {
         uni.showModal({
           title: "提示",
@@ -1746,7 +1746,7 @@ if (uni.restoreGlobal) {
         vue.createElementVNode(
           "view",
           { class: "oprater color-subTitlle fs-24 mt-4" },
-          vue.toDisplayString($setup.roleName === "admin" ? $setup.adminTypeOption[+$setup.userInfo.type - 1] : $setup.webTypeOption[+$setup.userInfo.type - 1]) + "：" + vue.toDisplayString($setup.userInfo.name),
+          vue.toDisplayString($setup.roleName === "admin" ? $setup.adminTypeOption[$setup.userInfo.type] : $setup.webTypeOption[$setup.userInfo.type]) + "：" + vue.toDisplayString($setup.userInfo.name),
           1
           /* TEXT */
         ),
@@ -10177,7 +10177,7 @@ ${i3}
                   vue.createElementVNode(
                     "view",
                     { class: "title" },
-                    vue.toDisplayString($setup.role == "admin" ? item.name : item.order_no),
+                    vue.toDisplayString(item.name),
                     1
                     /* TEXT */
                   ),
@@ -14652,121 +14652,19 @@ ${i3}
   __definePage("pages/web/auth/detailList", PagesWebAuthDetailList);
   __definePage("pages/web/auth/authError", PagesWebAuthAuthError);
   __definePage("pages/web/report/reportSuccess", PagesWebReportReportSuccess);
-  function callCheckVersion() {
-    return new Promise((resolve, reject) => {
-      plus.runtime.getProperty(plus.runtime.appid, function(widgetInfo) {
-        const data = {
-          action: "checkVersion",
-          appid: plus.runtime.appid,
-          appVersion: plus.runtime.version,
-          wgtVersion: widgetInfo.version
-        };
-        formatAppLog("log", "at uni_modules/uni-upgrade-center-app/utils/call-check-version.js:11", "data: ", data);
-        nr.callFunction({
-          name: "uni-upgrade-center",
-          data,
-          success: (e2) => {
-            formatAppLog("log", "at uni_modules/uni-upgrade-center-app/utils/call-check-version.js:16", "e: ", e2);
-            resolve(e2);
-          },
-          fail: (error) => {
-            reject(error);
-          }
-        });
-      });
-    });
-  }
-  const PACKAGE_INFO_KEY = "__package_info__";
-  function checkUpdate() {
-    return new Promise((resolve, reject) => {
-      callCheckVersion().then(async (e2) => {
-        if (!e2.result)
-          return;
-        const {
-          code,
-          message,
-          is_silently,
-          // 是否静默更新
-          url,
-          // 安装包下载地址
-          platform: platform2,
-          // 安装包平台
-          type
-          // 安装包类型
-        } = e2.result;
-        if (code > 0) {
-          const {
-            fileList
-          } = await nr.getTempFileURL({
-            fileList: [url]
-          });
-          if (fileList[0].tempFileURL)
-            e2.result.url = fileList[0].tempFileURL;
-          resolve(e2);
-          if (is_silently) {
-            uni.downloadFile({
-              url: e2.result.url,
-              success: (res2) => {
-                if (res2.statusCode == 200) {
-                  plus.runtime.install(res2.tempFilePath, {
-                    force: false
-                  });
-                }
-              }
-            });
-            return;
-          }
-          uni.setStorageSync(PACKAGE_INFO_KEY, e2.result);
-          uni.navigateTo({
-            url: `/uni_modules/uni-upgrade-center-app/pages/upgrade-popup?local_storage_key=${PACKAGE_INFO_KEY}`,
-            fail: (err) => {
-              formatAppLog("error", "at uni_modules/uni-upgrade-center-app/utils/check-update.js:63", "更新弹框跳转失败", err);
-              uni.removeStorageSync(PACKAGE_INFO_KEY);
-            }
-          });
-          return;
-        } else if (code < 0) {
-          formatAppLog("error", "at uni_modules/uni-upgrade-center-app/utils/check-update.js:71", message);
-          return reject(e2);
-        }
-        return resolve(e2);
-      }).catch((err) => {
-        formatAppLog("error", "at uni_modules/uni-upgrade-center-app/utils/check-update.js:77", err.message);
-        reject(err);
-      });
-    });
-  }
   const _sfc_main = {
     onLaunch: function() {
-      formatAppLog("log", "at App.vue:23", "App Launch");
-      if (plus.runtime.appid !== "HBuilder") {
-        checkUpdate();
-      }
-      uni.preLogin({
-        provider: "univerify",
-        success: (res2) => {
-          this.setUniverifyErrorMsg();
-          formatAppLog("log", "at App.vue:36", "preLogin success: ", res2);
-        },
-        fail: (res2) => {
-          this.setUniverifyLogin(false);
-          this.setUniverifyErrorMsg(res2.errMsg);
-          formatAppLog("log", "at App.vue:42", "preLogin fail res: ", res2);
-        }
-      });
     },
     onShow: function() {
-      formatAppLog("log", "at App.vue:48", "App Show");
+      formatAppLog("log", "at App.vue:17", "App Show");
     },
     onHide: function() {
-      formatAppLog("log", "at App.vue:51", "App Hide");
+      formatAppLog("log", "at App.vue:20", "App Hide");
     },
     globalData: {
       test: ""
     },
-    methods: {
-      ...mapMutations(["setUniverifyErrorMsg", "setUniverifyLogin"])
-    }
+    methods: {}
   };
   const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__file", "D:/project/dlw/uniapp-dileiwo/App.vue"]]);
   const store = createStore({
@@ -16526,7 +16424,7 @@ This will fail in production if not fixed.`);
   var define_process_env_UNI_STAT_TITLE_JSON_default = { "pages/login/agreement": "用户协议", "pages/report/index": "损坏申报", "pages/delivery/index": "选择出货单号", "pages/delivery/detailList": "明细列表", "pages/recycle/detailList": "回收复查", "pages/auth/index": "请选择认证单号", "pages/auth/check": "包装核对讯息", "pages/auth/detailList": "明细列表", "pages/web/report/index": "损坏申报", "pages/web/delivery/index": "选择出货单号", "pages/web/delivery/detailList": "明细列表", "pages/web/recycle/detailList": "回收复查", "pages/web/auth/index": "请选择认证单号", "pages/web/auth/check": "包装核对讯息", "pages/web/auth/detailList": "明细列表" };
   var define_process_env_UNI_STAT_UNI_CLOUD_default = {};
   const sys = uni.getSystemInfoSync();
-  const STAT_VERSION = "4.57";
+  const STAT_VERSION = "4.66";
   const STAT_URL = "https://tongji.dcloud.io/uni/stat";
   const STAT_H5_URL = "https://tongji.dcloud.io/uni/stat.gif";
   const PAGE_PVER_TIME = 1800;

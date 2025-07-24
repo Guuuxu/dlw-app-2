@@ -2,8 +2,8 @@
     "name" : "迪雷沃",
     "appid" : "__UNI__74CDCF2",
     "description" : "迪雷沃包装管理",
-    "versionName" : "1.0.9",
-    "versionCode" : 109,
+    "versionName" : "1.1.0",
+    "versionCode" : 110,
     "transformPx" : false,
     "app-plus" : {
         "usingComponents" : true,

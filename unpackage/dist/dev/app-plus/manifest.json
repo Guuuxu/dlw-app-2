@@ -7,8 +7,8 @@
   "id": "__UNI__74CDCF2",
   "name": "迪雷沃",
   "version": {
-    "name": "1.0.9",
-    "code": 109
+    "name": "1.1.0",
+    "code": 110
   },
   "description": "迪雷沃包装管理",
   "developer": {
@@ -162,7 +162,7 @@
     "uni-app": {
       "control": "uni-v3",
       "vueVersion": "3",
-      "compilerVersion": "4.57",
+      "compilerVersion": "4.66",
       "nvueCompiler": "uni-app",
       "renderer": "auto",
       "nvue": {

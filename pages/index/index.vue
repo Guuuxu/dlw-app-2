@@ -8,11 +8,11 @@
             : userInfo.company_name
         }}
       </view>
-      <view class="oprater color-subTitlle fs-24 mt-4">
+      <view class="oprater color-subTitlle fs-24 mt-4" >
         {{
           roleName === 'admin'
-            ? adminTypeOption[+userInfo.type - 1]
-            : webTypeOption[+userInfo.type - 1]
+            ? adminTypeOption[userInfo.type]
+            : webTypeOption[userInfo.type]
         }}：{{ userInfo.name }}
       </view>
       <view class="welcom ta-c fs-64 mt-38">
@@ -135,8 +135,8 @@ if (!userInfo.value?.name) {
     url: '/pages/login/login',
   })
 }
-const webTypeOption = ['管理员', '操作员', '法人']
-const adminTypeOption = ['管理员', '操作员', '代工厂']
+const webTypeOption = ['总管员','管理员', '操作员', '法人']
+const adminTypeOption = ['总管员','管理员', '操作员', '代工厂']
 const handleLogout = () => {
   uni.showModal({
     title: '提示',
