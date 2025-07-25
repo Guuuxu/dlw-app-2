@@ -1,6 +1,6 @@
 // utils/request.js
 
-const API_BASE_URL = 'http://dileiwo-api.test.muke.design' //'http://api.deravel.com.cn' 
+const API_BASE_URL = 'http://api.deravel.com.cn'   //'http://dileiwo-api.test.muke.design' // 
 // 默认配置
 const defaults = {
   baseURL: API_BASE_URL, // 基础路径

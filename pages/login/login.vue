@@ -90,7 +90,7 @@
         </button>
       </view>
     </template>
-	<!-- <view class="copyright">版权所有© 2025迪雷沃包装设计(上海)有限公司</view> -->
+    <!-- <view class="copyright">版权所有© 2025迪雷沃包装设计(上海)有限公司</view> -->
   </view>
 </template>
 
@@ -104,7 +104,6 @@ const phone = ref('')
 const agreed = ref(false)
 const tabs = ['客户端', '管理端']
 const role = ref('0')
-console.log('show', role.value)
 uni.setStorageSync('ROLE_KEY', 'web')
 const changeRole = (e) => {
   console.log(e)
@@ -165,7 +164,7 @@ const openAgreement = () => {
 const codeValue = ref<string[]>([])
 const currentFocus = ref(0)
 const countdown = ref(0)
-let timer: number | null = null
+let timer = null
 const inputRefs = ref<any[]>([])
 
 const handleInput = async (event: any, index: number) => {
@@ -180,7 +179,6 @@ const handleInput = async (event: any, index: number) => {
       }
     })
     const nextEmptyIndex = codeValue.value.findIndex((v, i) => !v && i >= index)
-    console.log(nextEmptyIndex)
     if (nextEmptyIndex !== -1 && nextEmptyIndex < 6) {
       currentFocus.value = nextEmptyIndex
     }
@@ -205,9 +203,11 @@ const handleInput = async (event: any, index: number) => {
         uni.showToast({
           title: '登录成功',
           success() {
-            uni.reLaunch({
-              url: '/pages/index/index',
-            })
+            setTimeout(() => {
+              uni.navigateTo({
+                url: '/pages/index/index',
+              })
+            }, 0)
           },
         })
       }
@@ -240,10 +240,6 @@ const resendCode = () => {
     })
   }
 }
-
-onMounted(() => {
-  // startCountdown();
-})
 
 onUnmounted(() => {
   if (timer) {
@@ -438,11 +434,11 @@ page {
     border-color: #99bba0;
   }
 }
-.copyright{
-	position: fixed;
-	bottom: 0;
-	text-align: center;
-	left: 0;
-	right: 0;
+.copyright {
+  position: fixed;
+  bottom: 0;
+  text-align: center;
+  left: 0;
+  right: 0;
 }
 </style>

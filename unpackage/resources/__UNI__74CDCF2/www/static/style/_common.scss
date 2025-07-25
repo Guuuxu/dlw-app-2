@@ -15,7 +15,9 @@ view {
     box-sizing: border-box;
 	color: #0F182C;
 }
-
+.bg-white{
+	background-color: #FFFFFF;
+}
 image {
     display: block;
 }
@@ -170,9 +172,22 @@ image {
 .fixed{
 	position: fixed;
 	width: 100%;
+	left: 0;
+	right: 0;
 	bottom: var(--window-bottom);
+	display: flex;
+	justify-content: center;
 }
-
+.footer-wrap {
+	padding-bottom: constant(safe-area-inset-bottom); /* 兼容 iOS < 11.2 */
+	padding-bottom: env(safe-area-inset-bottom); /* 兼容 iOS >= 11.2 */
+}
+.save-btn{
+	width: 702rpx;
+}
+.detail-list{
+	padding-bottom: 220rpx;
+}
 
 /* 对于刘海屏顶部安全区域 */
 .safe-area-top {
@@ -185,3 +200,18 @@ image {
   padding-bottom: constant(safe-area-inset-bottom); /* 兼容 iOS < 11.2 */
   padding-bottom: env(safe-area-inset-bottom); /* 兼容 iOS >= 11.2 */
 }
+
+
+/* 兼容H5 */
+/* #ifdef H5 */
+radio {
+  accent-color: #99BBA0;
+}
+/* #endif */
+
+/* 兼容小程序和App */
+/* #ifndef H5 */
+.radio {
+  margin-right: 20rpx;
+}
+/* #endif */

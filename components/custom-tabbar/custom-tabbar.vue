@@ -68,18 +68,14 @@ const filteredTabs = computed(() => {
   const userInfo = uni.getStorageSync('userInfo')
     ? JSON.parse(uni.getStorageSync('userInfo'))
     : {}
-	if(roleName === 'admin'){
-		return tabList.filter(
-		  (item) => !item?.roles || item?.roles?.includes(userInfo.type)
-		)
-	}else{
-		return tabList
-	}
-  
+  if (roleName === 'admin') {
+    return tabList.filter(
+      (item) => !item?.roles || item?.roles?.includes(userInfo.type)
+    )
+  } else {
+    return tabList
+  }
 })
-
-// 显示控制
-const showTabBar = computed(() => store.getters.shouldShowTabBar)
 
 // 路由监听
 const updatePath = () => {
@@ -94,6 +90,7 @@ onMounted(() => {
 
 // 切换逻辑
 const switchTab = (item) => {
+	console.log(item.pagePath)
   uni.reLaunch({ url: '/' + item.pagePath })
 }
 </script>
@@ -102,10 +99,10 @@ const switchTab = (item) => {
   position: fixed;
   width: 100%;
   bottom: 0;
-  .tab-item{
-	  &.active{
-		color: $uni-text-color;
-	  }
+  .tab-item {
+    &.active {
+      color: $uni-text-color;
+    }
   }
 }
 .icon-tabbar {

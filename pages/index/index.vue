@@ -131,7 +131,7 @@ userInfo.value = uni.getStorageSync('userInfo')
 console.log('userInfo',userInfo)
 const roleName = uni.getStorageSync('ROLE_KEY') || ''
 if (!userInfo.value?.name) {
-  uni.reLaunch({
+  uni.navigateTo({
     url: '/pages/login/login',
   })
 }
